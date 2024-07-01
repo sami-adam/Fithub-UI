@@ -38,7 +38,7 @@ function MainLayout() {
 
   return (
     <>
-        <AppBar position="static">
+        <AppBar position="static" style={{boxShadow: "0px 0px 0px 0px white", position: 'fixed', top: 0, zIndex:999,backgroundColor: "teal"}}>
         <Container maxWidth="xl">
             <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
