@@ -13,13 +13,30 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Email from '../pages/admin/Email';
+import { Link } from 'react-router-dom';
+import Membership from '../pages/membership/Membership';
+import Member from '../pages/membership/Member';
 
-const pages = ['Products', 'Pricing', 'Emails'];
+const pages = ['Memberships', 'Emails'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+function getPage(pageName){
+    switch(pageName){
+        case 'Memberships':
+            return <Membership />;
+        case 'Emails':
+            return <Email />;
+        case 'Members':
+            return <Member />;
+        default:
+            return <Email />;
+    }
+
+}
 function MainLayout() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [activePage, setActivePage] = React.useState(pages[0]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -57,7 +74,7 @@ function MainLayout() {
                 textDecoration: 'none',
                 }}
             >
-                LOGO
+                FitHub
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -116,8 +133,26 @@ function MainLayout() {
                 LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }} >
-                    Emails
+                
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> setActivePage("Memberships")}>
+                    <div style={{width: '128px', backgroundColor:'teal', color: 
+                    '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
+                        Memberships
+                    </div>
+                </Button>
+
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> setActivePage("Members")}>
+                    <div style={{width: '84px', backgroundColor:'teal', color: 
+                    '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
+                        Members
+                    </div>
+                </Button>
+
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> setActivePage("Emails")}>
+                    <div style={{width: '80px', backgroundColor:'teal', color: 
+                    '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px',borderBlockStart:'none'}}>
+                        Emails
+                    </div>
                 </Button>
             </Box>
 
@@ -153,7 +188,7 @@ function MainLayout() {
             </Toolbar>
         </Container>
         </AppBar>
-        <Email />
+        {getPage(activePage)}
     </>
   );
 }
