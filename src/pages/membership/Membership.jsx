@@ -10,6 +10,8 @@ export default function Membership() {
     const token = localStorage.getItem("token");
     const [memberships, setMemberships] = useState([]);
     const navigate = useNavigate();
+    const [selected, setSelected] = useState([]);
+    const [deleted, setDeleted] = useState(false);
 
     console.log(token);
     useEffect(() => {
@@ -27,8 +29,27 @@ export default function Membership() {
 
             }
         }
+        async function deleteMemberships() {
+            if (deleted) {
+                selected.forEach(async (id) => {
+                    const response = await fetch(`http://localhost:8080/api/v1/membership/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                        },
+                    }).then(response => response.json()).then(data => {
+                        console.log(data);
+                        return data;
+                    });
+                });
+                setDeleted(false);
+                setSelected([]);
+                fetchMemberships();
+            }
+        }
+        deleteMemberships();
         fetchMemberships();
-    }, [token]);
+    }, [token, deleted]);
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'firstName', headerName: 'First name', width: 130 },
@@ -42,7 +63,7 @@ export default function Membership() {
         { field: 'totalAmount', headerName: 'Total Amount', width: 130 },
         { field: 'discount', headerName: 'Discount', width: 130 },
         { field: 'netAmount', headerName: 'Net Amount', width: 130},
-        { field: 'status', headerName: 'Status', width: 130 }
+        { field: 'status', headerName: 'Status', width: 130 },
     ];
     const rows = [];
     memberships.forEach((membership) => {
@@ -67,6 +88,7 @@ export default function Membership() {
         <MainLayout/>
         <div style={{ height: 400, width: '100%', paddingTop:'100px'}}>
             <Button variant="outlined" color="primary" style={{color:'teal', fontWeight:'bold',border:'0px'}} onClick={()=> navigate('/createMembership')}>Create New</Button>
+            <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> setDeleted(true)}>Delete</Button>
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -76,7 +98,9 @@ export default function Membership() {
                 },
                 }}
                 pageSizeOptions={[5, 10]}
-                checkboxSelection/>
+                checkboxSelection 
+                onRowClick={(row) => {row.id in selected? console.log(''): setSelected([...selected, row.id])}}
+                />
         </div>
         </>
     );

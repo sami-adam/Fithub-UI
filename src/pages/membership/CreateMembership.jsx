@@ -32,15 +32,10 @@ export default function CreateMemebership() {
   const [subscriptionUnitPrice, setSubscriptionUnitPrice] = React.useState(0);
   const [subscriptionQty, setSubscriptionQty] = React.useState(0);
   const [created, setCreated] = React.useState(false);
-  const [slectedStartDate, setSlectedStartDate] = React.useState('');
-  const [slectedEndDate, setSlectedEndDate] = React.useState('');
 
   const navigate = useNavigate();
 
   const handleCreate = () => {
-    setSlectedStartDate(startDate.format('YYYY-MM-DD'));
-    setSlectedEndDate(endDate.format('YYYY-MM-DD'));
-    console.log(member, subscription, slectedStartDate, slectedEndDate, subscriptionUnitPrice, subscriptionQty);
     setCreated(true);
     };
 
@@ -76,9 +71,33 @@ export default function CreateMemebership() {
         }
 
     }
+    async function createMembership() {
+        if (created) {
+            const response = await fetch('http://localhost:8080/api/v1/membership', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify({
+                    "member": {"id": member},
+                    "subscription": {"id": subscription},
+                    "startDate": startDate.format('YYYY-MM-DD'),
+                    "endDate": endDate.format('YYYY-MM-DD'),
+                    "subscriptionUnitPrice": Number(subscriptionUnitPrice),
+                    "subscriptionQty": Number(subscriptionQty),
+                    "status": 0
+                }),
+            }).then(response => response.json()).then(data => {
+                console.log(data);
+                return data;
+            });
+        }
+    }
     fetchMembers();
     fetchSubscriptions();
-  }, []);
+    createMembership();
+  }, [created]);
 
   console.log(members);
   const handleChange = (event) => {
@@ -105,9 +124,11 @@ export default function CreateMemebership() {
             <Grid item xs={12} sm={10}>
                 <FormControl fullWidth size="small">
                     <Select
+                    variant="standard"
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={member}
+                    disabled={created}
                     onChange={(e) => setMember(e.target.value)}
                     >
                     {members.map((item) => (
@@ -133,8 +154,10 @@ export default function CreateMemebership() {
             <Grid item xs={12} sm={10}>
                 <FormControl fullWidth size="small">
                     <Select
+                    variant="standard"
                     labelId="subscription-label"
                     id="subscription-label"
+                    disabled={created}
                     value={subscription}
                     onChange={(e) => setSubscription(e.target.value)}
                     >
@@ -163,6 +186,7 @@ export default function CreateMemebership() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         value={startDate}
+                        disabled={created}
                         onChange={(date) => setStartDate(date)}/>
                 </LocalizationProvider>
                 </FormControl>
@@ -184,6 +208,7 @@ export default function CreateMemebership() {
                 <FormControl fullWidth size="small">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
+                    disabled={created}
                         value={endDate}
                         onChange={(date) => setEndDate(date)}/>
                 </LocalizationProvider>
@@ -206,7 +231,7 @@ export default function CreateMemebership() {
 
             <Grid item xs={12} sm={10}>
                 <FormControl fullWidth size="small">
-                <TextField value={subscriptionUnitPrice} inputProps={{ type: 'number'}} onChange={(newPrice)=> setSubscriptionUnitPrice(newPrice.target.value)}/>
+                <TextField disabled={created} variant="standard" value={subscriptionUnitPrice} inputProps={{ type: 'number'}} onChange={(newPrice)=> setSubscriptionUnitPrice(newPrice.target.value)}/>
                 </FormControl>
             </Grid>
 
@@ -224,7 +249,7 @@ export default function CreateMemebership() {
 
             <Grid item xs={12} sm={10}>
                 <FormControl fullWidth size="small">
-                <TextField value={subscriptionQty} inputProps={{ type: 'number'}} onChange={(newPrice)=> setSubscriptionQty(newPrice.target.value)}/>
+                <TextField disabled={created} variant="standard" value={subscriptionQty} inputProps={{ type: 'number'}} onChange={(newPrice)=> setSubscriptionQty(newPrice.target.value)}/>
                 </FormControl>
             </Grid>
 
