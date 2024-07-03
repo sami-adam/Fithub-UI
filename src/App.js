@@ -8,18 +8,20 @@ import EmailList from './components/EmailList';
 import Email from './pages/admin/Email';
 import Member from './pages/membership/Member';
 import CreateMember from './pages/membership/CreateMember';
+import CreateMemebership from './pages/membership/CreateMembership';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainLayout />} />
+        <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/home" element={<MainLayout />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/emails" element={<Email />} />
         <Route path="/memberships" element={<Membership />} />
         <Route path="/members" element={<Member />} />
         <Route path='/createMember' element={<CreateMember />} />
+        <Route path="/createMembership" element={<CreateMemebership />} />
       </Routes>
     </BrowserRouter>
   );

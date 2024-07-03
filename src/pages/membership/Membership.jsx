@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import MainLayout from "../../layout/MainLayout";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Membership() {
     const token = localStorage.getItem("token");
     const [memberships, setMemberships] = useState([]);
+    const navigate = useNavigate();
 
     console.log(token);
     useEffect(() => {
@@ -59,8 +64,9 @@ export default function Membership() {
     });
     return (
         <>
-        <h3>Memeberships</h3>
-        <div style={{ height: 400, width: '100%'}}>
+        <MainLayout/>
+        <div style={{ height: 400, width: '100%', paddingTop:'100px'}}>
+            <Button variant="outlined" color="primary" style={{color:'teal', fontWeight:'bold',border:'0px'}} onClick={()=> navigate('/createMembership')}>Create New</Button>
             <DataGrid
                 rows={rows}
                 columns={columns}

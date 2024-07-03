@@ -3,6 +3,7 @@ import * as React from 'react';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import EmailList from "../../components/EmailList";
+import MainLayout from "../../layout/MainLayout";
 
 function Email() {
     console.log("In Home" + localStorage.getItem('token'));
@@ -32,8 +33,8 @@ function Email() {
     }, [token]);
     return (
         <>
-            <h3>Emails</h3>
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+            <MainLayout/>
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', paddingTop:'100px'}}>
                 {emails.map((email) => <EmailList email={email} />)}
                 <Divider variant="inset" component="li" />
             </List>

@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.card:hover {
+  position: relative; 
+ top: -10px;
+ transition: 1s;
+}
+#clickable:active {
+  background-color: whitesmoke;
+}

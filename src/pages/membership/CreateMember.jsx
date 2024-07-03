@@ -2,6 +2,9 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, FormControl } from '@mui/material';
+import MainLayout from '../../layout/MainLayout';
+import { useNavigate } from "react-router-dom";
+
 
 export default function CreateMember() {
     const [gender, setGender] = React.useState('male');
@@ -11,6 +14,7 @@ export default function CreateMember() {
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
     const [address, setAddress] = React.useState('');
+    const navigate = useNavigate();
 
     const token = localStorage.getItem('token');
 
@@ -41,9 +45,10 @@ export default function CreateMember() {
             }
         }
         createMember();
-        //window.location.href = "/";
     }, [created]);
     return (
+        <>
+        <MainLayout/>
         <Box
             sx={{
                 display: 'flex',
@@ -94,8 +99,11 @@ export default function CreateMember() {
                     style={{ marginBottom: '20px' }}
                 />
             </FormControl>
-            <Button variant="contained" style={{ marginBottom: '20px' }} onClick={handleCreate} disabled={created}>Create Member</Button>
+            <p style={{color:'teal', display:created? '': 'none'}}>Successfully created</p>
+            <Button variant="contained" style={{ marginBottom: '20px' , display:created? 'none': ''}} onClick={handleCreate}>Create Member</Button>
+            <Button variant="outlined" style={{ marginBottom: '20px' , display:created? '': 'none'}} onClick={()=> navigate('/members')}>View Members</Button>
         </Box>
+        </>
 
     );
 }

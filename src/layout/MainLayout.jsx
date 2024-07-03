@@ -16,27 +16,17 @@ import Email from '../pages/admin/Email';
 import { Link } from 'react-router-dom';
 import Membership from '../pages/membership/Membership';
 import Member from '../pages/membership/Member';
+import { useNavigate } from "react-router-dom";
+
 
 const pages = ['Memberships', 'Emails'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function getPage(pageName){
-    switch(pageName){
-        case 'Memberships':
-            return <Membership />;
-        case 'Emails':
-            return <Email />;
-        case 'Members':
-            return <Member />;
-        default:
-            return <Email />;
-    }
-
-}
 function MainLayout() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [activePage, setActivePage] = React.useState(pages[0]);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -134,21 +124,21 @@ function MainLayout() {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> setActivePage("Memberships")}>
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/memberships')}>
                     <div style={{width: '128px', backgroundColor:'teal', color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
                         Memberships
                     </div>
                 </Button>
 
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> setActivePage("Members")}>
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/members')}>
                     <div style={{width: '84px', backgroundColor:'teal', color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
                         Members
                     </div>
                 </Button>
 
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> setActivePage("Emails")}>
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/emails')}>
                     <div style={{width: '80px', backgroundColor:'teal', color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px',borderBlockStart:'none'}}>
                         Emails
@@ -188,7 +178,6 @@ function MainLayout() {
             </Toolbar>
         </Container>
         </AppBar>
-        {getPage(activePage)}
     </>
   );
 }
