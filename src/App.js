@@ -9,6 +9,8 @@ import Email from './pages/admin/Email';
 import Member from './pages/membership/Member';
 import CreateMember from './pages/membership/CreateMember';
 import CreateMemebership from './pages/membership/CreateMembership';
+import EmailDetails from './components/EmailDetails';
+import MembershipDetails from './components/MembershipDetails';
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/home" element={<Home />} />
         <Route path="/emails" element={<Email />} />
+        <Route path="/emailDetails/:id" element={<EmailDetails />} />
         <Route path="/memberships" element={<Membership />} />
+        <Route path="/membershipDetails/:id" element={<MembershipDetails />} />
         <Route path="/members" element={<Member />} />
         <Route path='/createMember' element={<CreateMember />} />
         <Route path="/createMembership" element={<CreateMemebership />} />

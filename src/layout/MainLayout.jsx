@@ -20,14 +20,16 @@ import { useNavigate } from "react-router-dom";
 
 
 const pages = ['Memberships', 'Emails'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 function MainLayout() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [activePage, setActivePage] = React.useState(pages[0]);
   const navigate = useNavigate();
+  const [user, setUser] = React.useState({});
 
+  const token = localStorage.getItem('token');
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -43,6 +45,35 @@ function MainLayout() {
     setAnchorElUser(null);
   };
 
+  const handleLogout = ()=> {
+    localStorage.removeItem("token");
+    navigate("/signin");
+  }
+
+  React.useEffect(() => {
+    async function fetchUser() {
+        try{
+            if(token.length > 0){
+                const user = await fetch(`http://localhost:8080/api/v1/auth/user`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token,
+                    },
+                }).then(response => response.json()).then(data => {
+                    return data;});
+                setUser(user);
+            }
+        } catch (error) {
+            //localStorage.removeItem('token');
+            console.error('Error:', error);
+            //window.location.href = "/signin";
+        };
+    }
+    console.log("User:", user);
+    fetchUser();
+    },[]);
+
   return (
     <>
         <AppBar position="static" style={{boxShadow: "0px 0px 0px 0px white", position: 'fixed', top: 0, zIndex:999,backgroundColor: "teal"}}>
@@ -53,7 +84,8 @@ function MainLayout() {
                 variant="h6"
                 noWrap
                 component="a"
-                href="#app-bar-with-responsive-menu"
+                onClick={()=> navigate('/')} 
+                href='#'
                 sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -149,30 +181,32 @@ function MainLayout() {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    {user && <Avatar alt={user.name}>{user.name && user.name[0]}</Avatar>}
                 </IconButton>
                 </Tooltip>
                 <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-                >
-                {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                    sx={{ mt: '45px' }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                    >
+                    <MenuItem key="account" onClick={() => console.log("Account Clicked")}>
+                        <Typography textAlign="center">Account  <i style={{color:"blue"}}>{user.email}</i></Typography>
                     </MenuItem>
-                ))}
+
+                    <MenuItem key="logOut" onClick={handleLogout}>
+                        <Typography textAlign="center" style={{color:"red"}}>Logout</Typography>
+                    </MenuItem>
                 </Menu>
             </Box>
             </Toolbar>

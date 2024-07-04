@@ -36,7 +36,7 @@ export default function MemberCard({ member, setFetchData }) {
         <p className="card-text" style={{fontSize:'small',color:'#072287'}}>{member.email}</p>
         <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{member.phone}</p>
         <p className="card-text">{member.address}</p>
-        <Button onClick={()=> setMemberId(member.id)}> <DeleteOutlinedIcon style={{color: "darkgoldenrod"}}/> </Button>
+        <Button onClick={()=> window.confirm("Are you sure?") ? setMemberId(member.id): setMemberId(0)}> <DeleteOutlinedIcon style={{color: "darkgoldenrod"}}/> </Button>
       </div>
     </div>
   );
