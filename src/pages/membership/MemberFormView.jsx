@@ -9,7 +9,7 @@ import BackButton, { EditButton, SaveButton } from '../../components/Buttons';
 import { useLocation } from 'react-router-dom';
 
 
-export default function CreateMember() {
+export default function MemberFormView() {
     //const [gender, setGender] = React.useState('male');
     const [create, setCreate] = React.useState(false);
     const [save, setSave] = React.useState(false);

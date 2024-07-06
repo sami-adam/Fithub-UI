@@ -7,7 +7,7 @@ import Membership from './pages/membership/Membership';
 import EmailList from './components/EmailList';
 import Email from './pages/admin/Email';
 import Member from './pages/membership/Member';
-import CreateMember from './pages/membership/CreateMember';
+import MemberFormView from './pages/membership/MemberFormView';
 import CreateMemebership from './pages/membership/CreateMembership';
 import EmailDetails from './components/EmailDetails';
 import MembershipDetails from './components/MembershipDetails';
@@ -44,7 +44,7 @@ function App() {
         <Route path="/membershipDetails/:id" element={<MembershipDetails />} />
         <Route path="/members" element={<Member />} />
         <Route path="/memberDetails/:id" element={<MemberDetails />} />
-        <Route path='/createMember' element={<CreateMember />} />
+        <Route path='/memberFormView' element={<MemberFormView />} />
         <Route path="/createMembership" element={<CreateMemebership />} />
       </Routes>
     </BrowserRouter>

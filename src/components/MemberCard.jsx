@@ -32,7 +32,7 @@ export default function MemberCard({ member, setFetchData }) {
     setMemberId(0);
   }, [memberId]);
   return (
-    <div className="card" style={{paddingTop:'30px', paddingLeft:'10px', paddingRight:'30px'}} onDoubleClick={()=> navigate("/createMember",{"state": member})}>
+    <div className="card" style={{paddingTop:'30px', paddingLeft:'10px', paddingRight:'30px'}} onDoubleClick={()=> navigate("/memberFormView",{"state": member})}>
       <div className="card-body" id="clickable" style={{boxShadow: '1px 1px 1px 1px #e3e3e3',textAlign:'center',borderRadius:'7px',padding:'2px',width:"200px"}}>
         <div style={{display: 'inline-table'}}><Avatar style={{width:'80px',height:'80px',backgroundColor:primaryMainColor}}>{member.firstName[0] + member.lastName[0]}</Avatar></div>
         <h3 className="card-title" style={{fontSize:'medium', color:'#5f5f69'}}>{member.firstName} {member.lastName}</h3>
