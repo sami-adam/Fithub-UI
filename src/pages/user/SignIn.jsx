@@ -54,8 +54,16 @@ export default function SignIn() {
       }).then(response => response.json()).then(data => {
         return data;
       });
-      console.log(token);
       localStorage.setItem('token', token.token);
+      const user = await fetch(`http://localhost:8080/api/v1/auth/user`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token.token,
+        },
+      }).then(response => response.json()).then(data => {
+          return data;});
+      localStorage.setItem('user', JSON.stringify(user));
       setSignIn(false);
     }};
     fetchData();

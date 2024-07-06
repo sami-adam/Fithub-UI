@@ -4,10 +4,10 @@ import MainLayout from "../../layout/MainLayout";
 function Home() {
 
     return (
-        <>
-        <MainLayout/>
+        
+        <MainLayout>
         <h3 style={{paddingTop:'100px'}}>Home</h3>
-        </>
+        </MainLayout>
     );
 }
 

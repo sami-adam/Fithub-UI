@@ -11,9 +11,28 @@ import CreateMember from './pages/membership/CreateMember';
 import CreateMemebership from './pages/membership/CreateMembership';
 import EmailDetails from './components/EmailDetails';
 import MembershipDetails from './components/MembershipDetails';
+import { blue, green, teal } from '@mui/material/colors';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import MemberDetails from './components/MemberDetails';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: teal[500],
+      light: "aliceblue",
+      dark: blue[800],
+    },
+    secondary: {
+      main: blue[500],
+      light: blue[200],
+      dark: blue[800],
+    },
+  },
+});
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,10 +43,12 @@ function App() {
         <Route path="/memberships" element={<Membership />} />
         <Route path="/membershipDetails/:id" element={<MembershipDetails />} />
         <Route path="/members" element={<Member />} />
+        <Route path="/memberDetails/:id" element={<MemberDetails />} />
         <Route path='/createMember' element={<CreateMember />} />
         <Route path="/createMembership" element={<CreateMemebership />} />
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

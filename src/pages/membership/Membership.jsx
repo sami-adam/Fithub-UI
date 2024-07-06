@@ -81,7 +81,7 @@ export default function Membership() {
             totalAmount: membership.totalAmount,
             discount: membership.discountAmount,
             netAmount: membership.netAmount,
-            status: membership.status
+            status: membership.status,
         });
     });
     return (

@@ -1,16 +1,19 @@
-import { Button, Divider, List } from "@mui/material";
+import { Box, Button, Container, Divider, List } from "@mui/material";
 import { useEffect, useState } from "react";
 import MemberCard from "../../components/MemberCard";
 import { Padding } from "@mui/icons-material";
 import MainLayout from "../../layout/MainLayout";
 import { useNavigate } from "react-router-dom";
-
+import { useTheme } from "@mui/material";
+import { CreateButton } from "../../components/Buttons";
 
 export default function Member() {
     const [members, setMembers] = useState([]);
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
     const [fetchData, setFetchData] = useState(false);
+    const theme = useTheme();
+    const primaryMainColor = theme.palette.primary.main;
 
     useEffect(() => {
         async function fetchMembers() {
@@ -30,13 +33,14 @@ export default function Member() {
     }, [token, fetchData]);
     return (
        <>
-       <MainLayout/>
-       <div style={{paddingTop:'100px'}}>
-         <Button variant="outlined" color="primary" style={{color:'teal', fontWeight:'bold',border:'0px'}} onClick={()=> navigate('/createMember')}>Create New</Button>
+       <MainLayout>
+       <div>
+         <CreateButton url='/createMember'/>
        </div>
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} style={{display:'inline-flex'}}>
-            {members.map((member) => <MemberCard member={member} setFetchData={setFetchData}/>)}
-        </List>
+        <Box sx={{ alignItems: 'start', minHeight: '100vh', width:"90%" ,display: 'ruby', flexWrap: 'wrap', p: 1, m: 1, maxWidth:300}}>
+                    {members.map((member) => <MemberCard member={member} setFetchData={setFetchData}/>)}
+            </Box>
+        </MainLayout>
        </>
     );
 }

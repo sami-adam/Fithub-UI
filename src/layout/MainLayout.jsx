@@ -14,22 +14,26 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Email from '../pages/admin/Email';
 import { Link } from 'react-router-dom';
-import Membership from '../pages/membership/Membership';
+
 import Member from '../pages/membership/Member';
 import { useNavigate } from "react-router-dom";
+import { Colors } from '../values/colors';
+import { useTheme } from '@mui/material';
 
 
 const pages = ['Memberships', 'Emails'];
 const settings = ['Profile', 'Logout'];
 
-function MainLayout() {
+function MainLayout({children}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [activePage, setActivePage] = React.useState(pages[0]);
   const navigate = useNavigate();
-  const [user, setUser] = React.useState({});
+  const theme = useTheme();
 
+  const primaryMainColor = theme.palette.primary.main;
   const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -50,33 +54,9 @@ function MainLayout() {
     navigate("/signin");
   }
 
-  React.useEffect(() => {
-    async function fetchUser() {
-        try{
-            if(token.length > 0){
-                const user = await fetch(`http://localhost:8080/api/v1/auth/user`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token,
-                    },
-                }).then(response => response.json()).then(data => {
-                    return data;});
-                setUser(user);
-            }
-        } catch (error) {
-            //localStorage.removeItem('token');
-            console.error('Error:', error);
-            //window.location.href = "/signin";
-        };
-    }
-    console.log("User:", user);
-    fetchUser();
-    },[]);
-
   return (
     <>
-        <AppBar position="static" style={{boxShadow: "0px 0px 0px 0px white", position: 'fixed', top: 0, zIndex:999,backgroundColor: "teal"}}>
+        <AppBar position="static" style={{boxShadow: "0px 0px 0px 0px white", position: 'fixed', top: 0, zIndex:999,backgroundColor: primaryMainColor}}>
         <Container maxWidth="xl">
             <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -157,21 +137,21 @@ function MainLayout() {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 
                 <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/memberships')}>
-                    <div style={{width: '128px', backgroundColor:'teal', color: 
+                    <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
                         Memberships
                     </div>
                 </Button>
 
                 <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/members')}>
-                    <div style={{width: '84px', backgroundColor:'teal', color: 
+                    <div style={{width: '84px', backgroundColor:primaryMainColor, color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
                         Members
                     </div>
                 </Button>
 
                 <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/emails')}>
-                    <div style={{width: '80px', backgroundColor:'teal', color: 
+                    <div style={{width: '80px', backgroundColor:primaryMainColor, color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px',borderBlockStart:'none'}}>
                         Emails
                     </div>
@@ -181,7 +161,7 @@ function MainLayout() {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    {user && <Avatar alt={user.name}>{user.name && user.name[0]}</Avatar>}
+                    {user && <Avatar alt={user.name} style={{backgroundColor:theme.palette.primary.light,color:"gray"}}>{user.name && user.name[0]}</Avatar>} <span style={{color:"white",fontSize:"18px",paddingLeft:"10px"}}>{user.name}</span>
                 </IconButton>
                 </Tooltip>
                 <Menu
@@ -201,7 +181,7 @@ function MainLayout() {
                     onClose={handleCloseUserMenu}
                     >
                     <MenuItem key="account" onClick={() => console.log("Account Clicked")}>
-                        <Typography textAlign="center">Account  <i style={{color:"blue"}}>{user.email}</i></Typography>
+                        <Typography textAlign="center">Account  <i style={{color:primaryMainColor}}>{user.email}</i></Typography>
                     </MenuItem>
 
                     <MenuItem key="logOut" onClick={handleLogout}>
@@ -212,6 +192,9 @@ function MainLayout() {
             </Toolbar>
         </Container>
         </AppBar>
+        <Container maxWidth="xxl" style={{paddingTop: "100px"}}>
+            {children}
+        </Container>
     </>
   );
 }

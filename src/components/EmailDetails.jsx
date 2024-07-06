@@ -1,47 +1,25 @@
 import { Card, CardContent, Typography, CardActions, Button, Box } from '@mui/material';
 import MainLayout from "../layout/MainLayout";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import ReactHtmlParser from 'html-react-parser';
+import { useTheme } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 const statusColors = {
     OUTGOING : "blue", 
-    SENT: "teal", 
+    SENT: "teal",
     RECEIVED: "black", 
     FAILED: "red", 
     CANCELLED: "red"
   };
 
 export default function EmailDetails(){
-    const { id } = useParams();
-    const [email, setEmail] = useState({});
-    const token = localStorage.getItem('token');
-    
-    useEffect(() => {
-        async function fetchEmail() {
-            try{
-                const email = await fetch(`http://localhost:8080/api/v1/email/${id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token,
-                    },
-                }).then(response => response.json()).then(data => {
-                    return data;});
-                setEmail(email);
-            } catch (error) {
-                localStorage.removeItem('token');
-                console.error('Error:', error);
-                window.location.href = "/signin";
-            };
-        }
-        fetchEmail();
-    }
-    , [token, id]);
-
+    const theme = useTheme();
+    const primaryMainColor = theme.palette.primary.main;
+    const location = useLocation();
+    const email = location.state;
     return (
         <>
-        <MainLayout/>
+        <MainLayout>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'start', minHeight: '100vh',paddingTop:"100px" }}>
             <Card sx={{  width: '70%', marginBottom: 2, borderColor: statusColors[email.status], borderWidth: 2, borderStyle: 'solid'}}>
                 <CardContent>
@@ -67,6 +45,7 @@ export default function EmailDetails(){
                 </CardActions>
             </Card>
             </Box>
+            </MainLayout>
         </>
     )
 }

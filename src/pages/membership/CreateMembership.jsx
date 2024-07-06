@@ -18,6 +18,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material";
 
 
 export default function CreateMemebership() {
@@ -32,6 +33,9 @@ export default function CreateMemebership() {
   const [subscriptionUnitPrice, setSubscriptionUnitPrice] = React.useState(0);
   const [subscriptionQty, setSubscriptionQty] = React.useState(0);
   const [created, setCreated] = React.useState(false);
+
+  const theme = useTheme();
+  const primaryMainColor = theme.palette.primary.main;
 
   const navigate = useNavigate();
 
@@ -106,7 +110,7 @@ export default function CreateMemebership() {
 
   return (
     <React.Fragment>
-      <MainLayout/>
+      <MainLayout>
       <Paper elevation={3} sx={{ marginRight: "15%", marginLeft: "15%", paddingTop:'100px'}}>
         <Box sx={{ padding: 5 }}>
           <Grid container rowSpacing={2} columnSpacing={2}>
@@ -255,7 +259,7 @@ export default function CreateMemebership() {
 
             <Grid item xs={12} sm={10} style={{display:'flex', justifyContent:'center'}}>
             <FormControl  size="small">
-                <p style={{color:'teal', display:created? '': 'none'}}>Successfully created</p>
+                <p style={{color: primaryMainColor, display:created? '': 'none'}}>Successfully created</p>
                 <Button variant="contained" style={{ marginBottom: '20px' , display:created? 'none': ''}} onClick={handleCreate}>Create Membership</Button>
                 <Button variant="outlined" style={{ marginBottom: '20px' , display:created? '': 'none'}} onClick={()=> navigate('/memberships')}>View Memberships</Button>
             </FormControl>
@@ -265,6 +269,7 @@ export default function CreateMemebership() {
             
         </Box>
       </Paper>
+      </MainLayout>
     </React.Fragment>
   );
 }

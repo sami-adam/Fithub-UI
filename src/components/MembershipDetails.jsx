@@ -1,7 +1,14 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Card, CardContent, Typography, CardActions, Button, Box } from '@mui/material';
+import { useState } from "react";
+import { Card, CardContent, Typography, CardActions, Button, Box, CardHeader, IconButton } from '@mui/material';
 import MainLayout from "../layout/MainLayout";
+import PaidIcon from '@mui/icons-material/Paid';
+import { useTheme } from "@mui/material";
+import { TaskAlt } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BackButton from "./Buttons";
+import CardView from "./CardView";
+
 
 const statusColors = {
     NEW: "gray", 
@@ -12,43 +19,46 @@ const statusColors = {
 };
 
 export default function MembershipDetails() {
-    const token = localStorage.getItem("token");   
-    const [membership, setMembership] = useState({});
-    const { id } = useParams();
-    console.log(id);
-    useEffect(() => {
-        async function fetchMembership() {
-            try {
-                const response = await fetch(`http://localhost:8080/api/v1/membership/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then((response) => response.json()).then((data) => setMembership(data));
-                console.log("Response", response);
-            } catch (error) {
-                localStorage.removeItem('token');
-                console.error('Error:', error);
-                window.location.href = "/signin";
-            }
-        }
-        fetchMembership();
-    }, [token, id]);
+    const [changeStage, setChangeStage] = useState(false);
+    const theme = useTheme();
+    const primaryMainColor = theme.palette.primary.main;
+    const location = useLocation();
+    const membership = location.state;
     console.log(membership);
     
     return (
         <>
-        <MainLayout/>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'start', minHeight: '100vh',paddingTop:"100px" }}>
-            <Card sx={{  width: '70%', marginBottom: 2, borderWidth: 2, borderStyle: 'solid'}}>
-                <CardContent>
+        <MainLayout>
+        <BackButton/>
+        <CardView borderColor={statusColors[membership.status]}>
+                <CardHeader 
+                action={
+                    <>
+                    <Button size="small" onClick={()=> setChangeStage(true)} color="primary" variant="outlined" 
+                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:membership.status != "NEW"?"none":""}}>
+                        Paid <PaidIcon />
+                    </Button>
+
+                    <Button size="small" onClick={()=> setChangeStage(true)} color="primary" variant="outlined" 
+                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:membership.status != "PAID"?"none":""}}>
+                        Active <TaskAlt />
+                    </Button>
+                    </>
+                    } 
+                title={
                     <Typography variant="h8" component="div" style={{color:statusColors[membership.status],fontWeight:"bold"}}>
                         {membership.status}
                     </Typography>
+                }
+                    style={{borderBottom:"1px solid #c2ccd4", backgroundColor:"#f5faff"}}/>
+                <CardContent>
+
+                    
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    Member Name: {membership.member && membership.member.firstName} {membership.member && membership.member.lastName}
+                    Member Name: {membership.firstName} {membership.lastName}
                     </Typography>
                     <Typography variant="h5" component="div">
-                    {membership.subscription && membership.subscription.name}
+                    {membership.subscription}
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     {membership.startDate} - {membership.endDate}
@@ -61,8 +71,8 @@ export default function MembershipDetails() {
                 <CardActions>
                     <Button size="small">Learn More</Button>
                 </CardActions>
-            </Card>
-            </Box>
+            </CardView>
+            </MainLayout>
         </>
     )
 }
