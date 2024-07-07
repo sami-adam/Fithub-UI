@@ -35,7 +35,7 @@ export default function Member() {
        <>
        <MainLayout>
        <div>
-         <CreateButton url='/memberFormView'/>
+         <CreateButton url='/member-form-view'/>
        </div>
         <Box sx={{ alignItems: 'start', minHeight: '100vh', width:"90%" ,display: 'ruby', flexWrap: 'wrap', p: 1, m: 1, maxWidth:300}}>
                     {members.map((member) => <MemberCard member={member} setFetchData={setFetchData}/>)}

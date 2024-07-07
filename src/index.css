@@ -20,3 +20,7 @@ code {
 #clickable:active {
   background-color: whitesmoke;
 }
+
+.card-view:hover {
+  box-shadow: 2px 2px 2px grey;
+}

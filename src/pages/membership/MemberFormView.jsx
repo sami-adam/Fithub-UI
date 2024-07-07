@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import CardView from '../../components/CardView';
 import TextFieldCustom from '../../components/TextFieldCustom';
-import BackButton, { EditButton, SaveButton } from '../../components/Buttons';
+import BackButton, { CreateButton, EditButton, SaveButton } from '../../components/Buttons';
 import { useLocation } from 'react-router-dom';
 
 
@@ -113,7 +113,7 @@ export default function MemberFormView() {
         <>
         <MainLayout>
         <BackButton />
-        <CardView>
+        <CardView borderColor={primaryMainColor}>
             <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
                 <TextFieldCustom label="First Name" placeholder="Enter First Name" setValue={setFirstName} viewValue={member&&!editMode?member.firstName:null} id="firstName" required={true} disabled={viewMode&&!editMode} />
                 <TextFieldCustom label="Last Name" placeholder="Enter Last Name" setValue={setLastName} id="lastName" viewValue={member&&!editMode?member.lastName:null} required={true} disabled={viewMode&&!editMode} />

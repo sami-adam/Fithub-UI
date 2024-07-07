@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, Typography, CardActions, Button, Box, CardHeader, IconButton } from '@mui/material';
 import MainLayout from "../layout/MainLayout";
 import PaidIcon from '@mui/icons-material/Paid';
@@ -25,6 +25,26 @@ export default function MembershipDetails() {
     const location = useLocation();
     const membership = location.state;
     console.log(membership);
+    const token = localStorage.getItem('token');
+    const baseURL = process.env.SB_BASE_URL;
+    console.log(baseURL);
+    useEffect(() => {
+        async function changeMembershipStage() {
+            if (changeStage) {
+                await fetch('http://localhost:8080/api/v1/membership/status/' + membership.id, {
+                     method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    body: JSON.stringify({}),
+                });
+                setChangeStage(false);
+            }
+        }
+        changeMembershipStage();
+    }
+    , [changeStage, membership]);
     
     return (
         <>

@@ -3,6 +3,7 @@ import MainLayout from "../layout/MainLayout";
 import ReactHtmlParser from 'html-react-parser';
 import { useTheme } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import CardView from './CardView';
 
 const statusColors = {
     OUTGOING : "blue", 
@@ -20,8 +21,7 @@ export default function EmailDetails(){
     return (
         <>
         <MainLayout>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'start', minHeight: '100vh',paddingTop:"100px" }}>
-            <Card sx={{  width: '70%', marginBottom: 2, borderColor: statusColors[email.status], borderWidth: 2, borderStyle: 'solid'}}>
+        <CardView>
                 <CardContent>
                     <Typography variant="h8" component="div" style={{color: statusColors[email.status],fontWeight:"bold"}}>
                         {email.status}
@@ -43,8 +43,7 @@ export default function EmailDetails(){
                 <CardActions>
                     <Button size="small">Learn More</Button>
                 </CardActions>
-            </Card>
-            </Box>
+            </CardView>
             </MainLayout>
         </>
     )

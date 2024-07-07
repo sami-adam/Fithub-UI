@@ -161,7 +161,7 @@ function MainLayout({children}) {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    {user && <Avatar alt={user.name} style={{backgroundColor:theme.palette.primary.light,color:"gray"}}>{user.name && user.name[0]}</Avatar>} <span style={{color:"white",fontSize:"18px",paddingLeft:"10px"}}>{user.name}</span>
+                    {user && <Avatar alt={user.name} style={{backgroundColor:theme.palette.primary.light,color:"gray"}}>{user.name && user.name[0]}</Avatar>} <span style={{color:"white",fontSize:"18px",paddingLeft:"10px"}}>{user && user.name}</span>
                 </IconButton>
                 </Tooltip>
                 <Menu
@@ -181,7 +181,7 @@ function MainLayout({children}) {
                     onClose={handleCloseUserMenu}
                     >
                     <MenuItem key="account" onClick={() => console.log("Account Clicked")}>
-                        <Typography textAlign="center">Account  <i style={{color:primaryMainColor}}>{user.email}</i></Typography>
+                        <Typography textAlign="center">Account  <i style={{color:primaryMainColor}}>{user && user.email}</i></Typography>
                     </MenuItem>
 
                     <MenuItem key="logOut" onClick={handleLogout}>
