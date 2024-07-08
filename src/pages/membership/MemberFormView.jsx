@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from "react";
 import { Button, FormControl } from '@mui/material';
 import MainLayout from '../../layout/MainLayout';
 import { useNavigate } from "react-router-dom";
@@ -7,19 +7,20 @@ import CardView from '../../components/CardView';
 import TextFieldCustom from '../../components/TextFieldCustom';
 import BackButton, { CreateButton, EditButton, SaveButton } from '../../components/Buttons';
 import { useLocation } from 'react-router-dom';
+import useMemberStore from '../../state/memberState';
 
 
 export default function MemberFormView() {
     //const [gender, setGender] = React.useState('male');
-    const [create, setCreate] = React.useState(false);
-    const [save, setSave] = React.useState(false);
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [phone, setPhone] = React.useState('');
-    const [address, setAddress] = React.useState('');
-    const [viewMode, setViewMode] = React.useState(false);
-    const [editMode, setEditMode] = React.useState(false);
+    const [create, setCreate] = useState(false);
+    const [save, setSave] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [viewMode, setViewMode] = useState(false);
+    const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -29,6 +30,8 @@ export default function MemberFormView() {
     const token = localStorage.getItem('token');
     const member = location.state;
     //let viewMode = member? true: false;
+    const addMember = useMemberStore((state)=> state.addMember);
+    const updateMember = useMemberStore((state)=> state.updateMember);
 
     const handleCreate = () => {
         console.log(firstName, lastName, email, phone, address)
@@ -41,74 +44,45 @@ export default function MemberFormView() {
     const handleSave = () => {
         setSave(true);
     }
-    React.useEffect(() => {
-        setViewMode(member? true: false);
-        async function createMember() {
-            if (create) {
-                await fetch('http://localhost:8080/api/v1/member', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token,
-                    },
-                    body: JSON.stringify({
-                        "firstName": firstName,
-                        "lastName": lastName,
-                        "email": email,
-                        "phone": phone,
-                        //"address": address,
-                    }),
-                }).then(response => response.json()).then(data => {
-                    console.log(data);
-                    return data;
-                });
-                setViewMode(true);
-            }
-            
-        }
-        async function updateMember() {
-            if (save) {
-                const res = await fetch(`http://localhost:8080/api/v1/member/${member.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token,
-                    },
-                    body: JSON.stringify({
-                        "firstName": firstName,
-                        "lastName": lastName,
-                        "email": email,
-                        "phone": phone,
-                        //"address": address,
-                    }),
-                }).then(response => response.json()).then(data => {
-                    console.log(data);
-                    return data;
-                });
-                setEditMode(false);
-                setViewMode(true);
-                setSave(false);
-                if (firstName){
-                    member.firstName = firstName;
-                }
-                if (lastName){
-                    member.lastName = lastName;
-                }
-                if (email){
-                    member.email = email;
-                }
-                if (phone){
-                    member.phone = phone;
-                }
-                //if (address){
 
-                
-                //member.address = address;
+    useEffect(() => {
+        setViewMode(member? true: false);
+        if(create){
+            addMember({
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "phone": phone,
+                //"address": address,
+            });
+            setViewMode(true);
+        }
+        if(save){
+            updateMember({
+                "id": member.id,
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "phone": phone,
+                //"address": address,
+            });
+            setEditMode(false);
+            setViewMode(true);
+            setSave(false);
+            if (firstName){
+                member.firstName = firstName;
+            }
+            if (lastName){
+                member.lastName = lastName;
+            }
+            if (email){
+                member.email = email;
+            }
+            if (phone){
+                member.phone = phone;
             }
         }
-        updateMember();
-        createMember();
-    }, [create, save, editMode]);
+    }, [member, addMember, updateMember, create, save, editMode, firstName, lastName, email, phone, address]);
     return (
         <>
         <MainLayout>

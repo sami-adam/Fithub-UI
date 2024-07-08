@@ -16,7 +16,7 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
     return (
         <>
         <MainLayout>
-            <div style={{ height: 750, width: '100%'}}>
+            <div style={{ height: 750, width: '90%'}}>
                 <CreateButton url={createUrl}/>
                 <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> window.confirm("Are You Sure?")?setDeleted(true):setDeleted(false)}>Delete</Button>
                 <DataGrid

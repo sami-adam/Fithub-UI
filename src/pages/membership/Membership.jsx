@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
 import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import MainLayout from "../../layout/MainLayout";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import DataTable from "../../components/DataTable";
 
 
 export default function Membership() {
     const token = localStorage.getItem("token");
     const [memberships, setMemberships] = useState([]);
-    const navigate = useNavigate();
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
 
@@ -86,24 +81,5 @@ export default function Membership() {
     });
     return (
         <DataTable columns={columns} rows={rows} selected={selected} setSelected={setSelected} deleted={deleted} setDeleted={setDeleted} createUrl={'/createMembership'} detailsUrl={'/membershipDetails'}/>
-        // <>
-        // <MainLayout/>
-        // <div style={{ height: 400, width: '100%', paddingTop:'100px'}}>
-        //     <Button variant="outlined" color="primary" style={{color:'teal', fontWeight:'bold',border:'0px'}} onClick={()=> navigate('/createMembership')}>Create New</Button>
-        //     <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> setDeleted(true)}>Delete</Button>
-        //     <DataGrid
-        //         rows={rows}
-        //         columns={columns}
-        //         initialState={{
-        //         pagination: {
-        //             paginationModel: { page: 0, pageSize: 5 },
-        //         },
-        //         }}
-        //         pageSizeOptions={[5, 10]}
-        //         checkboxSelection 
-        //         onRowSelectionModelChange={(row) => setSelected(row)}
-        //         />
-        // </div>
-        // </>
     );
 }

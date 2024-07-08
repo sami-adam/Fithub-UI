@@ -12,13 +12,24 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import Email from '../pages/admin/Email';
-import { Link } from 'react-router-dom';
-
-import Member from '../pages/membership/Member';
 import { useNavigate } from "react-router-dom";
-import { Colors } from '../values/colors';
 import { useTheme } from '@mui/material';
+import MailIcon from '@mui/icons-material/Mail';
+import PeopleIcon from '@mui/icons-material/People';
+import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
+  };
 
 
 const pages = ['Memberships', 'Emails'];
@@ -139,21 +150,21 @@ function MainLayout({children}) {
                 <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/memberships')}>
                     <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
-                        Memberships
+                        <IconButton size="small" style={{color: 'white'}}><InsertInvitationIcon /></IconButton>
                     </div>
                 </Button>
 
                 <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/members')}>
                     <div style={{width: '84px', backgroundColor:primaryMainColor, color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
-                        Members
+                        <IconButton size="small" style={{color: 'white'}}><PeopleIcon /></IconButton>
                     </div>
                 </Button>
 
                 <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/emails')}>
                     <div style={{width: '80px', backgroundColor:primaryMainColor, color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px',borderBlockStart:'none'}}>
-                        Emails
+                        <IconButton size="small" style={{color: 'white'}}><MailIcon /></IconButton>
                     </div>
                 </Button>
             </Box>
@@ -181,7 +192,7 @@ function MainLayout({children}) {
                     onClose={handleCloseUserMenu}
                     >
                     <MenuItem key="account" onClick={() => console.log("Account Clicked")}>
-                        <Typography textAlign="center">Account  <i style={{color:primaryMainColor}}>{user && user.email}</i></Typography>
+                        <Typography textAlign="center">Account  <span style={{color:primaryMainColor}}>{user && user.email}</span></Typography>
                     </MenuItem>
 
                     <MenuItem key="logOut" onClick={handleLogout}>
