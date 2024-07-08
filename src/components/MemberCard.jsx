@@ -3,34 +3,21 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material";
+import useMemberStore from "../../src/state/memberState";
 
-
-export default function MemberCard({ member, setFetchData }) {
+export default function MemberCard({ member }) {
   const [memberId, setMemberId] = useState(0);
-  const token = localStorage.getItem('token');
   const theme = useTheme();
   const primaryMainColor = theme.palette.primary.main;
   const navigate = useNavigate();
+  const deleteMember = useMemberStore((state) => state.deleteMember);
   useEffect(() => {
-    async function deleteMember() {
-      console.log(memberId);
-      if (memberId > 0) {
-        const response = await fetch(`http://localhost:8080/api/v1/member/${memberId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-          },
-        }).then(response => response.json()).then(data => {
-          console.log(data);
-          setFetchData(true);
-          return data;
-        });
-      }
+    if (memberId > 0){
+      deleteMember(memberId);
+      setMemberId(0);
     }
-    deleteMember();
-
-    setMemberId(0);
-  }, [memberId]);
+    
+  }, [deleteMember, memberId]);
   return (
     <div className="card" style={{paddingTop:'30px', paddingLeft:'10px', paddingRight:'30px'}} onDoubleClick={()=> navigate("/member-form-view",{"state": member})}>
       <div className="card-body" id="clickable" style={{boxShadow: '1px 1px 1px 1px #e3e3e3',textAlign:'center',borderRadius:'7px',padding:'2px',width:"200px"}}>

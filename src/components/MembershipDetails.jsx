@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent, Typography, CardActions, Button, Box, CardHeader, IconButton } from '@mui/material';
+import { CardContent, Typography, CardActions, Button, CardHeader } from '@mui/material';
 import MainLayout from "../layout/MainLayout";
 import PaidIcon from '@mui/icons-material/Paid';
 import { useTheme } from "@mui/material";
 import { TaskAlt } from "@mui/icons-material";
 import { useLocation } from "react-router-dom";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BackButton from "./Buttons";
 import CardView from "./CardView";
+import { blue } from "@mui/material/colors";
 
 
 const statusColors = {
     NEW: "gray", 
-    PAID: "blue", 
+    PAID: blue[500],
     ACTIVE: "teal", 
     EXPIRED: "red", 
     CANCELLED: "red"
@@ -24,10 +24,8 @@ export default function MembershipDetails() {
     const primaryMainColor = theme.palette.primary.main;
     const location = useLocation();
     const membership = location.state;
-    console.log(membership);
+    //const BASE_URL = process.env.REACT_APP_BASE_URL;
     const token = localStorage.getItem('token');
-    const baseURL = process.env.SB_BASE_URL;
-    console.log(baseURL);
     useEffect(() => {
         async function changeMembershipStage() {
             if (changeStage) {
@@ -44,7 +42,7 @@ export default function MembershipDetails() {
         }
         changeMembershipStage();
     }
-    , [changeStage, membership]);
+    , [changeStage, membership, token]);
     
     return (
         <>
@@ -55,12 +53,12 @@ export default function MembershipDetails() {
                 action={
                     <>
                     <Button size="small" onClick={()=> setChangeStage(true)} color="primary" variant="outlined" 
-                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:membership.status != "NEW"?"none":""}}>
+                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:membership.status !== "NEW"?"none":""}}>
                         Paid <PaidIcon />
                     </Button>
 
                     <Button size="small" onClick={()=> setChangeStage(true)} color="primary" variant="outlined" 
-                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:membership.status != "PAID"?"none":""}}>
+                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:membership.status !== "PAID"?"none":""}}>
                         Active <TaskAlt />
                     </Button>
                     </>
