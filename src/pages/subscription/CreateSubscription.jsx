@@ -59,25 +59,9 @@ export default function CreateMemebership() {
             window.location.href = "/signin";
             }
         }
-    async function fetchSubscriptions() {
-        try {
-            const response = await fetch("http://localhost:8080/api/v1/subscriptions", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => setSubscriptions(data));
-        } catch (error) {
-            localStorage.removeItem("token");
-            console.error("Error:", error);
-            window.location.href = "/signin";
-        }
-
-    }
-    async function createMembership() {
+    async function createSubscription() {
         if (created) {
-            const response = await fetch('http://localhost:8080/api/v1/membership', {
+            const response = await fetch('http://localhost:8080/api/v1/subscription', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +69,6 @@ export default function CreateMemebership() {
                 },
                 body: JSON.stringify({
                     "member": {"id": member},
-                    "subscription": {"id": subscription},
                     "startDate": startDate.format('YYYY-MM-DD'),
                     "endDate": endDate.format('YYYY-MM-DD'),
                     "subscriptionUnitPrice": Number(subscriptionUnitPrice),
@@ -99,8 +82,7 @@ export default function CreateMemebership() {
         }
     }
     fetchMembers();
-    fetchSubscriptions();
-    createMembership();
+    createSubscription();
   }, [created]);
 
   console.log(members);
@@ -260,8 +242,8 @@ export default function CreateMemebership() {
             <Grid item xs={12} sm={10} style={{display:'flex', justifyContent:'center'}}>
             <FormControl  size="small">
                 <p style={{color: primaryMainColor, display:created? '': 'none'}}>Successfully created</p>
-                <Button variant="contained" style={{ marginBottom: '20px' , display:created? 'none': ''}} onClick={handleCreate}>Create Membership</Button>
-                <Button variant="outlined" style={{ marginBottom: '20px' , display:created? '': 'none'}} onClick={()=> navigate('/memberships')}>View Memberships</Button>
+                <Button variant="contained" style={{ marginBottom: '20px' , display:created? 'none': ''}} onClick={handleCreate}>Create Subscription</Button>
+                <Button variant="outlined" style={{ marginBottom: '20px' , display:created? '': 'none'}} onClick={()=> navigate('/subscriptions')}>View Subscriptions</Button>
             </FormControl>
             </Grid>
         </Grid>

@@ -3,21 +3,21 @@ import * as React from 'react';
 import DataTable from "../../components/DataTable";
 
 
-export default function Membership() {
+export default function Subscription() {
     const token = localStorage.getItem("token");
-    const [memberships, setMemberships] = useState([]);
+    const [subscriptions, setSubscriptions] = useState([]);
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
 
     console.log(token);
     useEffect(() => {
-        async function fetchMemberships() {
+        async function fetchSubscriptions() {
             try {
-                const response = await fetch("http://localhost:8080/api/v1/memberships", {
+                const response = await fetch("http://localhost:8080/api/v1/subscriptions", {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
-                }).then((response) => response.json()).then((data) => setMemberships(data));
+                }).then((response) => response.json()).then((data) => setSubscriptions(data));
             } catch (error) {
                 localStorage.removeItem('token');
                 console.error('Error:', error);
@@ -25,10 +25,10 @@ export default function Membership() {
 
             }
         }
-        async function deleteMemberships() {
+        async function deleteSubscriptions() {
             if (deleted) {
                 selected.forEach(async (id) => {
-                    const response = await fetch(`http://localhost:8080/api/v1/membership/${id}`, {
+                    const response = await fetch(`http://localhost:8080/api/v1/subscription/${id}`, {
                         method: 'DELETE',
                         headers: {
                             'Authorization': 'Bearer ' + token,
@@ -40,11 +40,11 @@ export default function Membership() {
                 });
                 setDeleted(false);
                 setSelected([]);
-                fetchMemberships();
+                fetchSubscriptions();
             }
         }
-        deleteMemberships();
-        fetchMemberships();
+        deleteSubscriptions();
+        fetchSubscriptions();
     }, [token, deleted]);
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
@@ -52,34 +52,35 @@ export default function Membership() {
         { field: 'lastName', headerName: 'Last name', width: 130 },
         { field: 'email', headerName: 'Email', width: 130 },
         { field: 'phone', headerName: 'Phone', width: 130 },
-        { field: 'subscription', headerName: 'Subscription', width: 130 },
-        { field: 'subscriptionPrice', headerName: 'Subscription Price', width: 130 },
         { field: 'startDate', headerName: 'Start Date', width: 130 },
         { field: 'endDate', headerName: 'End Date', width: 130 },
+        { field: 'unitPrice', headerName: 'Unit Price', width: 130 },
+        { field: 'qty', headerName: 'Quantity', width: 130 },
         { field: 'totalAmount', headerName: 'Total Amount', width: 130 },
         { field: 'discount', headerName: 'Discount', width: 130 },
         { field: 'netAmount', headerName: 'Net Amount', width: 130},
         { field: 'status', headerName: 'Status', width: 130 },
     ];
     const rows = [];
-    memberships.forEach((membership) => {
+    subscriptions.forEach((subscription) => {
         rows.push({
-            id: membership.id,
-            firstName: membership.member.firstName,
-            lastName: membership.member.lastName,
-            email: membership.member.email,
-            phone: membership.member.phone,
-            subscription: membership.subscription.name,
-            subscriptionPrice: membership.subscription.price,
-            startDate: membership.startDate,
-            endDate: membership.endDate,
-            totalAmount: membership.totalAmount,
-            discount: membership.discountAmount,
-            netAmount: membership.netAmount,
-            status: membership.status,
+            id: subscription.id,
+            member: subscription.member,
+            firstName: subscription.member.firstName,
+            lastName: subscription.member.lastName,
+            email: subscription.member.email,
+            phone: subscription.member.phone,
+            startDate: subscription.startDate,
+            endDate: subscription.endDate,
+            unitPrice: subscription.subscriptionUnitPrice,
+            qty: subscription.subscriptionQty,
+            totalAmount: subscription.totalAmount,
+            discount: subscription.discountAmount,
+            netAmount: subscription.netAmount,
+            status: subscription.status,
         });
     });
     return (
-        <DataTable columns={columns} rows={rows} selected={selected} setSelected={setSelected} deleted={deleted} setDeleted={setDeleted} createUrl={'/createMembership'} detailsUrl={'/membershipDetails'}/>
+        <DataTable columns={columns} rows={rows} selected={selected} setSelected={setSelected} deleted={deleted} setDeleted={setDeleted} createUrl={'/subscription-form-view'} detailsUrl={'/subscription-form-view'}/>
     );
 }

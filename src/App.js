@@ -2,17 +2,16 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import SignIn from "./pages/user/SignIn"
 import Home from './pages/home/Home';
-import MainLayout from './layout/MainLayout';
-import Membership from './pages/membership/Membership';
-import EmailList from './components/EmailList';
 import Email from './pages/admin/Email';
-import Member from './pages/membership/Member';
-import MemberFormView from './pages/membership/MemberFormView';
-import CreateMemebership from './pages/membership/CreateMembership';
+import Member from './pages/member/Member';
+import MemberFormView from './pages/member/MemberFormView';
 import EmailDetails from './components/EmailDetails';
-import MembershipDetails from './components/MembershipDetails';
 import { blue, blueGrey, green, teal } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Subscription from './pages/subscription/Subscription';
+import SubscriptionDetails from './components/SubscriptionDetails';
+import CreateSubscription from './pages/subscription/CreateSubscription';
+import SubscriptionFormView from './pages/subscription/SubscriptionFormView';
 
 const theme = createTheme({
   palette: {
@@ -39,11 +38,12 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/emails" element={<Email />} />
         <Route path="/emailDetails/:id" element={<EmailDetails />} />
-        <Route path="/memberships" element={<Membership />} />
-        <Route path="/membershipDetails/:id" element={<MembershipDetails />} />
+        <Route path="/subscriptions" element={<Subscription/>} />
+        <Route path='/subscription-form-view' element={<SubscriptionFormView />} />
+        <Route path="/subscriptionDetails/:id" element={<SubscriptionDetails/>} />
         <Route path="/members" element={<Member />} />
         <Route path='/member-form-view' element={<MemberFormView />} />
-        <Route path="/createMembership" element={<CreateMemebership />} />
+        <Route path="/create-subscription" element={<CreateSubscription />} />
       </Routes>
     </BrowserRouter>
     </ThemeProvider>

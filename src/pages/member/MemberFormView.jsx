@@ -4,7 +4,7 @@ import MainLayout from '../../layout/MainLayout';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import CardView from '../../components/CardView';
-import TextFieldCustom from '../../components/TextFieldCustom';
+import TextFieldCustom from '../../components/Fields';
 import BackButton, { CreateButton, EditButton, SaveButton } from '../../components/Buttons';
 import { useLocation } from 'react-router-dom';
 import useMemberStore from '../../state/memberState';
@@ -27,7 +27,6 @@ export default function MemberFormView() {
     const theme = useTheme();
     const primaryMainColor = theme.palette.primary.main;
 
-    const token = localStorage.getItem('token');
     const member = location.state;
     //let viewMode = member? true: false;
     const addMember = useMemberStore((state)=> state.addMember);

@@ -18,18 +18,19 @@ const statusColors = {
     CANCELLED: "red"
 };
 
-export default function MembershipDetails() {
+export default function SubscriptionDetails() {
     const [changeStage, setChangeStage] = useState(false);
     const theme = useTheme();
     const primaryMainColor = theme.palette.primary.main;
     const location = useLocation();
-    const membership = location.state;
+    const subscription = location.state;
+    console.log(subscription);
     //const BASE_URL = process.env.REACT_APP_BASE_URL;
     const token = localStorage.getItem('token');
     useEffect(() => {
-        async function changeMembershipStage() {
+        async function changeSubscriptionStage() {
             if (changeStage) {
-                await fetch('http://localhost:8080/api/v1/membership/status/' + membership.id, {
+                await fetch('http://localhost:8080/api/v1/subscription/status/' + subscription.id, {
                      method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -40,32 +41,32 @@ export default function MembershipDetails() {
                 setChangeStage(false);
             }
         }
-        changeMembershipStage();
+        changeSubscriptionStage();
     }
-    , [changeStage, membership, token]);
+    , [changeStage, subscription, token]);
     
     return (
         <>
         <MainLayout>
         <BackButton/>
-        <CardView borderColor={statusColors[membership.status]}>
+        <CardView borderColor={statusColors[subscription.status]}>
                 <CardHeader 
                 action={
                     <>
                     <Button size="small" onClick={()=> setChangeStage(true)} color="primary" variant="outlined" 
-                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:membership.status !== "NEW"?"none":""}}>
+                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:subscription.status !== "NEW"?"none":""}}>
                         Paid <PaidIcon />
                     </Button>
 
                     <Button size="small" onClick={()=> setChangeStage(true)} color="primary" variant="outlined" 
-                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:membership.status !== "PAID"?"none":""}}>
+                    style={{color:primaryMainColor,fontWeight:"bold",border:"none",backgroundColor:"aliceblue", display:subscription.status !== "PAID"?"none":""}}>
                         Active <TaskAlt />
                     </Button>
                     </>
                     } 
                 title={
-                    <Typography variant="h8" component="div" style={{color:statusColors[membership.status],fontWeight:"bold"}}>
-                        {membership.status}
+                    <Typography variant="h8" component="div" style={{color:statusColors[subscription.status],fontWeight:"bold"}}>
+                        {subscription.status}
                     </Typography>
                 }
                     style={{borderBottom:"1px solid #c2ccd4", backgroundColor:"#f5faff"}}/>
@@ -73,16 +74,16 @@ export default function MembershipDetails() {
 
                     
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    Member Name: {membership.firstName} {membership.lastName}
+                    Member Name: {subscription.firstName} {subscription.lastName}
                     </Typography>
                     <Typography variant="h5" component="div">
-                    {membership.subscription}
+                        One Year Subscription
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {membership.startDate} - {membership.endDate}
+                    {subscription.startDate} - {subscription.endDate}
                     </Typography>
                     <Typography variant="body2">
-                    {membership.netAmount}
+                    {subscription.netAmount}
                     </Typography>
                 
                 </CardContent>

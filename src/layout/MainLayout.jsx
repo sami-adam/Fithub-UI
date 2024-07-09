@@ -32,7 +32,7 @@ const style = {
   };
 
 
-const pages = ['Memberships', 'Emails'];
+const pages = ['Subscriptions', 'Emails'];
 const settings = ['Profile', 'Logout'];
 
 function MainLayout({children}) {
@@ -147,7 +147,7 @@ function MainLayout({children}) {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/memberships')}>
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/subscriptions')}>
                     <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
                     '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
                         <IconButton size="small" style={{color: 'white'}}><InsertInvitationIcon /></IconButton>
