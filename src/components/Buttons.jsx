@@ -69,7 +69,7 @@ export function NavButton({ url, icon}){
     return (
         <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate(url)}>
             <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
-            '#f9f7f7', fontWeight: 'bold', border: '1px solid ' + primaryLightColor, borderRadius: '15px'}}>
+            '#f9f7f7', fontWeight: 'bold'}} id="nav-button-id">
                 <IconButton size="small" style={{color: 'white'}}>{icon}</IconButton>
             </div>
         </Button>

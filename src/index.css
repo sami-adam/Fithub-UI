@@ -43,3 +43,11 @@ label{
 span{
   font-family: "auto"!important;
 }
+
+#nav-button-id{
+  font-family: "auto"!important;
+}
+
+#nav-button-id:hover{
+  border: "1px solid #FFF8F3"!important;
+}
