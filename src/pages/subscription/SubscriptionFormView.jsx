@@ -1,10 +1,10 @@
-import { Button, FormControl, useTheme } from "@mui/material";
+import { Button, CardContent, FormControl, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DateFieldCustom, NumberFieldCustom, SelectFieldCustom } from "../../components/Fields";
 import MainLayout from "../../layout/MainLayout";
 import BackButton, { EditButton, SaveButton } from "../../components/Buttons";
-import CardView from "../../components/CardView";
+import CardView, { CardFooter } from "../../components/CardView";
 import useSubscriptionStore from "../../state/subscriptionState";
 import useMemberStore from "../../state/memberState";
 import dayjs from "dayjs";
@@ -97,19 +97,23 @@ export default function SubscriptionFormView() {
         <MainLayout>
         <BackButton />
         <CardView borderColor={primaryMainColor}>
-            <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                <SelectFieldCustom label="Member" setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member.id:null) || (member || null) || (subscription&&editMode?subscription.member.id:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
-                <DateFieldCustom label="Start Date" setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
-                <DateFieldCustom label="End Date" setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
-                <NumberFieldCustom label="Price" placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/>
-                <NumberFieldCustom label="Quantity" placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
-                <br/>
-                <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p>
+            <CardContent>
+                <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
+                    <SelectFieldCustom label="Member" setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member.id:null) || (member || null) || (subscription&&editMode?subscription.member.id:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
+                    <DateFieldCustom label="Start Date" setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
+                    <DateFieldCustom label="End Date" setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
+                    <NumberFieldCustom label="Price" placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/>
+                    <NumberFieldCustom label="Quantity" placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
+                    <br/>
+                    {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
+                </FormControl>
+            </CardContent>
+            <CardFooter>
                 <SaveButton onClick={handleCreate} lable="Create" hide={create||viewMode||editMode} />
                 <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/subscriptions')}>View Subscriptions</Button>
                 <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
                 <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
-            </FormControl>
+            </CardFooter>
         </CardView>
         </MainLayout>
         </>

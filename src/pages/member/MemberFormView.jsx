@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, FormControl } from '@mui/material';
+import { Button, CardContent, CardHeader, FormControl, Typography } from '@mui/material';
 import MainLayout from '../../layout/MainLayout';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
-import CardView from '../../components/CardView';
+import CardView, { CardFooter } from '../../components/CardView';
 import TextFieldCustom from '../../components/Fields';
 import BackButton, { CreateButton, EditButton, SaveButton } from '../../components/Buttons';
 import { useLocation } from 'react-router-dom';
@@ -26,6 +26,8 @@ export default function MemberFormView() {
 
     const theme = useTheme();
     const primaryMainColor = theme.palette.primary.main;
+    const primaryLightColor = theme.palette.primary.light;
+    const primaryDarkColor = theme.palette.primary.dark;
 
     const member = location.state;
     //let viewMode = member? true: false;
@@ -87,20 +89,39 @@ export default function MemberFormView() {
         <MainLayout>
         <BackButton />
         <CardView borderColor={primaryMainColor}>
-            <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                <TextFieldCustom label="First Name" placeholder="Enter First Name" setValue={setFirstName} viewValue={member&&!editMode?member.firstName:null} id="firstName" required={true} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Last Name" placeholder="Enter Last Name" setValue={setLastName} id="lastName" viewValue={member&&!editMode?member.lastName:null} required={true} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Email" placeholder="Enter Email" setValue={setEmail} id="email" required={true} viewValue={member&&!editMode?member.email:null} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Phone" placeholder="Enter Phone" setValue={setPhone} id="phone" required={true} viewValue={member&&!editMode?member.phone:null} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Address" placeholder="Enter Address" setValue={setAddress} id="address" required={true} viewValue={member&&!editMode?member.address:null} disabled={viewMode&&!editMode} />
-                <br/>
-                <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p>
+        <CardHeader 
+                action={
+                    <>
+                    <Button size="small" color="primary" variant="outlined" 
+                    style={{color:primaryDarkColor,fontWeight:"bold",border:"none",backgroundColor:primaryLightColor}}>
+                        {member&&member.subscriptions&&member.subscriptions.length || 0} Subscriptions
+                    </Button>
+                    </>
+                    } 
+                title={
+                    <Typography variant="h8" component="div" style={{fontWeight:"bold"}}>
+                        Member Details
+                    </Typography>
+                }
+                    style={{borderBottom:"1px solid #c2ccd4", backgroundColor:primaryLightColor,opacity:0.5}}/>
+            <CardContent>
+                <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
+                    <TextFieldCustom label="First Name" placeholder="Enter First Name" setValue={setFirstName} viewValue={member&&!editMode?member.firstName:null} id="firstName" required={true} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label="Last Name" placeholder="Enter Last Name" setValue={setLastName} id="lastName" viewValue={member&&!editMode?member.lastName:null} required={true} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label="Email" placeholder="Enter Email" setValue={setEmail} id="email" required={true} viewValue={member&&!editMode?member.email:null} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label="Phone" placeholder="Enter Phone" setValue={setPhone} id="phone" required={true} viewValue={member&&!editMode?member.phone:null} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label="Address" placeholder="Enter Address" setValue={setAddress} id="address" required={true} viewValue={member&&!editMode?member.address:null} disabled={viewMode&&!editMode} />
+                    <br/>
+                    
+                </FormControl>
+            </CardContent>
+            <CardFooter>
+                {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
                 <SaveButton onClick={handleCreate} lable="Create Member" hide={create||viewMode||editMode} />
                 <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/members')}>View Members</Button>
                 <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
                 <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
-            </FormControl>
-            
+            </CardFooter>
         </CardView>
         </MainLayout>
         </>

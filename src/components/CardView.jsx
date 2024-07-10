@@ -1,4 +1,4 @@
-import { Box, Card } from "@mui/material";
+import { Box, Card, CardActions } from "@mui/material";
 import { useTheme } from '@mui/material';
 
 export default function CardView({children, borderColor}) {
@@ -12,5 +12,13 @@ export default function CardView({children, borderColor}) {
                 {children}
             </Card>
         </Box>
+    )
+}
+
+export function CardFooter({children}) {
+    return (
+        <CardActions style={{display:"flex",flexDirection:"column",justifyContent:"center",marginRight:"180px"}}>
+            {children}
+        </CardActions>
     )
 }

@@ -21,6 +21,25 @@ code {
   background-color: whitesmoke;
 }
 
-.card-view:hover {
+/* .card-view:hover {
   box-shadow: 2px 2px 2px grey;
+} */
+
+div{
+  font-family: "auto"!important;
+}
+
+button{
+  font-family: "auto"!important;
+}
+
+input{
+  font-family: "auto"!important;
+}
+label{
+  font-family: "auto"!important;
+}
+
+span{
+  font-family: "auto"!important;
 }

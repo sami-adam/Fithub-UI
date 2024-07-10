@@ -9,15 +9,13 @@ import EmailDetails from './components/EmailDetails';
 import { blue, blueGrey, green, teal } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Subscription from './pages/subscription/Subscription';
-import SubscriptionDetails from './components/SubscriptionDetails';
-import CreateSubscription from './pages/subscription/CreateSubscription';
 import SubscriptionFormView from './pages/subscription/SubscriptionFormView';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: blueGrey[500],
-      light: "#f0f0f0",
+      main: teal[500],
+      light: "rgba(96, 125, 139, 0.04)",
       dark: blue[800],
     },
     secondary: {
@@ -40,10 +38,8 @@ function App() {
         <Route path="/emailDetails/:id" element={<EmailDetails />} />
         <Route path="/subscriptions" element={<Subscription/>} />
         <Route path='/subscription-form-view' element={<SubscriptionFormView />} />
-        <Route path="/subscriptionDetails/:id" element={<SubscriptionDetails/>} />
         <Route path="/members" element={<Member />} />
         <Route path='/member-form-view' element={<MemberFormView />} />
-        <Route path="/create-subscription" element={<CreateSubscription />} />
       </Routes>
     </BrowserRouter>
     </ThemeProvider>
