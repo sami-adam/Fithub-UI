@@ -60,3 +60,18 @@ export function EditButton({ onClick, hide }) {
         </Button>
     )
 }
+
+export function NavButton({ url, icon}){
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const primaryMainColor = theme.palette.primary.main;
+    const primaryLightColor = theme.palette.primary.light;
+    return (
+        <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate(url)}>
+            <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
+            '#f9f7f7', fontWeight: 'bold', border: '1px solid ' + primaryLightColor, borderRadius: '15px'}}>
+                <IconButton size="small" style={{color: 'white'}}>{icon}</IconButton>
+            </div>
+        </Button>
+    )
+}

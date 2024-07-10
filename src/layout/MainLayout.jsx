@@ -17,6 +17,7 @@ import { useTheme } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import PeopleIcon from '@mui/icons-material/People';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
+import { NavButton } from '../components/Buttons';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -146,27 +147,9 @@ function MainLayout({children}) {
                 LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/subscriptions')}>
-                    <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
-                    '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
-                        <IconButton size="small" style={{color: 'white'}}><InsertInvitationIcon /></IconButton>
-                    </div>
-                </Button>
-
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/members')}>
-                    <div style={{width: '84px', backgroundColor:primaryMainColor, color: 
-                    '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px', borderBlockStart:'none'}}>
-                        <IconButton size="small" style={{color: 'white'}}><PeopleIcon /></IconButton>
-                    </div>
-                </Button>
-
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate('/emails')}>
-                    <div style={{width: '80px', backgroundColor:primaryMainColor, color: 
-                    '#f9f7f7', fontWeight: 'bold', border: '1px solid #3e9191', borderRadius: '15px',borderBlockStart:'none'}}>
-                        <IconButton size="small" style={{color: 'white'}}><MailIcon /></IconButton>
-                    </div>
-                </Button>
+                <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} />
+                <NavButton url={'/members'} icon={<PeopleIcon />} />
+                <NavButton url={'/emails'} icon={<MailIcon />} />
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>

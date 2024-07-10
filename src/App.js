@@ -14,8 +14,8 @@ import SubscriptionFormView from './pages/subscription/SubscriptionFormView';
 const theme = createTheme({
   palette: {
     primary: {
-      main: teal[500],
-      light: "rgba(96, 125, 139, 0.04)",
+      main: "#405D72",
+      light: "#FFF8F3",
       dark: blue[800],
     },
     secondary: {
