@@ -16,8 +16,8 @@ export default function SubscriptionFormView() {
     const [viewMode, setViewMode] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [member, setMember] = useState(null);
-    const [startDate, setStartDate] = useState(dayjs("2021-01-01", "YYYY-MM-DD"));
-    const [endDate, setEndDate] = useState(dayjs("2021-01-01", "YYYY-MM-DD"));
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
     const [subscriptionUnitPrice, setSubscriptionUnitPrice] = useState(0);
     const [subscriptionQty, setSubscriptionQty] = useState(0);
     const navigate = useNavigate();
@@ -74,7 +74,7 @@ export default function SubscriptionFormView() {
             setViewMode(true);
             setSave(false);
             if(member){
-                subscription.member = member.id;
+                subscription.member = member;
             }
             if(startDate){
                 subscription.startDate = startDate;
@@ -83,14 +83,14 @@ export default function SubscriptionFormView() {
                 subscription.endDate = endDate;
             }
             if(subscriptionUnitPrice){
-                subscription.subscriptionUnitPrice = subscriptionUnitPrice;
+                subscription.unitPrice = subscriptionUnitPrice;
             }
             if(subscriptionQty){
-                subscription.subscriptionQty = subscriptionQty;
+                subscription.qty = subscriptionQty;
             }
         }
     }
-    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers]);
+    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription]);
 
     return (
         <>
@@ -98,7 +98,7 @@ export default function SubscriptionFormView() {
         <BackButton />
         <CardView borderColor={primaryMainColor}>
             <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                <SelectFieldCustom label="Member" setValue={setMember} viewValue={subscription&&!editMode?subscription.member&&subscription.member.id:null} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
+                <SelectFieldCustom label="Member" setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member.id:null) || (member || null) || (subscription&&editMode?subscription.member.id:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
                 <DateFieldCustom label="Start Date" setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
                 <DateFieldCustom label="End Date" setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
                 <NumberFieldCustom label="Price" placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/>

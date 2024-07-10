@@ -1,7 +1,9 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Button, IconButton } from '@mui/material';
+import { Alert, Button, IconButton, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from "@mui/material";
+import { useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function BackButton() {
     return (
@@ -22,9 +24,30 @@ export function CreateButton({ url }) {
 
 export function SaveButton({ onClick, lable, hide }) {
     const theme = useTheme();
+    const [openSnackbar, setOpenSnackbar] = useState(false);
     const primaryMainColor = theme.palette.primary.main;
+    const handleOnclick = () => {
+        onClick();
+        setOpenSnackbar(true);
+    }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpenSnackbar(false);
+      };
+      
     return (
-        <Button variant="outlined" color="primary" style={{color:primaryMainColor, fontWeight:'bold',border:'0px',display:hide?'none':'',width:"164px",border:"2px solid aliceblue;",borderRadius:"16px"}} onClick={onClick}>{lable}</Button>
+        <>
+        <Button variant="outlined" color="primary" style={{color:primaryMainColor, fontWeight:'bold',border:'0px',display:hide?'none':'',width:"164px",border:"2px solid aliceblue;",borderRadius:"16px"}} onClick={handleOnclick}>{lable}</Button>
+        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" variant="filled" sx={{ width: '100%' }}>
+                Saved Successfully!
+            </Alert>
+        </Snackbar>
+    </>
     )
 }
 

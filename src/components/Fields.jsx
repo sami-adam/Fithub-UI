@@ -31,8 +31,8 @@ export function SelectFieldCustom({label, setValue, viewValue, id, required, dis
             <FormControl fullWidth size="small">
                 <Select
                     variant="standard"
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId={"select-label-" + id}
+                    id={id}
                     value={viewValue}
                     defaultValue={viewValue}
                     disabled={disabled}
