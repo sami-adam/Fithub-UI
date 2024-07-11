@@ -43,7 +43,7 @@ export function SaveButton({ onClick, lable, hide }) {
         <>
         <Button variant="outlined" color="primary" style={{color:primaryMainColor, fontWeight:'bold',border:'0px',display:hide?'none':'',width:"164px",border:"2px solid aliceblue;",borderRadius:"16px"}} onClick={handleOnclick}>{lable}</Button>
         <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" variant="filled" sx={{ width: '100%' }}>
+            <Alert onClose={handleClose} severity="success" variant="filled" sx={{ width: '100%', backgroundColor:primaryMainColor,fontWeight:"bold" }}>
                 Saved Successfully!
             </Alert>
         </Snackbar>
@@ -69,7 +69,7 @@ export function NavButton({ url, icon}){
     return (
         <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate(url)}>
             <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
-            '#f9f7f7', fontWeight: 'bold'}} id="nav-button-id">
+            '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
                 <IconButton size="small" style={{color: 'white'}}>{icon}</IconButton>
             </div>
         </Button>

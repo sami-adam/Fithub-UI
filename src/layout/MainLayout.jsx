@@ -186,7 +186,7 @@ function MainLayout({children}) {
             </Toolbar>
         </Container>
         </AppBar>
-        <Container maxWidth="xxl" style={{paddingTop: "100px"}}>
+        <Container maxWidth="xxl" style={{paddingTop: "100px", position:"fixed"}}>
             {children}
         </Container>
     </>

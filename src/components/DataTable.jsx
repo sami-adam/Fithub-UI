@@ -1,6 +1,6 @@
 import { DataGrid } from '@mui/x-data-grid';
 import MainLayout from "../layout/MainLayout";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Colors } from '../values/colors';
 import { useTheme } from '@mui/material';
@@ -8,7 +8,7 @@ import { CreateButton } from './Buttons';
 
 
 
-export default function DataTable({ columns, rows, selected, setSelected, deleted, setDeleted, createUrl, detailsUrl }) {
+export default function DataTable({ columns, rows, selected, setSelected, deleted, setDeleted, createUrl, detailsUrl, viewButtons= []}) {
     const navigate = useNavigate();
     const theme = useTheme();
 
@@ -17,8 +17,15 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
         <>
         <MainLayout>
             <div style={{ height: 750, width: '100%'}}>
-                <CreateButton url={createUrl}/>
-                <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> window.confirm("Are You Sure?")?setDeleted(true):setDeleted(false)}>Delete</Button>
+                <div style={{display:"flex", justifyContent:"space-between"}}>
+                    <div>
+                        <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> window.confirm("Are You Sure?")?setDeleted(true):setDeleted(false)}>Delete</Button>
+                        <CreateButton url={createUrl}/>
+                    </div>
+                    <div>
+                        {viewButtons&&viewButtons.map((button)=> <IconButton color="primary" aria-label={button.viewName} component="span" onClick={()=> button.setViewType(button.viewName)}>{button.button}</IconButton>)}
+                    </div>
+                </div>
                 <DataGrid
                     rows={rows}
                     columns={columns}
