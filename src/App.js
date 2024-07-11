@@ -5,11 +5,11 @@ import Home from './pages/home/Home';
 import Email from './pages/admin/Email';
 import Member from './pages/member/Member';
 import MemberFormView from './pages/member/MemberFormView';
-import EmailDetails from './components/EmailDetails';
 import { blue, blueGrey, green, teal } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Subscription from './pages/subscription/Subscription';
 import SubscriptionFormView from './pages/subscription/SubscriptionFormView';
+import EmailFormView from './pages/admin/EmailFormView';
 
 const theme = createTheme({
   palette: {
@@ -35,7 +35,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/home" element={<Home />} />
         <Route path="/emails" element={<Email />} />
-        <Route path="/emailDetails/:id" element={<EmailDetails />} />
+        <Route path="/email-form-view" element={<EmailFormView />} />
         <Route path="/subscriptions" element={<Subscription/>} />
         <Route path='/subscription-form-view' element={<SubscriptionFormView />} />
         <Route path="/members" element={<Member />} />

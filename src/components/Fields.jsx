@@ -5,6 +5,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTheme } from '@emotion/react';
+import QuillEditor from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from 'react-quill';
+
 
 export default function TextFieldCustom({label, placeholder, setValue, viewValue, id, required, disabled}) {
     return (
@@ -17,7 +21,7 @@ export default function TextFieldCustom({label, placeholder, setValue, viewValue
                 //label="First Name"
                 placeholder={placeholder}
                 variant="standard" onChange={(e) => setValue(e.target.value)}
-                style={{ }} 
+                style={{width: "300px"}} 
                 value={viewValue}
             />
         </div>
@@ -93,6 +97,26 @@ export function NumberFieldCustom({label, placeholder, setValue, viewValue, id, 
                 variant="standard" onChange={(e) => setValue(e.target.value)}
                 style={{ }} 
                 value={viewValue}
+            />
+        </div>
+    )
+}
+
+export function HtmlFieldCustom({label, placeholder, setValue, viewValue, id, required, disabled}) {
+    return (
+        <div style={{width: "600px",display:"inline-flex", alignItems:"center", paddingTop:"20px"}}>
+            <FormLabel htmlFor='firstName' style={{width:"140px"}}>{label}</FormLabel>
+            <ReactQuill 
+                required={required}
+                //disabled={disabled}
+                id={id}
+                //label="First Name"
+                placeholder={placeholder}
+                theme="snow"
+                variant="standard" onChange={setValue}
+                value={viewValue} 
+                readOnly={disabled}
+            
             />
         </div>
     )

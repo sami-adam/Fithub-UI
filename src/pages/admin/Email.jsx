@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import * as React from 'react';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import EmailList from "../../components/EmailList";
 import MainLayout from "../../layout/MainLayout";
 import ReactHtmlParser from 'html-react-parser';
 import { Subject } from "@mui/icons-material";
@@ -62,7 +61,7 @@ function Email() {
         { field: 'scheduledDate', headerName: 'Schedule Date', width: 130},
         { field: 'emailFrom', headerName: 'Email From', width: 250 },
         { field: 'emailTo', headerName: 'Email To', width: 250 },
-        { field: 'body', headerName: 'Message', width: 250 , renderCell: (params) => { return ReactHtmlParser(params.value); }},
+        { field: 'emailBody', headerName: 'Message', width: 250 , renderCell: (params) => { return ReactHtmlParser(params.value); }},
         { field: 'status', headerName: 'Status', width: 130 }
     ];
     const rows = [];
@@ -71,21 +70,16 @@ function Email() {
         rows.push({
             id: email.id,
             subject: email.subject,
-            scheduledDate: email.scheduledDate.substring(0, 10),
+            scheduledDate: email.scheduledDate&&email.scheduledDate.substring(0, 10),
             emailFrom: email.emailFrom,
             emailTo: email.emailTo,
-            body: email.emailBody,
+            emailBody: email.emailBody,
             status: email.status
         });
     });
     return (
         <>
-            <DataTable columns={columns} rows={rows} selected={selected} setSelected={setSelected} deleted={deleted} setDeleted={setDeleted} createUrl={'/createEmail'} detailsUrl={'/emailDetails'}/>
-            {/* <MainLayout/>
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', paddingTop:'100px'}}>
-                {emails.map((email) => <EmailList email={email} />)}
-                <Divider variant="inset" component="li" />
-            </List> */}
+            <DataTable columns={columns} rows={rows} selected={selected} setSelected={setSelected} deleted={deleted} setDeleted={setDeleted} createUrl={'/email-form-view'} detailsUrl={'/email-form-view'}/>
         </>
     );
 }

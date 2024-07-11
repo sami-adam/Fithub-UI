@@ -4,10 +4,11 @@ import MainLayout from '../../layout/MainLayout';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import CardView, { CardFooter } from '../../components/CardView';
-import TextFieldCustom from '../../components/Fields';
+import TextFieldCustom, { DateFieldCustom } from '../../components/Fields';
 import BackButton, { CreateButton, EditButton, SaveButton } from '../../components/Buttons';
 import { useLocation } from 'react-router-dom';
 import useMemberStore from '../../state/memberState';
+import ReactHtmlParser from 'html-react-parser';
 
 
 export default function MemberFormView() {
@@ -111,6 +112,7 @@ export default function MemberFormView() {
                     <TextFieldCustom label="Email" placeholder="Enter Email" setValue={setEmail} id="email" required={true} viewValue={member&&!editMode?member.email:null} disabled={viewMode&&!editMode} />
                     <TextFieldCustom label="Phone" placeholder="Enter Phone" setValue={setPhone} id="phone" required={true} viewValue={member&&!editMode?member.phone:null} disabled={viewMode&&!editMode} />
                     <TextFieldCustom label="Address" placeholder="Enter Address" setValue={setAddress} id="address" required={true} viewValue={member&&!editMode?member.address:null} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom viewValue={member&&member.subscriptions&&member.subscriptions[0]?member.subscriptions[0].endDate: "No Subscription Found"} label="Subscription End" setValue={setAddress} id="subscription-end-date" disabled={true}/>
                     <br/>
                     
                 </FormControl>
