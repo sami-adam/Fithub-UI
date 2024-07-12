@@ -74,7 +74,8 @@ function Email() {
             emailFrom: email.emailFrom,
             emailTo: email.emailTo,
             emailBody: email.emailBody,
-            status: email.status
+            status: email.status,
+            attachments: email.attachments,
         });
     });
     return (

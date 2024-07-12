@@ -1,11 +1,41 @@
-import { Button, CardContent, FormControl, useTheme } from "@mui/material";
+import { Button, CardContent, FormControl, IconButton, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useEmailStore from "../../state/emailState";
 import MainLayout from "../../layout/MainLayout";
 import BackButton, { EditButton, SaveButton } from "../../components/Buttons";
 import CardView, { CardFooter } from "../../components/CardView";
-import TextFieldCustom, { HtmlFieldCustom } from "../../components/Fields";
+import TextFieldCustom, { AttachmentFieldCustom, HtmlFieldCustom } from "../../components/Fields";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import TerminalIcon from '@mui/icons-material/Terminal';
+import ArticleIcon from '@mui/icons-material/Article';
+import ImageIcon from '@mui/icons-material/Image';
+
+const fileTypeIcons = {
+    'application/pdf': <PictureAsPdfIcon/>,            // PDF
+    'text/plain': <TextSnippetIcon/>,                 // Text
+    'text/x-python-script': <TerminalIcon/>,
+    'application/msword': 'fa-file-word',        // Word
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'fa-file-word', // DOCX
+    'application/vnd.ms-excel': 'fa-file-excel', // Excel
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'fa-file-excel', // XLSX
+    'image/jpeg': <ImageIcon/>,                // JPEG
+    'image/png': <ImageIcon/>,                 // PNG
+    'audio/mpeg': 'fa-file-audio',                // MP3
+    'video/mp4': 'fa-file-video',                 // MP4
+    // Add more types and corresponding icons as needed
+  };
+
+  const FileIcon = ({ mimeType, color }) => {
+    console.log(mimeType)
+    const icon = fileTypeIcons[mimeType] || <ArticleIcon/>; // Default icon if type is not mapped
+  
+    return (
+      <IconButton style={{ fontSize: '24px', marginRight: '8px', color:color }}>{icon}</IconButton>
+    );
+  };
+  
 
 export default function EmailFormView(){
     const [create, setCreate] = useState(false);
@@ -17,7 +47,7 @@ export default function EmailFormView(){
     const [replyTo, setReplyTo] = useState('');
     const [scheduledDate, setScheduledDate] = useState('');
     const [emailBody, setEmailBody] = useState("<p><br></p>");
-    const [attachments, setAttachments] = useState('');
+    const [attachments, setAttachments] = useState(null);
     const [status, setStatus] = useState('');
     const [viewMode, setViewMode] = useState(false);
     const [editMode, setEditMode] = useState(false);
@@ -47,7 +77,19 @@ export default function EmailFormView(){
     useEffect(() => {
         console.log(emailBody)
         setViewMode(email ? true : false);
-        if(create){
+        console.log(attachments, typeof(attachments))
+        const sendMail = async()=>{
+            if(create){
+            const fileData = await readFileAsByteArray(attachments);
+            console.log(fileData)
+            const attachmentDTO = {
+                id: null, // Assuming id is auto-generated on the server
+                name: attachments.name,
+                attachmentType: 0, // Replace with the actual attachment type
+                type: attachments.type,
+                data: fileData,
+            };
+
             addEmail({
                 "subject": subject,
                 "emailFrom": emailFrom,
@@ -56,11 +98,12 @@ export default function EmailFormView(){
                 "replyTo": replyTo,
                 "scheduledDate": scheduledDate,
                 "emailBody": emailBody,
-                //"attachments": attachments,
+                "attachments": [attachmentDTO],
                 "status": 1,
             });
             setViewMode(true);
-        }
+        }}
+        sendMail();
         if(save){
             updateEmail({
                 "id": email.id,
@@ -108,6 +151,26 @@ export default function EmailFormView(){
         }
     }, [create, save, editMode, subject, emailFrom, emailTo, emailCc, replyTo, scheduledDate, emailBody, attachments, status]);
 
+    const readFileAsByteArray = (file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const arrayBuffer = reader.result;
+            const byteArray = new Uint8Array(arrayBuffer);
+            resolve(Array.from(byteArray));
+          };
+          reader.onerror = reject;
+          reader.readAsArrayBuffer(file);
+        });
+      };
+
+      const handleDownload = (data, name, type) => {
+        const link = document.createElement('a');
+        link.href = `data:${type};base64,${data}`;
+        link.download = name;
+        link.click();
+      };
+    
     return (
         <>
         <MainLayout>
@@ -122,7 +185,15 @@ export default function EmailFormView(){
                 <TextFieldCustom label="Reply To" placeholder="Enter Reply To" setValue={setReplyTo} viewValue={email&&!editMode?email.replyTo:null} id="replyTo" required={true} disabled={viewMode&&!editMode} />
                 <TextFieldCustom label="Scheduled Date" placeholder="Enter Scheduled Date" setValue={setScheduledDate} viewValue={email&&!editMode?email.scheduledDate:null} id="scheduledDate" required={true} disabled={viewMode&&!editMode} />
                 <HtmlFieldCustom label="Email Body" placeholder="Enter Email Body" setValue={setEmailBody} viewValue={email&&!editMode?email.emailBody:emailBody} id="emailBody" required={true} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Attachments" placeholder="Enter Attachments" setValue={setAttachments} viewValue={email&&!editMode?email.attachments:null} id="attachments" required={true} disabled={viewMode&&!editMode} />
+                <AttachmentFieldCustom label="Attachments" placeholder="Enter Attachments" setValue={setAttachments} viewValue={email&&!editMode?email.attachments&&"":null} id="attachments" required={true} disabled={viewMode} />
+                <ul>
+                    {email&&email.attachments&&email.attachments.map((attachment, index) => (
+                    <a href="" onClick={() => handleDownload(attachment.data, attachment.name, attachment.type)} key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <FileIcon mimeType={attachment.type} color={primaryMainColor}/>
+                        <span style={{ flex: 1 }}>{attachment.name}</span>
+                    </a>
+                    ))}
+                </ul>
                     <br/>
                 </FormControl>
             </CardContent>
