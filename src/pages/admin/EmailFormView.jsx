@@ -21,6 +21,7 @@ const fileTypeIcons = {
     'application/vnd.ms-excel': 'fa-file-excel', // Excel
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'fa-file-excel', // XLSX
     'image/jpeg': <ImageIcon/>,                // JPEG
+    'image/jpg': <ImageIcon/>,                 // JPG
     'image/png': <ImageIcon/>,                 // PNG
     'audio/mpeg': 'fa-file-audio',                // MP3
     'video/mp4': 'fa-file-video',                 // MP4
