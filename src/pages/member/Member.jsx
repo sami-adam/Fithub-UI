@@ -12,7 +12,7 @@ export default function Member() {
     const { members, fetchMembers} = useMemberStore();
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
-    const [viewType, setViewType] = useState("list");
+    const [viewType, setViewType] = useState("cards");
 
     useEffect(()=>{
         fetchMembers();

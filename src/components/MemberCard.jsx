@@ -9,6 +9,7 @@ export default function MemberCard({ member }) {
   const [memberId, setMemberId] = useState(0);
   const theme = useTheme();
   const primaryMainColor = theme.palette.primary.main;
+  const primaryLightColor = theme.palette.primary.light;
   const navigate = useNavigate();
   const deleteMember = useMemberStore((state) => state.deleteMember);
   useEffect(() => {
@@ -20,7 +21,7 @@ export default function MemberCard({ member }) {
   }, [deleteMember, memberId]);
   return (
     <div className="card" style={{paddingTop:'30px', paddingLeft:'10px', paddingRight:'30px'}} onDoubleClick={()=> navigate("/member-form-view",{"state": member})}>
-      <div className="card-body" id="clickable" style={{boxShadow: '1px 1px 1px 1px #e3e3e3',textAlign:'center',borderRadius:'7px',padding:'2px',width:"200px"}}>
+      <div className="card-body" id="clickable" style={{backgroundColor:primaryLightColor,boxShadow: '1px 1px 1px 1px #e3e3e3',textAlign:'center',borderRadius:'7px',padding:'2px',width:"200px"}}>
         <div style={{display: 'inline-table'}}><Avatar style={{width:'80px',height:'80px',backgroundColor:primaryMainColor}}>{member.firstName[0] + member.lastName[0]}</Avatar></div>
         <h3 className="card-title" style={{fontSize:'medium', color:'#5f5f69'}}>{member.firstName} {member.lastName}</h3>
         <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{"000" + member.id}</p>

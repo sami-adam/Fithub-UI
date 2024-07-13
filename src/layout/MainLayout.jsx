@@ -18,6 +18,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import PeopleIcon from '@mui/icons-material/People';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { NavButton } from '../components/Buttons';
+import TableChartIcon from '@mui/icons-material/TableChart';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -150,6 +152,7 @@ function MainLayout({children}) {
                 <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} />
                 <NavButton url={'/members'} icon={<PeopleIcon />} />
                 <NavButton url={'/emails'} icon={<MailIcon />} />
+                <NavButton url={'/products'} icon={<TableChartIcon />} />
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>

@@ -3,7 +3,7 @@ import { Button, CardContent, CardHeader, FormControl, Typography } from '@mui/m
 import MainLayout from '../../layout/MainLayout';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
-import CardView, { CardFooter } from '../../components/CardView';
+import FormView, { CardFooter } from '../../components/FormView';
 import TextFieldCustom, { DateFieldCustom } from '../../components/Fields';
 import BackButton, { CreateButton, EditButton, SaveButton } from '../../components/Buttons';
 import { useLocation } from 'react-router-dom';
@@ -89,7 +89,7 @@ export default function MemberFormView() {
         <>
         <MainLayout>
         <BackButton />
-        <CardView borderColor={primaryMainColor}>
+        <FormView borderColor={primaryMainColor}>
         <CardHeader 
                 action={
                     <>
@@ -124,7 +124,7 @@ export default function MemberFormView() {
                 <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
                 <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
             </CardFooter>
-        </CardView>
+        </FormView>
         </MainLayout>
         </>
 

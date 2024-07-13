@@ -1,7 +1,7 @@
 import { Box, Card, CardActions } from "@mui/material";
 import { useTheme } from '@mui/material';
 
-export default function CardView({children, borderColor}) {
+export default function FormView({children, borderColor}) {
 
     const theme = useTheme();
     const primaryLightColor = theme.palette.primary.light;

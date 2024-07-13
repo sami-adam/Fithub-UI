@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useEmailStore from "../../state/emailState";
 import MainLayout from "../../layout/MainLayout";
 import BackButton, { EditButton, SaveButton } from "../../components/Buttons";
-import CardView, { CardFooter } from "../../components/CardView";
+import FormView, { CardFooter } from "../../components/FormView";
 import TextFieldCustom, { AttachmentFieldCustom, HtmlFieldCustom } from "../../components/Fields";
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
@@ -176,7 +176,7 @@ export default function EmailFormView(){
         <>
         <MainLayout>
         <BackButton />
-        <CardView borderColor={primaryMainColor}>
+        <FormView borderColor={primaryMainColor}>
             <CardContent>
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
                 <TextFieldCustom label="Subject" placeholder="Enter Subject" setValue={setSubject} viewValue={email&&!editMode?email.subject:null} id="subject" required={true} disabled={viewMode&&!editMode} />
@@ -204,7 +204,7 @@ export default function EmailFormView(){
                 {/* <EditButton onClick={handleEdit} hide={editMode||!viewMode}/> */}
                 <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
             </CardFooter>
-        </CardView>
+        </FormView>
         </MainLayout>
         </>
     )

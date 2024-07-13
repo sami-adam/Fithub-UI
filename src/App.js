@@ -10,6 +10,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Subscription from './pages/subscription/Subscription';
 import SubscriptionFormView from './pages/subscription/SubscriptionFormView';
 import EmailFormView from './pages/admin/EmailFormView';
+import Product from './pages/product/Product';
+import ProductFormView from './pages/product/ProductFormView';
 
 const theme = createTheme({
   palette: {
@@ -40,6 +42,8 @@ function App() {
         <Route path='/subscription-form-view' element={<SubscriptionFormView />} />
         <Route path="/members" element={<Member />} />
         <Route path='/member-form-view' element={<MemberFormView />} />
+        <Route path="/products" element={<Product />} />
+        <Route path="/product-form-view" element={<ProductFormView />} />
       </Routes>
     </BrowserRouter>
     </ThemeProvider>

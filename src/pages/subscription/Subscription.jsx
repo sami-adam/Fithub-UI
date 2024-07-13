@@ -48,14 +48,15 @@ export default function Subscription() {
     }, [token, deleted]);
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'productName', headerName: 'Subscription', width: 150 },
         { field: 'firstName', headerName: 'First name', width: 130 },
         { field: 'lastName', headerName: 'Last name', width: 130 },
         { field: 'email', headerName: 'Email', width: 130 },
         { field: 'phone', headerName: 'Phone', width: 130 },
         { field: 'startDate', headerName: 'Start Date', width: 130 },
         { field: 'endDate', headerName: 'End Date', width: 130 },
-        { field: 'unitPrice', headerName: 'Unit Price', width: 130 },
-        { field: 'qty', headerName: 'Quantity', width: 130 },
+        { field: 'unitPrice', headerName: 'Unit Price', width: 80 },
+        { field: 'qty', headerName: 'Quantity', width: 60 },
         { field: 'totalAmount', headerName: 'Total Amount', width: 130 },
         { field: 'discount', headerName: 'Discount', width: 130 },
         { field: 'netAmount', headerName: 'Net Amount', width: 130},
@@ -65,6 +66,8 @@ export default function Subscription() {
     subscriptions.forEach((subscription) => {
         rows.push({
             id: subscription.id,
+            product: subscription.product,
+            productName: subscription.product&&subscription.product.name,
             member: subscription.member,
             firstName: subscription.member.firstName,
             lastName: subscription.member.lastName,

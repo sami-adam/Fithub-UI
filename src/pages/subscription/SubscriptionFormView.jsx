@@ -1,12 +1,13 @@
 import { Button, CardContent, FormControl, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DateFieldCustom, NumberFieldCustom, SelectFieldCustom } from "../../components/Fields";
+import { DateFieldCustom, NumberFieldCustom, SearchableSelect, SelectFieldCustom } from "../../components/Fields";
 import MainLayout from "../../layout/MainLayout";
 import BackButton, { EditButton, SaveButton } from "../../components/Buttons";
-import CardView, { CardFooter } from "../../components/CardView";
+import FormView, { CardFooter } from "../../components/FormView";
 import useSubscriptionStore from "../../state/subscriptionState";
 import useMemberStore from "../../state/memberState";
+import useProductStore from "../../state/productState";
 import dayjs from "dayjs";
 
 export default function SubscriptionFormView() {
@@ -16,6 +17,7 @@ export default function SubscriptionFormView() {
     const [viewMode, setViewMode] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [member, setMember] = useState(null);
+    const [product, setProduct] = useState(null);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [subscriptionUnitPrice, setSubscriptionUnitPrice] = useState(0);
@@ -30,6 +32,7 @@ export default function SubscriptionFormView() {
     const addSubscription = useSubscriptionStore((state)=> state.addSubscription);
     const updateSubscription = useSubscriptionStore((state)=> state.updateSubscription);
     const [members, fetchMembers] = useMemberStore((state)=> [state.members, state.fetchMembers]);
+    const [products, fetchProducts] = useProductStore((state)=> [state.products, state.fetchProducts]);
 
     const handleCreate = () => {
         setCreate(true);
@@ -46,13 +49,15 @@ export default function SubscriptionFormView() {
         setViewMode(subscription? true: false);
         try{
             fetchMembers();
+            fetchProducts();
         } catch (error) {
             console.error("Error:", error);
         }
         
         if(create){
             addSubscription({
-                "member": {"id": member},
+                "member": {"id": member.id},
+                "product": {"id": product.id},
                 "startDate": startDate,
                 "endDate": endDate,
                 "subscriptionUnitPrice": subscriptionUnitPrice,
@@ -64,7 +69,8 @@ export default function SubscriptionFormView() {
         if(save){
             updateSubscription({
                 "id": subscription.id,
-                "member": {"id": member},
+                "member": {"id": member&&member.id},
+                "product": {"id": product&&product.id},
                 "startDate": startDate,
                 "endDate": endDate,
                 "subscriptionUnitPrice": subscriptionUnitPrice,
@@ -75,6 +81,9 @@ export default function SubscriptionFormView() {
             setSave(false);
             if(member){
                 subscription.member = member;
+            }
+            if(product){
+                subscription.product = product;
             }
             if(startDate){
                 subscription.startDate = startDate;
@@ -90,16 +99,17 @@ export default function SubscriptionFormView() {
             }
         }
     }
-    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription]);
+    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription, fetchProducts, product, addSubscription, updateSubscription]);
 
     return (
         <>
         <MainLayout>
         <BackButton />
-        <CardView borderColor={primaryMainColor}>
+        <FormView borderColor={primaryMainColor}>
             <CardContent>
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                    <SelectFieldCustom label="Member" setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member.id:null) || (member || null) || (subscription&&editMode?subscription.member.id:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
+                    <SearchableSelect label="Member" setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member:null) || (member || null) || (subscription&&editMode?subscription.member:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
+                    <SearchableSelect label="Product" setValue={setProduct} viewValue={(subscription&&!editMode?subscription.product&&subscription.product:null) || (product || null) || (subscription&&editMode?subscription.product&&subscription.product:null)} id="product" required={true} disabled={viewMode&&!editMode} items={products} itemFields={["name","category.name"]}/>
                     <DateFieldCustom label="Start Date" setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
                     <DateFieldCustom label="End Date" setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
                     <NumberFieldCustom label="Price" placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/>
@@ -114,7 +124,7 @@ export default function SubscriptionFormView() {
                 <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
                 <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
             </CardFooter>
-        </CardView>
+        </FormView>
         </MainLayout>
         </>
     )
