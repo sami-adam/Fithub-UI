@@ -25,7 +25,7 @@ export default function ProductCard({ product }){
                 <div style={{display: 'inline-table'}}><Avatar style={{width:'80px',height:'80px',backgroundColor:primaryMainColor}} src={product.image}/></div>
                 <h3 className="card-title" style={{fontSize:'medium', color:'#5f5f69'}}>{product.name}</h3>
                 <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{"000" + product.id}</p>
-                <p className="card-text" style={{fontSize:'small',color:'#072287'}}>{product.price} SR</p>
+                <p className="card-text" style={{fontSize:'small',color: primaryMainColor, fontWeight:"bold"}}>{product.price} SR</p>
                 <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{product.category&&product.category.name}</p>
                 <Button onClick={()=> window.confirm("Are you sure?") ? setProductId(product.id): setProductId(0)}> <DeleteOutlinedIcon style={{color: "darkgoldenrod"}}/> </Button>
             </div>
