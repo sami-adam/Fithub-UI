@@ -55,6 +55,20 @@ const useSubscriptionStore = create((set) => ({
         } catch (error) {
             console.error("Error deleting subscription", error);
         }
+    },
+    changeStatus: async (id) => {
+        try {
+            const response = await axios.put(`http://localhost:8080/api/v1/subscription/status/${id}`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + useSubscriptionStore.getState().token,
+                },
+            });
+            set((state) => ({
+                subscriptions: state.subscriptions.map((s) => (s.id === id ? response.data : s)),
+            }));
+        } catch (error) {
+            console.error("Error changing status", error);
+        }
     }
 }))
 

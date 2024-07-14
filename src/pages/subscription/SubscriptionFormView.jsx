@@ -1,4 +1,4 @@
-import { Button, CardContent, FormControl, useTheme } from "@mui/material";
+import { Button, CardContent, CardHeader, FormControl, useTheme, Typography, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DateFieldCustom, NumberFieldCustom, SearchableSelect, SelectFieldCustom } from "../../components/Fields";
@@ -9,6 +9,7 @@ import useSubscriptionStore from "../../state/subscriptionState";
 import useMemberStore from "../../state/memberState";
 import useProductStore from "../../state/productState";
 import dayjs from "dayjs";
+import PaidIcon from '@mui/icons-material/Paid';
 
 export default function SubscriptionFormView() {
 
@@ -22,15 +23,19 @@ export default function SubscriptionFormView() {
     const [endDate, setEndDate] = useState("");
     const [subscriptionUnitPrice, setSubscriptionUnitPrice] = useState(0);
     const [subscriptionQty, setSubscriptionQty] = useState(0);
+    const [changeStatus, setChangeStatus] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const theme = useTheme();
     const primaryMainColor = theme.palette.primary.main;
+    const primaryDarkColor = theme.palette.primary.dark;
+    const primaryLightColor = theme.palette.primary.light;
 
     const subscription = location.state;
 
     const addSubscription = useSubscriptionStore((state)=> state.addSubscription);
     const updateSubscription = useSubscriptionStore((state)=> state.updateSubscription);
+    const changeStatusSubscription = useSubscriptionStore((state)=> state.changeStatus);
     const [members, fetchMembers] = useMemberStore((state)=> [state.members, state.fetchMembers]);
     const [products, fetchProducts] = useProductStore((state)=> [state.products, state.fetchProducts]);
 
@@ -98,14 +103,34 @@ export default function SubscriptionFormView() {
                 subscription.qty = subscriptionQty;
             }
         }
+        if(changeStatus){
+            changeStatusSubscription(subscription.id);
+            setChangeStatus(false);
+        }
     }
-    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription, fetchProducts, product, addSubscription, updateSubscription]);
+    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription, fetchProducts, product, addSubscription, updateSubscription, changeStatus]);
 
     return (
         <>
         <MainLayout>
         <BackButton />
         <FormView borderColor={primaryMainColor}>
+            <CardHeader 
+                action={
+                    <>
+                    
+                    {subscription&&subscription.status == "NEW" && 
+                    <IconButton size="small" color="primary" variant="outlined" onClick={()=> setChangeStatus(true)}>
+                        Paid <PaidIcon/>
+                    </IconButton>}
+                    </>
+                    } 
+                title={
+                    <Typography variant="h8" component="div" style={{fontWeight:"bold"}}>
+                        {subscription&&subscription.status}
+                    </Typography>
+                }
+                    style={{borderBottom:"1px solid #c2ccd4", backgroundColor:primaryLightColor,opacity:0.8}}/>
             <CardContent>
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
                     <SearchableSelect label="Member" setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member:null) || (member || null) || (subscription&&editMode?subscription.member:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>

@@ -19,6 +19,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { NavButton } from '../components/Buttons';
 import TableChartIcon from '@mui/icons-material/TableChart';
+import CategoryIcon from '@mui/icons-material/Category';
+import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 
 const style = {
     position: 'absolute',
@@ -46,6 +48,7 @@ function MainLayout({children}) {
   const theme = useTheme();
 
   const primaryMainColor = theme.palette.primary.main;
+  const primaryLightColor = theme.palette.primary.light;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -79,7 +82,7 @@ function MainLayout({children}) {
 
   return (
     <>
-        <AppBar position="static" style={{boxShadow: "0px 0px 0px 0px white", position: 'fixed', top: 0, zIndex:999,backgroundColor: primaryMainColor}}>
+        <AppBar position="static" style={{position: 'fixed', top: 0, zIndex:999,backgroundColor: primaryMainColor}}>
         <Container maxWidth="xl">
             <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -158,15 +161,17 @@ function MainLayout({children}) {
                 LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} />
-                <NavButton url={'/members'} icon={<PeopleIcon />} />
-                <NavButton url={'/emails'} icon={<MailIcon />} />
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleClick}>
-                    <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
-                    '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
-                        <IconButton size="small" style={{color: 'white'}}><TableChartIcon/></IconButton>
-                    </div>
-                </Button>
+                <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} toolTipe="Subscriptions"/>
+                <NavButton url={'/members'} icon={<PeopleIcon />} toolTipe="Members"/>
+                <NavButton url={'/emails'} icon={<MailIcon />} toolTipe="Emails"/>
+                <Tooltip title="Products" TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1],}}}>
+                    <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleClick}>
+                        <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
+                        '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
+                            <IconButton size="small" style={{color: 'white'}}><TableChartIcon/></IconButton>
+                        </div>
+                    </Button>
+                </Tooltip>
                 <Menu
                     id="basic-menu"
                     anchorEl={anchorEl}
@@ -176,8 +181,8 @@ function MainLayout({children}) {
                     'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <MenuItem onClick={()=> navigate("/products")}>Products</MenuItem>
-                    <MenuItem onClick={()=> navigate("/product-categories")}>Product Categories</MenuItem>
+                    <MenuItem onClick={()=> navigate("/products")} style={{fontSize:"14px", color:primaryMainColor}}><IndeterminateCheckBoxIcon/> Products</MenuItem>
+                    <MenuItem onClick={()=> navigate("/product-categories")} style={{fontSize:"14px", color:primaryMainColor}}><CategoryIcon/> Categories</MenuItem>
                 </Menu>
                 
             </Box>

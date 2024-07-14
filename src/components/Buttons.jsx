@@ -1,9 +1,10 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Alert, Button, IconButton, Snackbar } from '@mui/material';
+import { Alert, Button, IconButton, Snackbar, styled, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from "@mui/material";
 import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import { tooltipClasses } from '@mui/material/Tooltip';
 
 export default function BackButton() {
     return (
@@ -61,17 +62,19 @@ export function EditButton({ onClick, hide }) {
     )
 }
 
-export function NavButton({ url, icon}){
+export function NavButton({ url, icon, toolTipe}){
     const navigate = useNavigate();
     const theme = useTheme();
     const primaryMainColor = theme.palette.primary.main;
     const primaryLightColor = theme.palette.primary.light;
     return (
+        <Tooltip title={toolTipe} TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1]}}}>
         <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate(url)}>
             <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
             '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
                 <IconButton size="small" style={{color: 'white'}}>{icon}</IconButton>
             </div>
         </Button>
+        </Tooltip>
     )
 }
