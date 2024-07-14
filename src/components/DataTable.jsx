@@ -1,4 +1,4 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import MainLayout from "../layout/MainLayout";
 import { Button, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
     const theme = useTheme();
 
     const primaryMainColor = theme.palette.primary.main;
+    const primaryLightColor = theme.palette.primary.light;
     return (
         <>
         <MainLayout>
@@ -29,6 +30,12 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
                 <DataGrid
                     rows={rows}
                     columns={columns}
+                    sx={{
+                        [`& .${gridClasses.columnHeader}`]: {
+                          color: primaryMainColor,
+                          fontSize: '1.1em',
+                        },
+                      }}
                     initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 80 },

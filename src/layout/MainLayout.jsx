@@ -188,7 +188,7 @@ function MainLayout({children}) {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
+                <Tooltip title="Open settings" TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1]}}}>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     {user && <Avatar alt={user.name} style={{backgroundColor:theme.palette.primary.light,color:"gray"}}>{user.name && user.name[0]}</Avatar>} <span style={{color:"white",fontSize:"18px",paddingLeft:"10px"}}>{user && user.name}</span>
                 </IconButton>
