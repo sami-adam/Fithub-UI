@@ -12,6 +12,8 @@ import SubscriptionFormView from './pages/subscription/SubscriptionFormView';
 import EmailFormView from './pages/admin/EmailFormView';
 import Product from './pages/product/Product';
 import ProductFormView from './pages/product/ProductFormView';
+import ProductCategory from './pages/product/ProductCategory';
+import ProductCategoryFormView from './pages/product/ProductCategoryFormView';
 
 const theme = createTheme({
   palette: {
@@ -44,6 +46,8 @@ function App() {
         <Route path='/member-form-view' element={<MemberFormView />} />
         <Route path="/products" element={<Product />} />
         <Route path="/product-form-view" element={<ProductFormView />} />
+        <Route path="/product-categories" element={<ProductCategory />} />
+        <Route path="/product-category-form-view" element={<ProductCategoryFormView />} />
       </Routes>
     </BrowserRouter>
     </ThemeProvider>

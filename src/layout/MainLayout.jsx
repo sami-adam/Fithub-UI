@@ -46,6 +46,15 @@ function MainLayout({children}) {
   const theme = useTheme();
 
   const primaryMainColor = theme.palette.primary.main;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
   const handleOpenNavMenu = (event) => {
@@ -152,7 +161,25 @@ function MainLayout({children}) {
                 <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} />
                 <NavButton url={'/members'} icon={<PeopleIcon />} />
                 <NavButton url={'/emails'} icon={<MailIcon />} />
-                <NavButton url={'/products'} icon={<TableChartIcon />} />
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleClick}>
+                    <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
+                    '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
+                        <IconButton size="small" style={{color: 'white'}}><TableChartIcon/></IconButton>
+                    </div>
+                </Button>
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    <MenuItem onClick={()=> navigate("/products")}>Products</MenuItem>
+                    <MenuItem onClick={()=> navigate("/product-categories")}>Product Categories</MenuItem>
+                </Menu>
+                
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>

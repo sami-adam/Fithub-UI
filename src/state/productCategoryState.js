@@ -43,7 +43,21 @@ const useProductCategoryStore = create((set) => ({
         } catch (error) {
             console.error("Error updating product category", error);
         }
-    }
+    },
+    deleteProductCategory: async (productCategoryId) => {
+        try {
+            await axios.delete(useProductCategoryStore.getState().baseURL + `/product-category/${productCategoryId}`, {
+                headers: {
+                    "Authorization": "Bearer " + useProductCategoryStore.getState().token,
+                },
+            });
+            set((state) => ({
+                productCategories: state.productCategories.filter((p) => p.id !== productCategoryId),
+            }));
+        } catch (error) {
+            console.error("Error deleting product category", error);
+        }
+    },
 }))
 
 export default useProductCategoryStore;
