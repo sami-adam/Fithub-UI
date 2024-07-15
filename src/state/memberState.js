@@ -20,7 +20,7 @@ const useMemberStore = create((set) => ({
     },
     addMember: async (member) => {
         try {
-            const response = await axios.post("http://localhost:8080/api/v1/member", member, {
+            const response = await axios.post(`${useMemberStore.getState().baseURL}/member`, member, {
                 headers: {
                     "Authorization": "Bearer " + useMemberStore.getState().token,
                 },
@@ -32,7 +32,7 @@ const useMemberStore = create((set) => ({
     },
     updateMember: async (member) => {
         try {
-            const response = await axios.put(`http://localhost:8080/api/v1/member/${member.id}`, member, {
+            const response = await axios.put(`${useMemberStore.getState().baseURL}/member/${member.id}`, member, {
                 headers: {
                     "Authorization": "Bearer " + useMemberStore.getState().token,
                 },
@@ -46,7 +46,7 @@ const useMemberStore = create((set) => ({
     },
     deleteMember: async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/api/v1/member/${id}`, {
+            await axios.delete(`${useMemberStore.getState().baseURL}/member/${id}`, {
                 headers: {
                     "Authorization": "Bearer " + useMemberStore.getState().token,
                 },
@@ -58,7 +58,7 @@ const useMemberStore = create((set) => ({
     },
     searchMembers: async (search) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/members/search/${search}`, {
+            const response = await axios.get(`${useMemberStore.getState().baseURL}/members/search/${search}`, {
                 headers: {
                     "Authorization": "Bearer " + useMemberStore.getState().token,
                 },

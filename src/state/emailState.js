@@ -20,7 +20,7 @@ const useEmailStore = create((set) => ({
     },
     addEmail: async (email) => {
         try {
-            const response = await axios.post("http://localhost:8080/api/v1/email2", email, {
+            const response = await axios.post(`${useEmailStore.getState().baseURL}/email2`, email, {
                 headers: {
                     "Authorization": "Bearer " + useEmailStore.getState().token,
                 },
@@ -32,7 +32,7 @@ const useEmailStore = create((set) => ({
     },
     updateEmail: async (email) => {
         try {
-            const response = await axios.put(`http://localhost:8080/api/v1/email/${email.id}`, email, {
+            const response = await axios.put(`${useEmailStore.getState().baseURL}/email/${email.id}`, email, {
                 headers: {
                     "Authorization": "Bearer " + useEmailStore.getState().token,
                 },
@@ -46,7 +46,7 @@ const useEmailStore = create((set) => ({
     },
     deleteEmail: async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/api/v1/email/${id}`, {
+            await axios.delete(`${useEmailStore.getState().baseURL}/email/${id}`, {
                 headers: {
                     "Authorization": "Bearer " + useEmailStore.getState().token,
                 },

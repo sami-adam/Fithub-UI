@@ -20,7 +20,7 @@ const useSubscriptionStore = create((set) => ({
     },
     addSubscription: async (subscription) => {
         try {
-            const response = await axios.post("http://localhost:8080/api/v1/subscription", subscription, {
+            const response = await axios.post(`${useSubscriptionStore.getState().baseURL}/subscription`, subscription, {
                 headers: {
                     "Authorization": "Bearer " + useSubscriptionStore.getState().token,
                 },
@@ -32,7 +32,7 @@ const useSubscriptionStore = create((set) => ({
     },
     updateSubscription: async (subscription) => {
         try {
-            const response = await axios.put(`http://localhost:8080/api/v1/subscription/${subscription.id}`, subscription, {
+            const response = await axios.put(`${useSubscriptionStore.getState().baseURL}/subscription/${subscription.id}`, subscription, {
                 headers: {
                     "Authorization": "Bearer " + useSubscriptionStore.getState().token,
                 },
@@ -46,7 +46,7 @@ const useSubscriptionStore = create((set) => ({
     },
     deleteSubscription: async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/api/v1/subscription/${id}`, {
+            await axios.delete(`${useSubscriptionStore.getState().baseURL}/subscription/${id}`, {
                 headers: {
                     "Authorization": "Bearer " + useSubscriptionStore.getState().token,
                 },
@@ -58,7 +58,7 @@ const useSubscriptionStore = create((set) => ({
     },
     changeStatus: async (id) => {
         try {
-            const response = await axios.put(`http://localhost:8080/api/v1/subscription/status/${id}`, {}, {
+            const response = await axios.put(`${useSubscriptionStore.getState().baseURL}/subscription/status/${id}`, {}, {
                 headers: {
                     "Authorization": "Bearer " + useSubscriptionStore.getState().token,
                 },
@@ -72,7 +72,7 @@ const useSubscriptionStore = create((set) => ({
     },
     searchSubscriptions: async (search) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/subscriptions/search/${search}`, {
+            const response = await axios.get(`${useSubscriptionStore.getState().baseURL}/subscriptions/search/${search}`, {
                 headers: {
                     "Authorization": "Bearer " + useSubscriptionStore.getState().token,
                 },

@@ -14,12 +14,12 @@ function Email() {
     const [token, setToken] = React.useState(localStorage.getItem('token'));
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
+    const baseUrl = process.env.REACT_APP_BASE_URL;
     useEffect(() => {
         async function fetchData() {
             try{
-                // SignIn Endpoint: http://localhost:8080/api/v1/emails
                 const token = localStorage.getItem('token');
-                const emails = await fetch('http://localhost:8080/api/v1/emails', {
+                const emails = await fetch(`${baseUrl}/emails`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ function Email() {
         async function deleteEmails() {
             if (deleted) {
                 selected.forEach(async (id) => {
-                    const response = await fetch(`http://localhost:8080/api/v1/email/${id}`, {
+                    const response = await fetch(`${baseUrl}/email/${id}`, {
                         method: 'DELETE',
                         headers: {
                             'Authorization': 'Bearer ' + token,

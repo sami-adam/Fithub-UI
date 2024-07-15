@@ -34,6 +34,7 @@ export default function SignIn() {
   const [email, setEmail] = React.useState("admin@fithub.com");
   const [password, setPassword] = React.useState("qLUftio3");
   const [signIn, setSignIn] = React.useState(false);
+  const baseURL = process.env.REACT_APP_BASE_URL;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,9 +44,8 @@ export default function SignIn() {
 
   React.useEffect(()=> { 
     async function fetchData() {
-    // SignIn Endpoint: http://localhost:8080/api/v1/auth/signIn
     if (signIn){
-      const token = await fetch('http://localhost:8080/api/v1/auth/signIn', {
+      const token = await fetch(`${baseURL}/auth/signIn`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export default function SignIn() {
         return data;
       });
       localStorage.setItem('token', token.token);
-      const user = await fetch(`http://localhost:8080/api/v1/auth/user`, {
+      const user = await fetch(`${baseURL}/auth/user`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
