@@ -15,6 +15,7 @@ export default function MemberFormView() {
     //const [gender, setGender] = React.useState('male');
     const [create, setCreate] = useState(false);
     const [save, setSave] = useState(false);
+    const [identificationNumber, setIdentificationNumber] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -36,7 +37,6 @@ export default function MemberFormView() {
     const updateMember = useMemberStore((state)=> state.updateMember);
 
     const handleCreate = () => {
-        console.log(firstName, lastName, email, phone, address)
         setCreate(true);
     }
     const handleEdit = () => {
@@ -51,6 +51,7 @@ export default function MemberFormView() {
         setViewMode(member? true: false);
         if(create){
             addMember({
+                "identificationNumber": identificationNumber,
                 "firstName": firstName,
                 "lastName": lastName,
                 "email": email,
@@ -60,8 +61,10 @@ export default function MemberFormView() {
             setViewMode(true);
         }
         if(save){
+            console.log(identificationNumber)
             updateMember({
                 "id": member.id,
+                "identificationNumber": identificationNumber,
                 "firstName": firstName,
                 "lastName": lastName,
                 "email": email,
@@ -71,6 +74,9 @@ export default function MemberFormView() {
             setEditMode(false);
             setViewMode(true);
             setSave(false);
+            if (identificationNumber){
+                member.identificationNumber = identificationNumber;
+            }
             if (firstName){
                 member.firstName = firstName;
             }
@@ -84,7 +90,7 @@ export default function MemberFormView() {
                 member.phone = phone;
             }
         }
-    }, [member, addMember, updateMember, create, save, editMode, firstName, lastName, email, phone, address]);
+    }, [member, addMember, updateMember, create, save, editMode, identificationNumber, firstName, lastName, email, phone, address]);
     return (
         <>
         <MainLayout>
@@ -109,6 +115,7 @@ export default function MemberFormView() {
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
                     <TextFieldCustom label="First Name" placeholder="Enter First Name" setValue={setFirstName} viewValue={member&&!editMode?member.firstName:null} id="firstName" required={true} disabled={viewMode&&!editMode} />
                     <TextFieldCustom label="Last Name" placeholder="Enter Last Name" setValue={setLastName} id="lastName" viewValue={member&&!editMode?member.lastName:null} required={true} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label="Identification Number" placeholder="Enter Identification Number" setValue={setIdentificationNumber} id="identificationNumber" required={true} viewValue={member&&!editMode?member.identificationNumber:null} disabled={viewMode&&!editMode} />
                     <TextFieldCustom label="Email" placeholder="Enter Email" setValue={setEmail} id="email" required={true} viewValue={member&&!editMode?member.email:null} disabled={viewMode&&!editMode} />
                     <TextFieldCustom label="Phone" placeholder="Enter Phone" setValue={setPhone} id="phone" required={true} viewValue={member&&!editMode?member.phone:null} disabled={viewMode&&!editMode} />
                     <TextFieldCustom label="Address" placeholder="Enter Address" setValue={setAddress} id="address" required={true} viewValue={member&&!editMode?member.address:null} disabled={viewMode&&!editMode} />

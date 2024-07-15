@@ -3,13 +3,38 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DateFieldCustom, NumberFieldCustom, SearchableSelect, SelectFieldCustom } from "../../components/Fields";
 import MainLayout from "../../layout/MainLayout";
-import BackButton, { EditButton, SaveButton } from "../../components/Buttons";
+import BackButton, { ActionButton, EditButton, SaveButton } from "../../components/Buttons";
 import FormView, { CardFooter } from "../../components/FormView";
 import useSubscriptionStore from "../../state/subscriptionState";
 import useMemberStore from "../../state/memberState";
 import useProductStore from "../../state/productState";
 import dayjs from "dayjs";
 import PaidIcon from '@mui/icons-material/Paid';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
+const statusColors = {
+    "NEW": "gray",
+    "PAID": "teal",
+    "ACTIVE": "rgb(0, 130, 153)",
+    "EXPIRED": "#991515",
+    null: "gray"
+}
+
+const statuses = {
+    "NEW": 0,
+    "PAID": 1,
+    "ACTIVE": 2,
+    "EXPIRED": 3,
+    "CANCELLED": 4
+}
+
+const reverseStatuses = {
+    0: "NEW",
+    1: "PAID",
+    2: "ACTIVE",
+    3: "EXPIRED",
+    4: "CANCELLED"
+}
 
 export default function SubscriptionFormView() {
 
@@ -23,6 +48,7 @@ export default function SubscriptionFormView() {
     const [endDate, setEndDate] = useState("");
     const [subscriptionUnitPrice, setSubscriptionUnitPrice] = useState(0);
     const [subscriptionQty, setSubscriptionQty] = useState(0);
+    const [status, setStatus] = useState("");
     const [changeStatus, setChangeStatus] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
@@ -104,11 +130,17 @@ export default function SubscriptionFormView() {
             }
         }
         if(changeStatus){
-            changeStatusSubscription(subscription.id);
+            const statusInt = statuses[subscription.status] + 1;
+            updateSubscription({
+                "id": subscription.id,
+                "status": statusInt
+            });
             setChangeStatus(false);
+            setStatus(reverseStatuses[statusInt]);
+            
         }
     }
-    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription, fetchProducts, product, addSubscription, updateSubscription, changeStatus]);
+    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription, fetchProducts, product, addSubscription, updateSubscription, changeStatus, status]);
 
     return (
         <>
@@ -118,19 +150,16 @@ export default function SubscriptionFormView() {
             <CardHeader 
                 action={
                     <>
-                    
-                    {subscription&&subscription.status == "NEW" && 
-                    <IconButton size="small" color="primary" variant="outlined" onClick={()=> setChangeStatus(true)}>
-                        Paid <PaidIcon/>
-                    </IconButton>}
+                    <ActionButton text="PAID" icon={<PaidIcon/>} onClick={setChangeStatus} toolTip="Change status to PAID" hide={subscription&&subscription.status == "NEW"? false: true}/>
+                    <ActionButton text="ACTIVE" icon={<CheckCircleOutlineIcon/>} onClick={setChangeStatus} toolTip="Change status to ACTIVE" hide={subscription&&subscription.status == "PAID"? false: true} color="teal"/>
                     </>
                     } 
                 title={
-                    <Typography variant="h8" component="div" style={{fontWeight:"bold"}}>
+                    <Typography variant="h8" component="div" style={{fontWeight:"bold", color:statusColors[subscription&&subscription.status]}}>
                         {subscription&&subscription.status}
                     </Typography>
                 }
-                    style={{borderBottom:"1px solid #c2ccd4", backgroundColor:primaryLightColor,opacity:0.8}}/>
+                    style={{borderBottom:"0.1px solid rgb(241 241 241)"}}/>
             <CardContent>
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
                     <SearchableSelect label="Member" setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member:null) || (member || null) || (subscription&&editMode?subscription.member:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>

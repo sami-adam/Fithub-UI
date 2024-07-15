@@ -55,6 +55,18 @@ const useMemberStore = create((set) => ({
         } catch (error) {
             console.error("Error deleting member", error);
         }
+    },
+    searchMembers: async (search) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/v1/members/search/${search}`, {
+                headers: {
+                    "Authorization": "Bearer " + useMemberStore.getState().token,
+                },
+            });
+            set({ members: response.data });
+        } catch (error) {
+            console.error("Error searching members", error);
+        }
     }
 }))
 

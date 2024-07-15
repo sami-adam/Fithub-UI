@@ -18,7 +18,7 @@ import ProductCategoryFormView from './pages/product/ProductCategoryFormView';
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#006989",//"#405D72",
+      main: "#008299",//"#405D72",
       light: "rgb(250 251 255)",
       dark: blue[800],
     },

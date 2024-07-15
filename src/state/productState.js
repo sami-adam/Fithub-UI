@@ -15,7 +15,13 @@ const useProductStore = create((set) => ({
             });
             set({ products: response.data });
         } catch (error) {
-            console.error("Error fetching products", error);
+            // Navigate to the sign in page if the token is invalid
+            if (error.response.status === 403) {
+                localStorage.removeItem("token");
+                window.location.href = useProductStore.getState().signInUrl;
+            } else {
+                console.error("Error fetching products", error);
+            }
         }
     },
     addProduct: async (product) => {

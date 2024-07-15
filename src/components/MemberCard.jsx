@@ -22,9 +22,10 @@ export default function MemberCard({ member }) {
   return (
     <div className="card" style={{marginRight:"30px", marginTop:"30px"}} onDoubleClick={()=> navigate("/member-form-view",{"state": member})}>
       <div className="card-body" id="clickable" style={{backgroundColor:primaryLightColor,boxShadow: '1px 1px 1px 1px #e3e3e3',textAlign:'center',borderRadius:'7px',padding:'2px',width:"200px"}}>
-        <div style={{display: 'inline-table'}}><Avatar style={{width:'80px',height:'80px',backgroundColor:primaryMainColor}}>{member.firstName[0] + member.lastName[0]}</Avatar></div>
+        <div style={{display: 'inline-table', paddingTop:"8px"}}><Avatar style={{width:'80px',height:'80px',backgroundColor:primaryMainColor}}>{member.firstName[0] + member.lastName[0]}</Avatar></div>
         <h3 className="card-title" style={{fontSize:'medium', color:'#5f5f69'}}>{member.firstName} {member.lastName}</h3>
-        <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{"000" + member.id}</p>
+        <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{member.identificationNumber}</p>
+        {/* <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{"000" + member.id}</p> */}
         <p className="card-text" style={{fontSize:'small',color:'#072287'}}>{member.email}</p>
         <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{member.phone}</p>
         <p className="card-text">{member.address}</p>

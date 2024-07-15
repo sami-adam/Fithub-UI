@@ -7,20 +7,29 @@ import useMemberStore from "../../state/memberState";
 import ListIcon from '@mui/icons-material/List';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import DataTable from "../../components/DataTable";
+import SearchBar from "../../components/SearchBar";
 
 export default function Member() {
     const { members, fetchMembers} = useMemberStore();
+    const searchMembers = useMemberStore((state) => state.searchMembers);
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
     const [viewType, setViewType] = useState("cards");
+    const [search, setSearch] = useState("");
 
     useEffect(()=>{
-        fetchMembers();
-    }, [fetchMembers]);
+        if(search === ""){
+            fetchMembers();
+        }
+        if(search !== ""){
+            searchMembers(search);
+        }
+    }, [fetchMembers, search, searchMembers]);
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 150 },
+        { field: 'identificationNumber', headerName: 'Identification Number', width: 200 },
         { field: 'email', headerName: 'Email', width: 180 },
         { field: 'phone', headerName: 'Phone', width: 150 },
     ];
@@ -31,6 +40,7 @@ export default function Member() {
             name: member.firstName + " " + member.lastName,
             firstName: member.firstName,
             lastName: member.lastName,
+            identificationNumber: member.identificationNumber,
             subscriptions: member.subscriptions,
             email: member.email,
             phone: member.phone,
@@ -40,6 +50,7 @@ export default function Member() {
        <>
        {viewType === "cards" &&
        <MainLayout>
+        <SearchBar setSearch={setSearch}/>
        <div style={{display:"flex", justifyContent:"space-between"}}>
          <CreateButton url='/member-form-view'/>
          <div>

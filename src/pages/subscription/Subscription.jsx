@@ -1,52 +1,45 @@
 import { useEffect, useState } from "react";
 import * as React from 'react';
 import DataTable from "../../components/DataTable";
-import { useProps } from "@mui/x-data-grid/internals";
+import { randomNumberBetween, useProps } from "@mui/x-data-grid/internals";
+import useSubscriptionStore from "../../state/subscriptionState";
+import { type } from "@testing-library/user-event/dist/type";
 
 
 export default function Subscription() {
     const token = localStorage.getItem("token");
-    const [subscriptions, setSubscriptions] = useState([]);
+    //const [subscriptions, setSubscriptions] = useState([]);
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
+    const [search, setSearch] = useState("");
+    const subscriptions = useSubscriptionStore((state) => state.subscriptions);
+    const fetchSubscriptions = useSubscriptionStore((state) => state.fetchSubscriptions);
+    const deleteSubscriptions = useSubscriptionStore((state) => state.deleteSubscription);
+    const searchSubscriptions = useSubscriptionStore((state) => state.searchSubscriptions);
+    const currencyFormatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'SAR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      });
 
-    console.log(token);
     useEffect(() => {
-        async function fetchSubscriptions() {
-            try {
-                const response = await fetch("http://localhost:8080/api/v1/subscriptions", {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then((response) => response.json()).then((data) => setSubscriptions(data));
-            } catch (error) {
-                localStorage.removeItem('token');
-                console.error('Error:', error);
-                window.location.href = "/signin";
-
-            }
+        if (search === "") {
+            fetchSubscriptions();
         }
-        async function deleteSubscriptions() {
-            if (deleted) {
-                selected.forEach(async (id) => {
-                    const response = await fetch(`http://localhost:8080/api/v1/subscription/${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': 'Bearer ' + token,
-                        },
-                    }).then(response => response.json()).then(data => {
-                        console.log(data);
-                        return data;
-                    });
-                });
-                setDeleted(false);
-                setSelected([]);
-                fetchSubscriptions();
-            }
+        if (search !== "") {
+            console.log(search);
+            searchSubscriptions(search);
         }
-        deleteSubscriptions();
-        fetchSubscriptions();
-    }, [token, deleted]);
+        if (deleted) {
+            selected.forEach((id) => {
+                deleteSubscriptions(id);
+            });
+            setDeleted(false);
+            setSelected([]);
+            fetchSubscriptions();
+        }
+    }, [token, deleted, fetchSubscriptions, selected, deleteSubscriptions, search, searchSubscriptions]);
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'productName', headerName: 'Subscription', width: 150 },
@@ -56,7 +49,13 @@ export default function Subscription() {
         { field: 'phone', headerName: 'Phone', width: 130 },
         { field: 'startDate', headerName: 'Start Date', width: 130 },
         { field: 'endDate', headerName: 'End Date', width: 130 },
-        { field: 'unitPrice', headerName: 'Unit Price', width: 80 },
+        { field: 'unitPrice', headerName: 'Unit Price', width: 100 , type:'number', valueFormatter: (value) => {
+            if (!value) {
+              return value;
+            }
+            return currencyFormatter.format(value);
+          },
+        },
         { field: 'qty', headerName: 'Quantity', width: 60 },
         { field: 'totalAmount', headerName: 'Total Amount', width: 130 },
         { field: 'discount', headerName: 'Discount', width: 130 },
@@ -66,14 +65,14 @@ export default function Subscription() {
     const rows = [];
     subscriptions.forEach((subscription) => {
         rows.push({
-            id: subscription.id,
+            id: subscription.id !=null? subscription.id: randomNumberBetween(1, 1000),
             product: subscription.product,
             productName: subscription.product&&subscription.product.name,
             member: subscription.member,
-            firstName: subscription.member.firstName,
-            lastName: subscription.member.lastName,
-            email: subscription.member.email,
-            phone: subscription.member.phone,
+            firstName: subscription.member&&subscription.member.firstName,
+            lastName: subscription.member&&subscription.member.lastName,
+            email: subscription.member&&subscription.member.email,
+            phone: subscription.member&&subscription.member.phone,
             startDate: subscription.startDate,
             endDate: subscription.endDate,
             unitPrice: subscription.subscriptionUnitPrice,
@@ -85,6 +84,6 @@ export default function Subscription() {
         });
     });
     return (
-        <DataTable columns={columns} rows={rows} selected={selected} setSelected={setSelected} deleted={deleted} setDeleted={setDeleted} createUrl={'/subscription-form-view'} detailsUrl={'/subscription-form-view'}/>
+        <DataTable columns={columns} rows={rows} selected={selected} setSelected={setSelected} deleted={deleted} setDeleted={setDeleted} createUrl={'/subscription-form-view'} detailsUrl={'/subscription-form-view'} setSearch={setSearch}/>
     );
 }

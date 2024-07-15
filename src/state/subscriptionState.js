@@ -69,6 +69,19 @@ const useSubscriptionStore = create((set) => ({
         } catch (error) {
             console.error("Error changing status", error);
         }
+    },
+    searchSubscriptions: async (search) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/v1/subscriptions/search/${search}`, {
+                headers: {
+                    "Authorization": "Bearer " + useSubscriptionStore.getState().token,
+                },
+            });
+            set({ subscriptions: response.data });
+        } catch (error) {
+            console.error("Error searching subscriptions", error);
+        }
+
     }
 }))
 

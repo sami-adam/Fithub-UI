@@ -7,8 +7,8 @@ export default function FormView({children, borderColor}) {
     const primaryLightColor = theme.palette.primary.light;
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'start', minHeight: '100vh',paddingTop:"30px" }}>
-            <Card sx={{  width: '70%', marginBottom: 2, borderWidth: 2, borderStyle: 'solid', 
-                borderColor: primaryLightColor, borderRadius:"20px", boxShadow:"2px 0px 2px 3px whitesmoke;"}} className="card-view">
+            <Card sx={{  width: '70%', marginBottom: 2, borderWidth: 1, borderStyle: 'solid', 
+                borderColor: primaryLightColor, borderRadius:"20px", boxShadow:"1px 1px 1px 1px 1px rgb(214 226 236)"}} className="card-view">
                 {children}
             </Card>
         </Box>

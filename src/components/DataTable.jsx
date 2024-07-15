@@ -1,14 +1,15 @@
-import { DataGrid, gridClasses } from '@mui/x-data-grid';
+import { DataGrid, gridClasses, GridToolbar } from '@mui/x-data-grid';
 import MainLayout from "../layout/MainLayout";
 import { Button, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Colors } from '../values/colors';
 import { useTheme } from '@mui/material';
 import { CreateButton } from './Buttons';
+import SearchBar from './SearchBar';
 
 
 
-export default function DataTable({ columns, rows, selected, setSelected, deleted, setDeleted, createUrl, detailsUrl, viewButtons= []}) {
+export default function DataTable({ columns, rows, selected, setSelected, deleted, setDeleted, createUrl, detailsUrl, viewButtons= [], setSearch}) {
     const navigate = useNavigate();
     const theme = useTheme();
 
@@ -17,6 +18,7 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
     return (
         <>
         <MainLayout>
+            {setSearch && <SearchBar setSearch={setSearch}/>}
             <div style={{ height: 750, width: '100%'}}>
                 <div style={{display:"flex", justifyContent:"space-between"}}>
                     <div>
@@ -46,7 +48,9 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
                     onRowSelectionModelChange={(row) => setSelected(row)} 
                     //onRowDoubleClick={(row) => navigate(detailsUrl + '/' + row.id)}
                     onRowDoubleClick={(row) => navigate(detailsUrl, {"state": row.row})}
-                    getRowClassName={(params) => 'table-row'}
+                    getRowClassName={(params) => 'table-row'} 
+                    slots={{ toolbar: GridToolbar }}
+                    density='compact'
                     />
             </div>
         </MainLayout>
