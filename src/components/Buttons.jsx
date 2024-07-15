@@ -86,8 +86,10 @@ export function ActionButton({ text, icon, onClick, toolTip, hide=false, color }
         <>
         { !hide &&
         <Tooltip title={toolTip} TransitionProps={{style: {backgroundColor: 'white', color: primaryMainColor, fontWeight: 'bold',boxShadow: '0px 0px 10px 0px #000000'}}}>
-        <IconButton size="small" style={{display:"flex", justifyContent:"center",width:"120px",border:"1px solid aliceblue",borderRadius:"16px"}} color={color||"primary"} variant="outlined" onClick={onClick}>
-            {text} {icon}
+        <IconButton size="small" style={{display:"flex", justifyContent:"center",width:"120px",border:"1px solid aliceblue",borderRadius:"16px", fontSize:'14px'}} variant="outlined" onClick={onClick}>
+            <div style={{display:"flex",justifyContent:"space-between",width:"85px",alignItems:"center", color: color||"primary"}}>
+                {text} {icon}
+            </div>
         </IconButton>
         </Tooltip> }
         </>

@@ -137,6 +137,7 @@ export default function SubscriptionFormView() {
             });
             setChangeStatus(false);
             setStatus(reverseStatuses[statusInt]);
+            subscription.status = reverseStatuses[statusInt];
             
         }
     }
