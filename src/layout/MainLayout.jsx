@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from "react-router-dom";
-import { useTheme } from '@mui/material';
+import { Divider, useTheme } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import PeopleIcon from '@mui/icons-material/People';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
@@ -21,6 +21,10 @@ import { NavButton } from '../components/Buttons';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import CategoryIcon from '@mui/icons-material/Category';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
+import LanguageSelector from '../components/LanguageSelector';
+import { useTranslation } from 'react-i18next';
+import LogoutIcon from '@mui/icons-material/Logout';
+import TranslateIcon from '@mui/icons-material/Translate';
 
 const style = {
     position: 'absolute',
@@ -60,6 +64,7 @@ function MainLayout({children}) {
 
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
+  const {t, i18n } = useTranslation();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -164,7 +169,7 @@ function MainLayout({children}) {
                 <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} toolTipe="Subscriptions"/>
                 <NavButton url={'/members'} icon={<PeopleIcon />} toolTipe="Members"/>
                 <NavButton url={'/emails'} icon={<MailIcon />} toolTipe="Emails"/>
-                <Tooltip title="Products" TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1],}}}>
+                <Tooltip title={t("Products")} TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1],}}}>
                     <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleClick}>
                         <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
                         '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
@@ -181,8 +186,8 @@ function MainLayout({children}) {
                     'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <MenuItem onClick={()=> navigate("/products")} style={{fontSize:"14px", color:primaryMainColor}}><IndeterminateCheckBoxIcon/> Products</MenuItem>
-                    <MenuItem onClick={()=> navigate("/product-categories")} style={{fontSize:"14px", color:primaryMainColor}}><CategoryIcon/> Categories</MenuItem>
+                    <MenuItem onClick={()=> navigate("/products")} style={{fontSize:"14px", color:primaryMainColor}}><IndeterminateCheckBoxIcon/>{t("Products")}</MenuItem>
+                    <MenuItem onClick={()=> navigate("/product-categories")} style={{fontSize:"14px", color:primaryMainColor}}><CategoryIcon/>{t("Categories")}</MenuItem>
                 </Menu>
                 
             </Box>
@@ -190,7 +195,7 @@ function MainLayout({children}) {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings" TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1]}}}>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    {user && <Avatar alt={user.name} style={{backgroundColor:theme.palette.primary.light,color:"gray"}}>{user.name && user.name[0]}</Avatar>} <span style={{color:"white",fontSize:"18px",paddingLeft:"10px"}}>{user && user.name}</span>
+                    {user && <Avatar alt={user.name} style={{backgroundColor:theme.palette.primary.light,color:"gray"}}>{user.name && user.name[0]}</Avatar>}
                 </IconButton>
                 </Tooltip>
                 <Menu
@@ -210,11 +215,20 @@ function MainLayout({children}) {
                     onClose={handleCloseUserMenu}
                     >
                     <MenuItem key="account" onClick={() => console.log("Account Clicked")}>
-                        <Typography textAlign="center">Account  <span style={{color:primaryMainColor}}>{user && user.email}</span></Typography>
+                        <Typography textAlign="center" fontSize={"14px"} fontWeight="bold" color={primaryMainColor}>{user&&user.name}  <span style={{fontWeight:"normal"}}>({user && user.email})</span></Typography>
                     </MenuItem>
-
+                    <Divider/>
+                    <MenuItem key="language">
+                        <Typography textAlign="center" style={{color:primaryMainColor, fontSize:"14px"}}>
+                            <div style={{display:"flex", alignItems:"center"}}>
+                            <LanguageSelector/>
+                            </div>
+                        </Typography>
+                    </MenuItem>
                     <MenuItem key="logOut" onClick={handleLogout}>
-                        <Typography textAlign="center" style={{color:"red"}}>Logout</Typography>
+                        <Typography textAlign="center" style={{color:"red", fontSize:"14px"}}>
+                            <div style={{display:"flex", alignItems:"center",paddingInlineStart:"10px"}}> {t("Logout")}</div>
+                        </Typography>
                     </MenuItem>
                 </Menu>
             </Box>

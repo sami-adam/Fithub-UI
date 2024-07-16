@@ -4,6 +4,8 @@ import DataTable from "../../components/DataTable";
 import { randomNumberBetween, useProps } from "@mui/x-data-grid/internals";
 import useSubscriptionStore from "../../state/subscriptionState";
 import { type } from "@testing-library/user-event/dist/type";
+import { useTranslation } from 'react-i18next';
+
 
 
 export default function Subscription() {
@@ -16,6 +18,7 @@ export default function Subscription() {
     const fetchSubscriptions = useSubscriptionStore((state) => state.fetchSubscriptions);
     const deleteSubscriptions = useSubscriptionStore((state) => state.deleteSubscription);
     const searchSubscriptions = useSubscriptionStore((state) => state.searchSubscriptions);
+    const {t} = useTranslation();
     const currencyFormatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'SAR',
@@ -41,26 +44,26 @@ export default function Subscription() {
         }
     }, [token, deleted, fetchSubscriptions, selected, deleteSubscriptions, search, searchSubscriptions]);
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'productName', headerName: 'Subscription', width: 150 },
-        { field: 'firstName', headerName: 'First name', width: 130 },
-        { field: 'lastName', headerName: 'Last name', width: 130 },
-        { field: 'email', headerName: 'Email', width: 130 },
-        { field: 'phone', headerName: 'Phone', width: 130 },
-        { field: 'startDate', headerName: 'Start Date', width: 130 },
-        { field: 'endDate', headerName: 'End Date', width: 130 },
-        { field: 'unitPrice', headerName: 'Unit Price', width: 100 , type:'number', valueFormatter: (value) => {
+        { field: 'id', headerName: t('ID'), width: 70 },
+        { field: 'productName', headerName: t('Subscription'), width: 150 },
+        { field: 'firstName', headerName: t('First name'), width: 130 },
+        { field: 'lastName', headerName: t('Last name'), width: 130 },
+        { field: 'email', headerName: t('Email'), width: 130 },
+        { field: 'phone', headerName: t('Phone'), width: 130 },
+        { field: 'startDate', headerName: t('Start Date'), width: 130 },
+        { field: 'endDate', headerName: t('End Date'), width: 130 },
+        { field: 'unitPrice', headerName: t('Unit Price'), width: 100 , type:'number', valueFormatter: (value) => {
             if (!value) {
               return value;
             }
             return currencyFormatter.format(value);
           },
         },
-        { field: 'qty', headerName: 'Quantity', width: 60 },
-        { field: 'totalAmount', headerName: 'Total Amount', width: 130 },
-        { field: 'discount', headerName: 'Discount', width: 130 },
-        { field: 'netAmount', headerName: 'Net Amount', width: 130},
-        { field: 'status', headerName: 'Status', width: 130 },
+        { field: 'qty', headerName: t('Quantity'), width: 60 },
+        { field: 'totalAmount', headerName: t('Total Amount'), width: 130 },
+        { field: 'discount', headerName: t('Discount'), width: 130 },
+        { field: 'netAmount', headerName: t('Net Amount'), width: 130},
+        { field: 'status', headerName: t('Status'), width: 130 },
     ];
     const rows = [];
     subscriptions.forEach((subscription) => {
@@ -80,7 +83,7 @@ export default function Subscription() {
             totalAmount: subscription.totalAmount,
             discount: subscription.discountAmount,
             netAmount: subscription.netAmount,
-            status: subscription.status,
+            status: t(subscription.status),
         });
     });
     return (

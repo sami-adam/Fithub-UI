@@ -8,6 +8,7 @@ import ListIcon from '@mui/icons-material/List';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import DataTable from "../../components/DataTable";
 import SearchBar from "../../components/SearchBar";
+import { useTranslation } from 'react-i18next';
 
 export default function Member() {
     const { members, fetchMembers} = useMemberStore();
@@ -16,6 +17,7 @@ export default function Member() {
     const [deleted, setDeleted] = useState(false);
     const [viewType, setViewType] = useState("cards");
     const [search, setSearch] = useState("");
+    const { t } = useTranslation();
 
     useEffect(()=>{
         if(search === ""){
@@ -27,11 +29,11 @@ export default function Member() {
     }, [fetchMembers, search, searchMembers]);
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'Name', width: 150 },
-        { field: 'identificationNumber', headerName: 'Identification Number', width: 200 },
-        { field: 'email', headerName: 'Email', width: 180 },
-        { field: 'phone', headerName: 'Phone', width: 150 },
+        { field: 'id', headerName: t('ID'), width: 70 },
+        { field: 'name', headerName: t('Name'), width: 150 },
+        { field: 'identificationNumber', headerName: t('Identification Number'), width: 200 },
+        { field: 'email', headerName: t('Email'), width: 180 },
+        { field: 'phone', headerName: t('Phone'), width: 150 },
     ];
     const rows = [];
     members.forEach((member) => {

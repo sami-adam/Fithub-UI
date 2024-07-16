@@ -4,8 +4,9 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import MainLayout from "../../layout/MainLayout";
 import ReactHtmlParser from 'html-react-parser';
-import { Subject } from "@mui/icons-material";
 import DataTable from "../../components/DataTable";
+import { useTranslation } from 'react-i18next';
+
 
 
 function Email() {
@@ -14,6 +15,7 @@ function Email() {
     const [token, setToken] = React.useState(localStorage.getItem('token'));
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
+    const {t} = useTranslation();
     const baseUrl = process.env.REACT_APP_BASE_URL;
     useEffect(() => {
         async function fetchData() {
@@ -56,13 +58,13 @@ function Email() {
         deleteEmails(); 
     }, [token, deleted]);
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'subject', headerName: 'Subject', width: 200 },
-        { field: 'scheduledDate', headerName: 'Schedule Date', width: 130},
-        { field: 'emailFrom', headerName: 'Email From', width: 250 },
-        { field: 'emailTo', headerName: 'Email To', width: 250 },
-        { field: 'emailBody', headerName: 'Message', width: 250 , renderCell: (params) => { return ReactHtmlParser(params.value); }},
-        { field: 'status', headerName: 'Status', width: 130 }
+        { field: 'id', headerName: t('ID'), width: 70 },
+        { field: 'subject', headerName: t('Subject'), width: 200 },
+        { field: 'scheduledDate', headerName: t('Schedule Date'), width: 130},
+        { field: 'emailFrom', headerName: t('Email From'), width: 250 },
+        { field: 'emailTo', headerName: t('Email To'), width: 250 },
+        { field: 'emailBody', headerName: t('Message'), width: 250 , renderCell: (params) => { return ReactHtmlParser(params.value); }},
+        { field: 'status', headerName: t('Status'), width: 130 }
     ];
     const rows = [];
     console.log(emails);
@@ -74,7 +76,7 @@ function Email() {
             emailFrom: email.emailFrom,
             emailTo: email.emailTo,
             emailBody: email.emailBody,
-            status: email.status,
+            status: t(email.status),
             attachments: email.attachments,
         });
     });

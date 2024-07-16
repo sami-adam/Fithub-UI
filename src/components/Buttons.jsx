@@ -3,6 +3,7 @@ import { Alert, Button, IconButton, Snackbar, styled, Tooltip } from '@mui/mater
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from "@mui/material";
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import { tooltipClasses } from '@mui/material/Tooltip';
 
@@ -18,13 +19,15 @@ export function CreateButton({ url }) {
     const navigate = useNavigate();
     const theme = useTheme();
     const primaryMainColor = theme.palette.primary.main;
+    const {t} = useTranslation();
     return (
-        <Button variant="outlined" color="primary" style={{color:primaryMainColor, fontWeight:'bold',border:'0px'}} onClick={()=> navigate(url)}>Create New</Button>
+        <Button variant="outlined" color="primary" style={{color:primaryMainColor, fontWeight:'bold',border:'0px'}} onClick={()=> navigate(url)}>{t("Create New")}</Button>
     )
 }
 
 export function SaveButton({ onClick, lable, hide }) {
     const theme = useTheme();
+    const {t} = useTranslation();
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const primaryMainColor = theme.palette.primary.main;
     const handleOnclick = () => {
@@ -42,10 +45,10 @@ export function SaveButton({ onClick, lable, hide }) {
       
     return (
         <>
-        <Button variant="outlined" color="primary" style={{color:primaryMainColor, fontWeight:'bold',border:'0px',display:hide?'none':'',width:"164px",border:"2px solid aliceblue;",borderRadius:"16px"}} onClick={handleOnclick}>{lable}</Button>
+        <Button variant="outlined" color="primary" style={{color:primaryMainColor, fontWeight:'bold',border:'0px',display:hide?'none':'',width:"164px",border:"2px solid aliceblue;",borderRadius:"16px"}} onClick={handleOnclick}>{t(lable)}</Button>
         <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success" variant="filled" sx={{ width: '100%', backgroundColor:primaryMainColor,fontWeight:"bold" }}>
-                Saved Successfully!
+                {t("Saved Successfully!")}
             </Alert>
         </Snackbar>
     </>
@@ -54,10 +57,11 @@ export function SaveButton({ onClick, lable, hide }) {
 
 export function EditButton({ onClick, hide }) {
     const theme = useTheme();
+    const {t} = useTranslation();
     const primaryMainColor = theme.palette.primary.main;
     return (
         <Button variant="outlined" color="primary" style={{color:primaryMainColor, fontWeight:'bold',border:'0px',display:hide?'none':'',width:"164px",border:"2px solid aliceblue;",borderRadius:"16px"}} onClick={onClick}>
-            Edit
+            {t("Edit")}
         </Button>
     )
 }
@@ -67,8 +71,9 @@ export function NavButton({ url, icon, toolTipe}){
     const theme = useTheme();
     const primaryMainColor = theme.palette.primary.main;
     const primaryLightColor = theme.palette.primary.light;
+    const {t} = useTranslation();
     return (
-        <Tooltip title={toolTipe} TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1]}}}>
+        <Tooltip title={t(toolTipe)} TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1]}}}>
         <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={()=> navigate(url)}>
             <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
             '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">

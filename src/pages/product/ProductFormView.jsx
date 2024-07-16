@@ -7,6 +7,7 @@ import MainLayout from "../../layout/MainLayout";
 import BackButton, { EditButton, SaveButton } from "../../components/Buttons";
 import FormView, { CardFooter } from "../../components/FormView";
 import TextFieldCustom, { NumberFieldCustom, SelectFieldCustom } from "../../components/Fields";
+import { useTranslation } from 'react-i18next';
 
 export default function ProductFormView() {
     const [create, setCreate] = useState(false);
@@ -21,6 +22,8 @@ export default function ProductFormView() {
     const navigate = useNavigate();
     const location = useLocation();
     const theme = useTheme();
+
+    const { t } = useTranslation();
 
     const primaryMainColor = theme.palette.primary.main;
     const product = location.state;
@@ -94,20 +97,20 @@ export default function ProductFormView() {
         <FormView borderColor={primaryMainColor}>
             <CardContent>
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}>
-                    <TextFieldCustom label="Product Name" placeholder="Enter Product Name" setValue={setName} viewValue={product&&!editMode?product.name:null} id="name" required={true} disabled={viewMode&&!editMode} />
-                    <SelectFieldCustom label="Category" setValue={setCategory} styles={{width:"300px",marginLeft:"25px"}}
+                    <TextFieldCustom label={t("Product Name")} placeholder="Enter Product Name" setValue={setName} viewValue={product&&!editMode?product.name:null} id="name" required={true} disabled={viewMode&&!editMode} />
+                    <SelectFieldCustom label={t("Category")} setValue={setCategory} styles={{width:"300px",marginLeft:"25px"}}
                     viewValue={(product&&!editMode?product.category&&product.category.id:null) || (category || null) || (product&&editMode?product.category.id:null)} 
                     items={categories} id="category" required={true} disabled={viewMode&&!editMode} itemFields={["name"]} />
-                    <TextFieldCustom label="Description" placeholder="Enter Description" setValue={setDescription} viewValue={product&&!editMode?product.description:null} id="description" required={true} disabled={viewMode&&!editMode} />
-                    <NumberFieldCustom label="Price" placeholder="Enter Price" styles={{width:"300px",marginLeft:"25px"}} setValue={setPrice} viewValue={product&&!editMode?product.price:null} id="price" required={true} disabled={viewMode&&!editMode} />
-                    <TextFieldCustom label="Image" placeholder="Enter Image URL" setValue={setImage} viewValue={product&&!editMode?product.image:null} id="image" required={true} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label={t("Description")} placeholder="Enter Description" setValue={setDescription} viewValue={product&&!editMode?product.description:null} id="description" required={true} disabled={viewMode&&!editMode} />
+                    <NumberFieldCustom label={t("Price")} placeholder="Enter Price" styles={{width:"300px",marginLeft:"25px"}} setValue={setPrice} viewValue={product&&!editMode?product.price:null} id="price" required={true} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label={t("Image")} placeholder="Enter Image URL" setValue={setImage} viewValue={product&&!editMode?product.image:null} id="image" required={true} disabled={viewMode&&!editMode} />
                 </FormControl>
             </CardContent>
             <CardFooter>
-                <SaveButton onClick={handleCreate} lable="Create Product" hide={create||viewMode||editMode} />
-                <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/products')}>View Products</Button>
+                <SaveButton onClick={handleCreate} lable={t("Create Product")} hide={create||viewMode||editMode} />
+                <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/products')}>{t("View Products")}</Button>
                 <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
-                <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
+                <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
             </CardFooter>
         </FormView>
         </MainLayout>

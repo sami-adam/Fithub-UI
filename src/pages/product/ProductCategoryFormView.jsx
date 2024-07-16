@@ -6,6 +6,7 @@ import MainLayout from "../../layout/MainLayout";
 import BackButton, { EditButton, SaveButton } from "../../components/Buttons";
 import FormView, { CardFooter } from "../../components/FormView";
 import TextFieldCustom, { NumberFieldCustom, SelectFieldCustom } from "../../components/Fields";
+import { useTranslation } from 'react-i18next';
 
 export default function ProductCategoryFormView(){
     const [create, setCreate] = useState(false);
@@ -17,6 +18,8 @@ export default function ProductCategoryFormView(){
     const navigate = useNavigate();
     const location = useLocation();
     const theme = useTheme();
+
+    const { t } = useTranslation();
 
     const primaryMainColor = theme.palette.primary.main;
     const category = location.state;
@@ -70,15 +73,15 @@ export default function ProductCategoryFormView(){
         <FormView borderColor={primaryMainColor}>
             <CardContent>
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}>
-                    <TextFieldCustom label="Category Name" placeholder="Enter Category Name" setValue={setName} viewValue={category&&!editMode?category.name:null} id="name" required={true} disabled={viewMode&&!editMode} />
-                    <TextFieldCustom label="Description" placeholder="Enter Description" setValue={setDescription} viewValue={category&&!editMode?category.description:null} id="description" required={true} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label={t("Category Name")} placeholder="Enter Category Name" setValue={setName} viewValue={category&&!editMode?category.name:null} id="name" required={true} disabled={viewMode&&!editMode} />
+                    <TextFieldCustom label={t("Description")} placeholder="Enter Description" setValue={setDescription} viewValue={category&&!editMode?category.description:null} id="description" required={true} disabled={viewMode&&!editMode} />
                 </FormControl>
             </CardContent>
             <CardFooter>
-                <SaveButton onClick={handleCreate} lable="Create Category" hide={create||viewMode||editMode} />
-                <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/product-categories')}>View Categories</Button>
+                <SaveButton onClick={handleCreate} lable={t("Create Category")} hide={create||viewMode||editMode} />
+                <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/product-categories')}>{t("View Categories")}</Button>
                 <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
-                <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
+                <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
             </CardFooter>
         </FormView>
         </MainLayout>

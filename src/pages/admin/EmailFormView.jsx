@@ -11,6 +11,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import ArticleIcon from '@mui/icons-material/Article';
 import ImageIcon from '@mui/icons-material/Image';
+import { useTranslation } from 'react-i18next';
 
 const fileTypeIcons = {
     'application/pdf': <PictureAsPdfIcon/>,            // PDF
@@ -54,6 +55,8 @@ export default function EmailFormView(){
     const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+
+    const { t } = useTranslation();
 
     const theme = useTheme();
     const primaryMainColor = theme.palette.primary.main;
@@ -179,14 +182,14 @@ export default function EmailFormView(){
         <FormView borderColor={primaryMainColor}>
             <CardContent>
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                <TextFieldCustom label="Subject" placeholder="Enter Subject" setValue={setSubject} viewValue={email&&!editMode?email.subject:null} id="subject" required={true} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Email From" placeholder="Enter Email From" setValue={setEmailFrom} viewValue={email&&!editMode?email.emailFrom:null} id="emailFrom" required={true} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Email To" placeholder="Enter Email To" setValue={setEmailTo} viewValue={email&&!editMode?email.emailTo:null} id="emailTo" required={true} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Email Cc" placeholder="Enter Email Cc" setValue={setEmailCc} viewValue={email&&!editMode?email.emailCc:null} id="emailCc" required={true} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Reply To" placeholder="Enter Reply To" setValue={setReplyTo} viewValue={email&&!editMode?email.replyTo:null} id="replyTo" required={true} disabled={viewMode&&!editMode} />
-                <TextFieldCustom label="Scheduled Date" placeholder="Enter Scheduled Date" setValue={setScheduledDate} viewValue={email&&!editMode?email.scheduledDate:null} id="scheduledDate" required={true} disabled={viewMode&&!editMode} />
-                <HtmlFieldCustom label="Email Body" placeholder="Enter Email Body" setValue={setEmailBody} viewValue={email&&!editMode?email.emailBody:emailBody} id="emailBody" required={true} disabled={viewMode&&!editMode} />
-                <AttachmentFieldCustom label="Attachments" placeholder="Enter Attachments" setValue={setAttachments} viewValue={email&&!editMode?email.attachments&&"":null} id="attachments" required={true} disabled={viewMode} />
+                <TextFieldCustom label={t("Subject")} placeholder="Enter Subject" setValue={setSubject} viewValue={email&&!editMode?email.subject:null} id="subject" required={true} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Email From")} placeholder="Enter Email From" setValue={setEmailFrom} viewValue={email&&!editMode?email.emailFrom:null} id="emailFrom" required={true} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Email To")} placeholder="Enter Email To" setValue={setEmailTo} viewValue={email&&!editMode?email.emailTo:null} id="emailTo" required={true} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Email Cc")} placeholder="Enter Email Cc" setValue={setEmailCc} viewValue={email&&!editMode?email.emailCc:null} id="emailCc" required={true} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Reply To")} placeholder="Enter Reply To" setValue={setReplyTo} viewValue={email&&!editMode?email.replyTo:null} id="replyTo" required={true} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Scheduled Date")} placeholder="Enter Scheduled Date" setValue={setScheduledDate} viewValue={email&&!editMode?email.scheduledDate:null} id="scheduledDate" required={true} disabled={viewMode&&!editMode} />
+                <HtmlFieldCustom label={t("Email Body")} placeholder="Enter Email Body" setValue={setEmailBody} viewValue={email&&!editMode?email.emailBody:emailBody} id="emailBody" required={true} disabled={viewMode&&!editMode} />
+                <AttachmentFieldCustom label={t("Attachments")} placeholder="Enter Attachments" setValue={setAttachments} viewValue={email&&!editMode?email.attachments&&"":null} id="attachments" required={true} disabled={viewMode} />
                 <ul>
                     {email&&email.attachments&&email.attachments.map((attachment, index) => (
                     <a href="" onClick={() => handleDownload(attachment.data, attachment.name, attachment.type)} key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
@@ -199,10 +202,10 @@ export default function EmailFormView(){
                 </FormControl>
             </CardContent>
             <CardFooter>
-                <SaveButton onClick={handleCreate} lable="Send Email" hide={create||viewMode||editMode} />
-                <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/emails')}>View Emails</Button>
+                <SaveButton onClick={handleCreate} lable={t("Send Email")} hide={create||viewMode||editMode} />
+                <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/emails')}>{t("View Emails")}</Button>
                 {/* <EditButton onClick={handleEdit} hide={editMode||!viewMode}/> */}
-                <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
+                <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
             </CardFooter>
         </FormView>
         </MainLayout>

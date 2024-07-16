@@ -1,6 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { InputBase } from '@mui/material';
 import { styled, alpha, useTheme } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -46,6 +47,7 @@ const Search = styled('div')(({ theme }) => ({
 
   export default function SearchBar({setSearch}) {
     const theme = useTheme();
+    const {t} = useTranslation();
     const primaryMainColor = theme.palette.primary.main;
     const primaryLightColor = theme.palette.primary.light;
     const handleSearch = (e) => {
@@ -54,14 +56,16 @@ const Search = styled('div')(({ theme }) => ({
     return(
         <div style={{display: "flex", justifyContent:"center"}}>
         <Search sx={{backgroundColor:primaryLightColor, borderRadius: theme.shape.borderRadius,border:"1px solid "+ primaryLightColor}}>
+           <div style={{color:primaryMainColor, display:"flex", justifyContent:"end"}}>
             <SearchIconWrapper>
-                <SearchIcon sx={{color:primaryMainColor}}/>
-            </SearchIconWrapper>
-            <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }} 
-                onChange={handleSearch} 
-            />
+                  <SearchIcon sx={{color:primaryMainColor}}/>
+              </SearchIconWrapper>
+              <StyledInputBase
+                  placeholder={`${t("Search")}…`}
+                  inputProps={{ 'aria-label': 'search' }} 
+                  onChange={handleSearch} 
+              />
+           </div>
         </Search>
         </div>
     )

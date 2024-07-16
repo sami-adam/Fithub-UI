@@ -11,6 +11,7 @@ import useProductStore from "../../state/productState";
 import dayjs from "dayjs";
 import PaidIcon from '@mui/icons-material/Paid';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { useTranslation } from 'react-i18next';
 
 const statusColors = {
     "NEW": "gray",
@@ -58,6 +59,7 @@ export default function SubscriptionFormView() {
     const primaryLightColor = theme.palette.primary.light;
 
     const subscription = location.state;
+    const { t } = useTranslation();
 
     const addSubscription = useSubscriptionStore((state)=> state.addSubscription);
     const updateSubscription = useSubscriptionStore((state)=> state.updateSubscription);
@@ -151,8 +153,8 @@ export default function SubscriptionFormView() {
             <CardHeader 
                 action={
                     <>
-                    <ActionButton text="PAID" icon={<PaidIcon/>} onClick={setChangeStatus} toolTip="Change status to PAID" hide={subscription&&subscription.status == "NEW"? false: true}/>
-                    <ActionButton text="ACTIVE" icon={<CheckCircleOutlineIcon/>} onClick={setChangeStatus} toolTip="Change status to ACTIVE" hide={subscription&&subscription.status == "PAID"? false: true} color="teal"/>
+                    <ActionButton text="PAID" icon={<PaidIcon/>} onClick={setChangeStatus} toolTip={t("Change status to PAID")} hide={subscription&&subscription.status == "NEW"? false: true}/>
+                    <ActionButton text="ACTIVE" icon={<CheckCircleOutlineIcon/>} onClick={setChangeStatus} toolTip={t("Change status to ACTIVE")} hide={subscription&&subscription.status == "PAID"? false: true} color="teal"/>
                     </>
                     } 
                 title={
@@ -163,21 +165,21 @@ export default function SubscriptionFormView() {
                     style={{borderBottom:"0.1px solid rgb(241 241 241)"}}/>
             <CardContent>
                 <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                    <SearchableSelect label="Member" setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member:null) || (member || null) || (subscription&&editMode?subscription.member:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
-                    <SearchableSelect label="Product" setValue={setProduct} viewValue={(subscription&&!editMode?subscription.product&&subscription.product:null) || (product || null) || (subscription&&editMode?subscription.product&&subscription.product:null)} id="product" required={true} disabled={viewMode&&!editMode} items={products} itemFields={["name","category.name"]}/>
-                    <DateFieldCustom label="Start Date" setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
-                    <DateFieldCustom label="End Date" setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
-                    <NumberFieldCustom label="Price" placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/>
-                    <NumberFieldCustom label="Quantity" placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
+                    <SearchableSelect label={t("Member")} setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member:null) || (member || null) || (subscription&&editMode?subscription.member:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
+                    <SearchableSelect label={t("Product")} setValue={setProduct} viewValue={(subscription&&!editMode?subscription.product&&subscription.product:null) || (product || null) || (subscription&&editMode?subscription.product&&subscription.product:null)} id="product" required={true} disabled={viewMode&&!editMode} items={products} itemFields={["name","category.name"]}/>
+                    <DateFieldCustom label={t("Start Date")} setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
+                    <DateFieldCustom label={t("End Date")} setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
+                    <NumberFieldCustom label={t("Price")} placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/>
+                    <NumberFieldCustom label={t("Quantity")} placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
                     <br/>
                     {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
                 </FormControl>
             </CardContent>
             <CardFooter>
-                <SaveButton onClick={handleCreate} lable="Create" hide={create||viewMode||editMode} />
+                <SaveButton onClick={handleCreate} lable={t("Create")} hide={create||viewMode||editMode} />
                 <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/subscriptions')}>View Subscriptions</Button>
                 <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
-                <SaveButton onClick={handleSave} lable="Save" hide={!editMode}/>
+                <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
             </CardFooter>
         </FormView>
         </MainLayout>

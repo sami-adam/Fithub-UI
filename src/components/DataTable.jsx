@@ -6,13 +6,15 @@ import { Colors } from '../values/colors';
 import { useTheme } from '@mui/material';
 import { CreateButton } from './Buttons';
 import SearchBar from './SearchBar';
+import { arSD, enUS } from '@mui/x-data-grid/locales';
+import { useTranslation } from 'react-i18next';
 
 
 
 export default function DataTable({ columns, rows, selected, setSelected, deleted, setDeleted, createUrl, detailsUrl, viewButtons= [], setSearch}) {
     const navigate = useNavigate();
     const theme = useTheme();
-
+    const {t, i18n } = useTranslation();
     const primaryMainColor = theme.palette.primary.main;
     const primaryLightColor = theme.palette.primary.light;
     return (
@@ -22,7 +24,7 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
             <div style={{ height: 750, width: '100%'}}>
                 <div style={{display:"flex", justifyContent:"space-between"}}>
                     <div>
-                        <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> window.confirm("Are You Sure?")?setDeleted(true):setDeleted(false)}>Delete</Button>
+                        <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> window.confirm(t("Are You Sure?"))?setDeleted(true):setDeleted(false)}>Delete</Button>
                         <CreateButton url={createUrl}/>
                     </div>
                     <div>
@@ -37,6 +39,9 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
                           color: primaryMainColor,
                           fontSize: '1.1em',
                         },
+                        [`& .${gridClasses.cell}`]: {
+                            textAlign: 'center',
+                        },
                       }}
                     initialState={{
                     pagination: {
@@ -50,7 +55,8 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
                     onRowDoubleClick={(row) => navigate(detailsUrl, {"state": row.row})}
                     getRowClassName={(params) => 'table-row'} 
                     slots={{ toolbar: GridToolbar }}
-                    density='compact'
+                    density='compact' 
+                    localeText={i18n.language == 'ar'?arSD.components.MuiDataGrid.defaultProps.localeText:enUS.components.MuiDataGrid.defaultProps.localeText}
                     />
             </div>
         </MainLayout>
