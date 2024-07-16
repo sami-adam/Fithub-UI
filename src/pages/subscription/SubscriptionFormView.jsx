@@ -59,7 +59,7 @@ export default function SubscriptionFormView() {
     const primaryLightColor = theme.palette.primary.light;
 
     const subscription = location.state;
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const addSubscription = useSubscriptionStore((state)=> state.addSubscription);
     const updateSubscription = useSubscriptionStore((state)=> state.updateSubscription);
@@ -158,7 +158,7 @@ export default function SubscriptionFormView() {
                     </>
                     } 
                 title={
-                    <Typography variant="h8" component="div" style={{fontWeight:"bold", color:statusColors[subscription&&subscription.status]}}>
+                    <Typography variant="h8" component="div" style={{fontWeight:"bold", color:statusColors[i18n.t(subscription&&subscription.status,{lng:'en'})]}}>
                         {subscription&&subscription.status}
                     </Typography>
                 }

@@ -1,7 +1,11 @@
 {
     "translation": {
-      "Arabic": "عربي"
-
+      "Arabic": "عربي",
+      "جديد": "NEW",
+      "مدفوع": "PAID",
+      "نشط": "ACTIVE",
+      "ملغي": "CANCELLED",
+      "منتهي": "EXPIRED"
     }
   }
   
