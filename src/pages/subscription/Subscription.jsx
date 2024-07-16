@@ -62,7 +62,7 @@ export default function Subscription() {
         { field: 'qty', headerName: t('Quantity'), width: 60 },
         { field: 'totalAmount', headerName: t('Total Amount'), width: 130 },
         { field: 'discount', headerName: t('Discount'), width: 130 },
-        { field: 'netAmount', headerName: t('Net Amount'), width: 130},
+        { field: 'netAmount', headerName: t('Net Amount'), width: 130,  flex:1},
         { field: 'status', headerName: t('Status'), width: 130 },
     ];
     const rows = [];
