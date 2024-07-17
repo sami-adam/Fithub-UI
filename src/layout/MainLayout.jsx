@@ -186,8 +186,8 @@ function MainLayout({children}) {
                     'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <MenuItem onClick={()=> navigate("/products")} style={{fontSize:"14px", color:primaryMainColor}}><IndeterminateCheckBoxIcon/>{t("Products")}</MenuItem>
-                    <MenuItem onClick={()=> navigate("/product-categories")} style={{fontSize:"14px", color:primaryMainColor}}><CategoryIcon/>{t("Categories")}</MenuItem>
+                    <MenuItem onClick={()=> navigate("/products")} style={{fontSize:"14px", color:"gray"}}><IndeterminateCheckBoxIcon/>{t("Products")}</MenuItem>
+                    <MenuItem onClick={()=> navigate("/product-categories")} style={{fontSize:"14px", color:"gray"}}><CategoryIcon/>{t("Categories")}</MenuItem>
                 </Menu>
                 
             </Box>

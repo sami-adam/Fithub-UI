@@ -1,4 +1,4 @@
-import { Button, CardContent, CardHeader, FormControl, useTheme, Typography, IconButton } from "@mui/material";
+import { Button, CardContent, CardHeader, FormControl, useTheme, Typography, IconButton, Menu, MenuItem } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DateFieldCustom, NumberFieldCustom, SearchableSelect, SelectFieldCustom } from "../../components/Fields";
@@ -12,6 +12,9 @@ import dayjs from "dayjs";
 import PaidIcon from '@mui/icons-material/Paid';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useTranslation } from 'react-i18next';
+import PDFPrint from "../../components/ReportTools";
+import SubscriptionInvoice from "../../reports/SubscriptionInvoice";
+import FormHeaderActions from "../../components/FormHeaderActions";
 
 const statusColors = {
     "NEW": "gray",
@@ -158,9 +161,18 @@ export default function SubscriptionFormView() {
                     </>
                     } 
                 title={
+                    <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
                     <Typography variant="h8" component="div" style={{fontWeight:"bold", color:statusColors[i18n.t(subscription&&subscription.status,{lng:'en'})]}}>
                         {subscription&&subscription.status}
                     </Typography>
+                    <div style={{marginInlineEnd:"40%"}}>
+                        <FormHeaderActions>
+                            <MenuItem disableRipple sx={{maxHeight:"25px",overflow:"hidden"}}>
+                                <PDFPrint document={subscription&& <SubscriptionInvoice subscription={subscription}/>} fileName="subscription_invoice" title="Subscription Invoice"/>
+                            </MenuItem>
+                        </FormHeaderActions>
+                    </div>
+                    </div>
                 }
                     style={{borderBottom:"0.1px solid rgb(241 241 241)"}}/>
             <CardContent>
