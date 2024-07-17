@@ -46,7 +46,7 @@ function Dashboard() {
     });
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom color="#909eab">
         Dashboard
       </Typography>
       <Grid container spacing={3}>
