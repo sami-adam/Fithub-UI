@@ -1,12 +1,13 @@
 import * as React from 'react';
 import MainLayout from "../../layout/MainLayout";
+import Dashboard from '../../dashboards/Dashboard';
 
 function Home() {
 
     return (
         
         <MainLayout>
-        <h3 style={{paddingTop:'100px'}}>Home</h3>
+            <Dashboard />
         </MainLayout>
     );
 }

@@ -88,7 +88,7 @@ export default function SubscriptionInvoice ({ subscription }) {
       <View style={styles.section}>
         <Text style={styles.title}>Invoice</Text>
         <Text style={styles.header}>Invoice Number: {subscription.id}</Text>
-        <Text style={styles.header}>Date: {"23/07/2024"}</Text>
+        <Text style={styles.header}>Date: {new Date().toUTCString()}</Text>
       </View>
 
       <View style={styles.section}>
@@ -99,13 +99,13 @@ export default function SubscriptionInvoice ({ subscription }) {
 
       <View style={styles.table}>
         <View style={[styles.tableRow, styles.tableHeader, {backgroundColor: "#e9f7f6"}]}>
-          <View style={styles.tableCol}><Text style={styles.tableCell}>Description</Text></View>
+          <View style={styles.tableCol}><Text style={styles.tableCell}>Subscription</Text></View>
           <View style={styles.tableCol}><Text style={styles.tableCell}>Quantity</Text></View>
           <View style={styles.tableCol}><Text style={styles.tableCell}>Price</Text></View>
           <View style={styles.tableCol}><Text style={styles.tableCell}>Total</Text></View>
         </View>
         <View style={styles.tableRow}>
-          <View style={styles.tableCol}><Text style={styles.tableCell}>{subscription.product.name}</Text></View>
+          <View style={styles.tableCol}><Text style={styles.tableCell}>{`${subscription.product.name}(${subscription.product.category.name})`}</Text></View>
           <View style={styles.tableCol}><Text style={styles.tableCell}>{subscription.qty}</Text></View>
           <View style={styles.tableCol}><Text style={styles.tableCell}>{subscription.unitPrice} SAR</Text></View>
           <View style={styles.tableCol}><Text style={styles.tableCell}>{subscription.totalAmount} SAR</Text></View>

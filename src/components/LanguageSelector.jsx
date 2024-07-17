@@ -31,7 +31,8 @@ const LanguageSelector = () => {
 
     useEffect(() => {
         document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
-    }, [i18n.language]);
+        theme.direction = i18n.language === 'ar' ? 'rtl' : 'ltr';
+    }, [i18n.language, theme.direction]);
 
     const handleChange = (event) => {
         i18n.changeLanguage(event.target.value);

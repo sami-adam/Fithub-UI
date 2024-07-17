@@ -15,7 +15,12 @@ const useMemberStore = create((set) => ({
             });
             set({ members: response.data });
         } catch (error) {
-            console.error("Error fetching members", error);
+            if (error.response.status === 403) {
+                localStorage.removeItem("token");
+                window.location.href = useMemberStore.getState().signInUrl;
+            } else {
+                console.error("Error fetching products", error);
+            }
         }
     },
     addMember: async (member) => {
