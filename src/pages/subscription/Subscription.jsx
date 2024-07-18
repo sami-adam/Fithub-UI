@@ -44,7 +44,7 @@ export default function Subscription() {
         }
     }, [token, deleted, fetchSubscriptions, selected, deleteSubscriptions, search, searchSubscriptions]);
     const columns = [
-        { field: 'id', headerName: t('ID'), width: 70 },
+        { field: 'reference', headerName: t('Reference'), width: 70 },
         { field: 'productName', headerName: t('Subscription'), width: 150 },
         { field: 'firstName', headerName: t('First name'), width: 130 },
         { field: 'lastName', headerName: t('Last name'), width: 130 },
@@ -81,6 +81,7 @@ export default function Subscription() {
     subscriptions.forEach((subscription) => {
         rows.push({
             id: subscription.id !=null? subscription.id: randomNumberBetween(1, 1000),
+            reference: subscription.reference,
             product: subscription.product,
             productName: subscription.product&&subscription.product.name,
             member: subscription.member,

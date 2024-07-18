@@ -97,7 +97,7 @@ export default function SubscriptionFormView() {
                 "product": {"id": product.id},
                 "startDate": startDate,
                 "endDate": endDate,
-                "subscriptionUnitPrice": subscriptionUnitPrice,
+                "subscriptionUnitPrice": product.price,
                 "subscriptionQty": subscriptionQty,
                 "discountAmount": discountAmount,
                 "status": 0
@@ -111,7 +111,7 @@ export default function SubscriptionFormView() {
                 "product": {"id": product&&product.id},
                 "startDate": startDate,
                 "endDate": endDate,
-                "subscriptionUnitPrice": subscriptionUnitPrice,
+                "subscriptionUnitPrice": product&&product.price,
                 "subscriptionQty": subscriptionQty,
                 "discountAmount": discountAmount,
             });
