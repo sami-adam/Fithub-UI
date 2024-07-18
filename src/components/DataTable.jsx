@@ -8,6 +8,7 @@ import { CreateButton } from './Buttons';
 import SearchBar from './SearchBar';
 import { arSD, enUS } from '@mui/x-data-grid/locales';
 import { useTranslation } from 'react-i18next';
+import FormHeaderActions from './FormHeaderActions';
 
 
 
@@ -24,8 +25,12 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
             <div style={{ height: 750, width: '100%'}}>
                 <div style={{display:"flex", justifyContent:"space-between"}}>
                     <div>
-                        <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> window.confirm(t("Are You Sure?"))?setDeleted(true):setDeleted(false)}>Delete</Button>
                         <CreateButton url={createUrl}/>
+                    </div>
+                    <div>
+                        <FormHeaderActions>
+                            <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> window.confirm(t("Are You Sure?"))?setDeleted(true):setDeleted(false)}>Delete</Button>
+                        </FormHeaderActions>
                     </div>
                     <div>
                         {viewButtons&&viewButtons.map((button)=> <IconButton color="primary" aria-label={button.viewName} component="span" onClick={()=> button.setViewType(button.viewName)}>{button.button}</IconButton>)}

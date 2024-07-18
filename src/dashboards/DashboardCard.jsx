@@ -1,10 +1,10 @@
 import { Paper, Typography } from "@mui/material";
 
-export default function DashboardCard({text, number, svg}) {
+export default function DashboardCard({text, number, svg, onDoubleClick}) {
 
     return (
         <Paper style={{padding: "18px"}} elevation={0} sx={{boxShadow:"0px 4px 5px 5px rgb(244 244 244)", borderRadius:"12px"}}>
-        <div style={{display:"flex",justifyContent:"space-evenly"}}>
+        <div style={{display:"flex",justifyContent:"space-evenly"}} onDoubleClick={onDoubleClick} className="dashboard-card">
             <div>
                 {svg}
             </div>

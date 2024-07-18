@@ -10,9 +10,11 @@ import useProductStore from "../state/productState";
 import useProductCategoryStore from "../state/productCategoryState";
 import PieChartCustom from './PieChartCustom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const primaryMainColor = theme.palette.primary.main;
     const [members, fetchMembers] = useMemberStore((state) => [state.members, state.fetchMembers]);
     const [subscriptions, fetchSubscriptions] = useSubscriptionStore((state) => [state.subscriptions, state.fetchSubscriptions]);
@@ -24,6 +26,10 @@ function Dashboard() {
     const newSubscriptions = subscriptions.filter((s) => s.status === "NEW").length;
     const expiredSubscriptions = subscriptions.filter((s) => s.status === "EXPIRED").length;
     const [t, i18n] = useTranslation();
+
+    const viewDetails = (status) => {
+        navigate("/subscriptions", {state: {search: status}});
+    }
 
     useEffect(() => {
         fetchMembers();
@@ -51,16 +57,16 @@ function Dashboard() {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={3}>
-            <DashboardCard svg={<CalendarSVG color="rgb(0 130 153)"/>} text="Active Subscriptions" number={activeSubscriptions}/>
+            <DashboardCard svg={<CalendarSVG color="rgb(0 130 153)"/>} text="Active Subscriptions" number={activeSubscriptions} onDoubleClick={()=>viewDetails("ACTIVE")}/>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-            <DashboardCard svg={<CalendarSVG color="#06c"/>} text="Paid Subscriptions" number={paidSubscriptions}/>
+            <DashboardCard svg={<CalendarSVG color="#06c"/>} text="Paid Subscriptions" number={paidSubscriptions} onDoubleClick={()=>viewDetails("PAID")}/>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-            <DashboardCard svg={<CalendarSVG color="#607D8B"/>} text="New Subscriptions" number={newSubscriptions}/>
+            <DashboardCard svg={<CalendarSVG color="#607D8B"/>} text="New Subscriptions" number={newSubscriptions} onDoubleClick={()=>viewDetails("NEW")}/>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-            <DashboardCard svg={<CalendarSVG color="#F44336"/>} text="Expired Subscriptions" number={expiredSubscriptions}/>
+            <DashboardCard svg={<CalendarSVG color="#F44336"/>} text="Expired Subscriptions" number={expiredSubscriptions} onDoubleClick={()=>viewDetails("EXPIRED")}/>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
             <DashboardCard svg={<GroupSVG color={primaryMainColor}/>} text="Active Members" number={members.length}/>

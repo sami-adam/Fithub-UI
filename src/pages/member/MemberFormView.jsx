@@ -102,7 +102,7 @@ export default function MemberFormView() {
                 action={
                     <>
                     <Button size="small" color="primary" variant="outlined" 
-                    style={{color:primaryDarkColor,fontWeight:"bold",border:"none",backgroundColor:primaryLightColor}}>
+                    style={{color:primaryDarkColor,fontWeight:"bold",border:"none",backgroundColor:primaryLightColor}} onClick={()=> navigate("/subscriptions",{"state": {"search": member.identificationNumber}})}>
                         {member&&member.subscriptions&&member.subscriptions.length || 0} {t("Subscriptions")}
                     </Button>
                     </>

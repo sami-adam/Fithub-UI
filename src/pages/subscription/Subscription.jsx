@@ -5,15 +5,20 @@ import { randomNumberBetween, useProps } from "@mui/x-data-grid/internals";
 import useSubscriptionStore from "../../state/subscriptionState";
 import { type } from "@testing-library/user-event/dist/type";
 import { useTranslation } from 'react-i18next';
+import { useLocation } from "react-router-dom";
 
 
 
-export default function Subscription() {
+export default function Subscription({defaultSearch = ""}) {
     const token = localStorage.getItem("token");
+    const location = useLocation();
+    if (location.state) {
+        defaultSearch = location.state.search
+    }
     //const [subscriptions, setSubscriptions] = useState([]);
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState(defaultSearch);
     const subscriptions = useSubscriptionStore((state) => state.subscriptions);
     const fetchSubscriptions = useSubscriptionStore((state) => state.fetchSubscriptions);
     const deleteSubscriptions = useSubscriptionStore((state) => state.deleteSubscription);
@@ -27,7 +32,7 @@ export default function Subscription() {
       });
 
     useEffect(() => {
-        if (search === "") {
+        if (search === "" && defaultSearch === "") {
             fetchSubscriptions();
         }
         if (search !== "") {
@@ -44,7 +49,7 @@ export default function Subscription() {
         }
     }, [token, deleted, fetchSubscriptions, selected, deleteSubscriptions, search, searchSubscriptions]);
     const columns = [
-        { field: 'reference', headerName: t('Reference'), width: 70 },
+        { field: 'reference', headerName: t('Reference'), width: 100 },
         { field: 'productName', headerName: t('Subscription'), width: 150 },
         { field: 'firstName', headerName: t('First name'), width: 130 },
         { field: 'lastName', headerName: t('Last name'), width: 130 },
@@ -67,15 +72,15 @@ export default function Subscription() {
             return currencyFormatter.format(value);
           },
         },
-        { field: 'discount', headerName: t('Discount'), width: 130 },
-        { field: 'netAmount', headerName: t('Net Amount'), width: 130,  flex:1, type:'number', valueFormatter: (value) => {
+        { field: 'discount', headerName: t('Discount'), width: 80 },
+        { field: 'netAmount', headerName: t('Net Amount'), width: 120, type:'number', valueFormatter: (value) => {
             if (!value) {
               return value;
             }
             return currencyFormatter.format(value);
           },
         },
-        { field: 'status', headerName: t('Status'), width: 130 },
+        { field: 'status', headerName: t('Status'), width: 80 },
     ];
     const rows = [];
     subscriptions.forEach((subscription) => {
