@@ -137,7 +137,7 @@ export default function SubscriptionFormView() {
                 subscription.qty = subscriptionQty;
             }
             if(discountAmount){
-                subscription.discountAmount = discountAmount;
+                subscription.discount = discountAmount;
             }
         }
         if(changeStatus){
@@ -188,10 +188,10 @@ export default function SubscriptionFormView() {
                     <DateFieldCustom label={t("Start Date")} setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
                     <DateFieldCustom label={t("End Date")} setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
                     {/* <NumberFieldCustom label={t("Price")} placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/> */}
-                    <DisplayField label="Price" value={product&&product.price || 0} postValue="SAR"/>
+                    <DisplayField label="Price" value={product&&product.price || subscription&& subscription.unitPrice || 0} postValue="SAR"/>
                     <NumberFieldCustom label={t("Quantity")} placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
-                    <NumberFieldCustom label={t("Discount")} placeholder="0.0" setValue={setDiscountAmount} viewValue={subscription&&!editMode?subscription.discountAmount:null} id="discountAmount" required={true} disabled={viewMode&&!editMode}/>
-                    <DisplayField label="Net Amount" value={product&&product.price * subscriptionQty - discountAmount || 0} postValue="SAR"/>
+                    <NumberFieldCustom label={t("Discount")} placeholder="0.0" setValue={setDiscountAmount} viewValue={subscription&&!editMode?subscription.discount:null} id="discountAmount" required={true} disabled={viewMode&&!editMode}/>
+                    <DisplayField label="Net Amount" value={(product&&product.price || subscription&& subscription.unitPrice || 0) * subscriptionQty - (subscription&&!editMode?subscription.discount:0|| discountAmount) || 0} postValue="SAR"/>
                     <br/>
                     {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
                 </FormControl>
