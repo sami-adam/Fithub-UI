@@ -6,6 +6,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTheme } from '@emotion/react';
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from 'react-quill';
+import { useTranslation } from 'react-i18next';
 
 
 export default function TextFieldCustom({label, placeholder, setValue, viewValue, id, required, disabled}) {
@@ -82,7 +83,7 @@ export function DateFieldCustom({label, setValue, viewValue, id, required, disab
     )
 }
 
-export function NumberFieldCustom({label, placeholder, setValue, viewValue, id, required, disabled, styles={}}) {
+export function NumberFieldCustom({label, placeholder, setValue, viewValue, id, required, disabled, styles={}, computedValue=0}) {
     return (
         <div style={{width: "600px",display:"inline-flex", alignItems:"center", paddingTop:"20px"}}>
             <FormLabel htmlFor='firstName' style={{width:"118px"}}>{label}</FormLabel>
@@ -93,7 +94,7 @@ export function NumberFieldCustom({label, placeholder, setValue, viewValue, id, 
                 id={id}
                 //label="First Name"
                 placeholder={placeholder}
-                variant="standard" onChange={(e) => setValue(e.target.value)}
+                variant="standard" onChange={(e) => setValue(computedValue ||e.target.value)}
                 style={styles} 
                 value={viewValue}
             />
@@ -156,6 +157,16 @@ export function SearchableSelect({label, placeholder, setValue, viewValue, id, r
                 required={required}
                 id={id}
             />
+        </div>
+    )
+}
+
+export function DisplayField({label, value, postValue}){
+    const {t} = useTranslation();
+    return (
+        <div style={{width: "600px",display:"inline-flex", alignItems:"center", paddingTop:"20px", color: "rgba(0, 0, 0, 0.6)"}}>
+            <div style={{width:"118px"}}>{t(label)}</div>
+            <div>{value} {postValue}</div>
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import { Button, CardContent, CardHeader, FormControl, useTheme, Typography, IconButton, Menu, MenuItem } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DateFieldCustom, NumberFieldCustom, SearchableSelect, SelectFieldCustom } from "../../components/Fields";
+import { DateFieldCustom, DisplayField, NumberFieldCustom, SearchableSelect, SelectFieldCustom } from "../../components/Fields";
 import MainLayout from "../../layout/MainLayout";
 import BackButton, { ActionButton, EditButton, SaveButton } from "../../components/Buttons";
 import FormView, { CardFooter } from "../../components/FormView";
@@ -51,7 +51,8 @@ export default function SubscriptionFormView() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [subscriptionUnitPrice, setSubscriptionUnitPrice] = useState(0);
-    const [subscriptionQty, setSubscriptionQty] = useState(0);
+    const [subscriptionQty, setSubscriptionQty] = useState(1);
+    const [discountAmount, setDiscountAmount] = useState(0);
     const [status, setStatus] = useState("");
     const [changeStatus, setChangeStatus] = useState(false);
     const navigate = useNavigate();
@@ -98,6 +99,7 @@ export default function SubscriptionFormView() {
                 "endDate": endDate,
                 "subscriptionUnitPrice": subscriptionUnitPrice,
                 "subscriptionQty": subscriptionQty,
+                "discountAmount": discountAmount,
                 "status": 0
             });
             setViewMode(true);
@@ -111,6 +113,7 @@ export default function SubscriptionFormView() {
                 "endDate": endDate,
                 "subscriptionUnitPrice": subscriptionUnitPrice,
                 "subscriptionQty": subscriptionQty,
+                "discountAmount": discountAmount,
             });
             setEditMode(false);
             setViewMode(true);
@@ -133,9 +136,12 @@ export default function SubscriptionFormView() {
             if(subscriptionQty){
                 subscription.qty = subscriptionQty;
             }
+            if(discountAmount){
+                subscription.discountAmount = discountAmount;
+            }
         }
         if(changeStatus){
-            const statusInt = statuses[subscription.status] + 1;
+            const statusInt = statuses[t(subscription.status, {lng:'en'})] + 1;
             updateSubscription({
                 "id": subscription.id,
                 "status": statusInt
@@ -146,7 +152,7 @@ export default function SubscriptionFormView() {
             
         }
     }
-    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription, fetchProducts, product, addSubscription, updateSubscription, changeStatus, status]);
+    , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription, fetchProducts, product, addSubscription, updateSubscription, changeStatus, status, discountAmount]);
 
     return (
         <>
@@ -156,8 +162,8 @@ export default function SubscriptionFormView() {
             <CardHeader 
                 action={
                     <>
-                    <ActionButton text="PAID" icon={<PaidIcon/>} onClick={setChangeStatus} toolTip={t("Change status to PAID")} hide={subscription&&subscription.status == "NEW"? false: true}/>
-                    <ActionButton text="ACTIVE" icon={<CheckCircleOutlineIcon/>} onClick={setChangeStatus} toolTip={t("Change status to ACTIVE")} hide={subscription&&subscription.status == "PAID"? false: true} color="teal"/>
+                    <ActionButton text="PAID" icon={<PaidIcon/>} onClick={setChangeStatus} toolTip={t("Change status to PAID")} hide={subscription&&subscription.status == t("NEW")? false: true}/>
+                    <ActionButton text="ACTIVE" icon={<CheckCircleOutlineIcon/>} onClick={setChangeStatus} toolTip={t("Change status to ACTIVE")} hide={subscription&&subscription.status == t("PAID")? false: true} color="teal"/>
                     </>
                     } 
                 title={
@@ -181,8 +187,11 @@ export default function SubscriptionFormView() {
                     <SearchableSelect label={t("Product")} setValue={setProduct} viewValue={(subscription&&!editMode?subscription.product&&subscription.product:null) || (product || null) || (subscription&&editMode?subscription.product&&subscription.product:null)} id="product" required={true} disabled={viewMode&&!editMode} items={products} itemFields={["name","category.name"]}/>
                     <DateFieldCustom label={t("Start Date")} setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
                     <DateFieldCustom label={t("End Date")} setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
-                    <NumberFieldCustom label={t("Price")} placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/>
+                    {/* <NumberFieldCustom label={t("Price")} placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/> */}
+                    <DisplayField label="Price" value={product&&product.price || 0} postValue="SAR"/>
                     <NumberFieldCustom label={t("Quantity")} placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
+                    <NumberFieldCustom label={t("Discount")} placeholder="0.0" setValue={setDiscountAmount} viewValue={subscription&&!editMode?subscription.discountAmount:null} id="discountAmount" required={true} disabled={viewMode&&!editMode}/>
+                    <DisplayField label="Net Amount" value={product&&product.price * subscriptionQty - discountAmount || 0} postValue="SAR"/>
                     <br/>
                     {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
                 </FormControl>

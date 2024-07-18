@@ -60,9 +60,21 @@ export default function Subscription() {
           },
         },
         { field: 'qty', headerName: t('Quantity'), width: 60 },
-        { field: 'totalAmount', headerName: t('Total Amount'), width: 130 },
+        { field: 'totalAmount', headerName: t('Total Amount'), width: 130, type:'number', valueFormatter: (value) => {
+            if (!value) {
+              return value;
+            }
+            return currencyFormatter.format(value);
+          },
+        },
         { field: 'discount', headerName: t('Discount'), width: 130 },
-        { field: 'netAmount', headerName: t('Net Amount'), width: 130,  flex:1},
+        { field: 'netAmount', headerName: t('Net Amount'), width: 130,  flex:1, type:'number', valueFormatter: (value) => {
+            if (!value) {
+              return value;
+            }
+            return currencyFormatter.format(value);
+          },
+        },
         { field: 'status', headerName: t('Status'), width: 130 },
     ];
     const rows = [];
