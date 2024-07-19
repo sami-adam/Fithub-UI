@@ -71,7 +71,21 @@
       "Category Name": "إسم الفئة",
       "Create Category": "إنشاء فئة",
       "View Categories": "عرض الفئات",
-      "Reference": "المرجع"
+      "Reference": "المرجع",
+      "Active Subscriptions": "الاشتراكات النشطة",
+      "Paid Subscriptions": "الاشتراكات المدفوعة",
+      "New Subscriptions": "الاشتراكات الجديدة",
+      "Expired Subscriptions": "الاشتراكات المنتهية",
+      "Active Members": "المشتركين الحاليين",
+      "Dashboard": "لوحة البيانات",
+      "Sign in": "تسجيل الدخول",
+      "Password": "كلمة المرور",
+      "Email Address": "البريد الإلكتروني",
+      "Forgot password?": "نسيت كلمة المرور؟",
+      "Don't have an account? Sign Up": "ليس لديك حساب؟ سجل",
+      "Remember me": "تذكرني",
+      "Sign In": "دخول",
+      "Copyright": "جميع الحقوق محفوظة"
 
       
     }

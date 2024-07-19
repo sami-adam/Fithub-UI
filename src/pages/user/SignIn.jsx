@@ -12,11 +12,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../../components/LanguageSelector';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
 function Copyright(props) {
+  const {t} = useTranslation();
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '} {new Date().getFullYear() + " "}
+    <Typography variant="body2" color="text.secondary" align="center" {...props} sx={{paddingTop:"40px"}}>
+      {`${t("Copyright")} © `} {new Date().getFullYear() + " "}
       <Link color="inherit" href="https://fithub.com/">
         Fith Hub
       </Link>{' '}
@@ -34,6 +38,7 @@ export default function SignIn() {
   const [email, setEmail] = React.useState("admin@fithub.com");
   const [password, setPassword] = React.useState("qLUftio3");
   const [signIn, setSignIn] = React.useState(false);
+  const {t} = useTranslation();
   const baseURL = process.env.REACT_APP_BASE_URL;
 
   const handleSubmit = (event) => {
@@ -76,7 +81,6 @@ export default function SignIn() {
 
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -87,11 +91,11 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main', height:"80px", width:"80px" }}>
+          FitHuB
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {t("Sign in")}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -99,44 +103,45 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={t("Email Address")}
               name="email" 
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
-              autoFocus
+              autoFocus variant="standard"
             />
             <TextField
               margin="normal"
               required
               fullWidth
               name="password"
-              label="Password" 
+              label={t("Password")} 
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               id="password"
-              autoComplete="current-password"
+              autoComplete="current-password" variant="standard"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label={t("Remember me")}
             />
+            <LanguageSelector/>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {t("Sign In")}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  {t("Forgot password?")}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {t("Don't have an account? Sign Up")}
                 </Link>
               </Grid>
             </Grid>
@@ -144,6 +149,5 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
   );
 }

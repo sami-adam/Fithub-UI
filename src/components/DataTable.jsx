@@ -1,10 +1,10 @@
 import { DataGrid, gridClasses, GridToolbar } from '@mui/x-data-grid';
 import MainLayout from "../layout/MainLayout";
 import { Button, IconButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from '../values/colors';
 import { useTheme } from '@mui/material';
-import { CreateButton } from './Buttons';
+import BackButton, { CreateButton } from './Buttons';
 import SearchBar from './SearchBar';
 import { arSD, enUS } from '@mui/x-data-grid/locales';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,7 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
     const {t, i18n } = useTranslation();
     const primaryMainColor = theme.palette.primary.main;
     const primaryLightColor = theme.palette.primary.light;
+    const location = useLocation();
     return (
         <>
         <MainLayout>
@@ -34,6 +35,7 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
                     </div>
                     <div>
                         {viewButtons&&viewButtons.map((button)=> <IconButton color="primary" aria-label={button.viewName} component="span" onClick={()=> button.setViewType(button.viewName)}>{button.button}</IconButton>)}
+                        {location.state && location.state.search !== "" && <BackButton/>}
                     </div>
                 </div>
                 <DataGrid
