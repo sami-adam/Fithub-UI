@@ -25,6 +25,7 @@ import LanguageSelector from '../components/LanguageSelector';
 import { useTranslation } from 'react-i18next';
 import LogoutIcon from '@mui/icons-material/Logout';
 import TranslateIcon from '@mui/icons-material/Translate';
+import TuneIcon from '@mui/icons-material/Tune';
 
 const style = {
     position: 'absolute',
@@ -168,12 +169,11 @@ function MainLayout({children}) {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} toolTipe="Subscriptions"/>
                 <NavButton url={'/members'} icon={<PeopleIcon />} toolTipe="Members"/>
-                <NavButton url={'/emails'} icon={<MailIcon />} toolTipe="Emails"/>
                 <Tooltip title={t("Products")} TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1],}}}>
                     <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleClick}>
                         <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
                         '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
-                            <IconButton size="small" style={{color: 'white'}}><TableChartIcon/></IconButton>
+                            <IconButton size="small" style={{color: 'white'}}><TuneIcon/></IconButton>
                         </div>
                     </Button>
                 </Tooltip>
@@ -186,8 +186,9 @@ function MainLayout({children}) {
                     'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <MenuItem onClick={()=> navigate("/products")} style={{fontSize:"14px", color:"gray"}}><IndeterminateCheckBoxIcon/>{t("Products")}</MenuItem>
-                    <MenuItem onClick={()=> navigate("/product-categories")} style={{fontSize:"14px", color:"gray"}}><CategoryIcon/>{t("Categories")}</MenuItem>
+                    <MenuItem onClick={()=> navigate("/products")} style={{fontSize:"14px", color:"gray",fontWeight:"bold"}}><IndeterminateCheckBoxIcon style={{color:primaryMainColor, paddingInlineEnd:"10px"}}/>{t("Products")}</MenuItem>
+                    <MenuItem onClick={()=> navigate("/product-categories")} style={{fontSize:"14px", color:"gray",fontWeight:"bold"}}><CategoryIcon style={{color:primaryMainColor, paddingInlineEnd:"10px"}}/>{t("Categories")}</MenuItem>
+                    <MenuItem onClick={()=> navigate("/emails")} style={{fontSize:"14px", color:"gray",fontWeight:"bold"}}><MailIcon style={{color:primaryMainColor, paddingInlineEnd:"10px"}}/>{t("Emails")}</MenuItem>
                 </Menu>
                 
             </Box>
