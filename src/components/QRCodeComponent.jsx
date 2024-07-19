@@ -7,7 +7,6 @@ const QRCodeComponent = ({ data, setQrCodeUrl }) => {
     const canvas = document.getElementById('qrCode');
     if (canvas) {
       const dataUrl = canvas.toDataURL();
-      console.log("**************", dataUrl);
       setQrCodeUrl(dataUrl);
     }
   }, [data, setQrCodeUrl]);
