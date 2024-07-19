@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import { FaGear } from "react-icons/fa6";
 import { useTranslation } from 'react-i18next';
+import EllipsisSVG from '../dashboards/svg/EllipsisSVG';
 
 
 const StyledMenu = styled((props) => (
@@ -69,12 +70,12 @@ export default function FormHeaderActions({children}) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         variant="contained"
-        disableElevation
+        disableElevation 
         onClick={handleClick}
-        sx={{backgroundColor:"white", color:primaryMainColor, 
-            ':hover': {backgroundColor:primaryLightColor}
+        sx={{backgroundColor:"white", color:primaryMainColor, height: '25px', borderRadius: '12px',
+            ':hover': {backgroundColor:primaryLightColor},
         }} 
-        endIcon={<FaGear/>}>
+        endIcon={<EllipsisSVG/>}>
       </Button>
       <StyledMenu
         id="demo-customized-menu"

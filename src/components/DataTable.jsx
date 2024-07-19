@@ -9,7 +9,7 @@ import SearchBar from './SearchBar';
 import { arSD, enUS } from '@mui/x-data-grid/locales';
 import { useTranslation } from 'react-i18next';
 import FormHeaderActions from './FormHeaderActions';
-
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 
 export default function DataTable({ columns, rows, selected, setSelected, deleted, setDeleted, createUrl, detailsUrl, viewButtons= [], setSearch}) {
@@ -23,6 +23,8 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
         <>
         <MainLayout>
             {setSearch && <SearchBar setSearch={setSearch}/>}
+            <br/>
+            <br/>
             <div style={{ height: 750, width: '100%'}}>
                 <div style={{display:"flex", justifyContent:"space-between"}}>
                     <div>
@@ -30,7 +32,10 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
                     </div>
                     <div>
                         <FormHeaderActions>
-                            <Button variant="outlined" color="primary" style={{color:'red', fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': ''}} onClick={()=> window.confirm(t("Are You Sure?"))?setDeleted(true):setDeleted(false)}>Delete</Button>
+                            <IconButton variant="outlined" color="primary" style={{color:'gray',fontSize:"16px", fontWeight:'bold',border:'0px',display:selected.length ==0 ? 'none': 'flex', justifyContent:"start"}} onClick={()=> window.confirm(t("Are You Sure?"))?setDeleted(true):setDeleted(false)} 
+                                sx={{':hover': {width:"100%", height:"100%", borderRadius:"5px"}}}>
+                                <DeleteOutlineOutlinedIcon style={{color:primaryMainColor,paddingInlineEnd:"10px"}}/> {t("Delete")}
+                            </IconButton>
                         </FormHeaderActions>
                     </div>
                     <div>

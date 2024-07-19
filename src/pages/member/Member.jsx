@@ -69,7 +69,8 @@ export default function Member() {
         {viewType === "list" &&
         <DataTable columns={columns} rows={rows} selected={selected} setSelected={setSelected} deleted={deleted} setDeleted={setDeleted} 
         createUrl={'/member-form-view'} detailsUrl={'/member-form-view'} 
-        viewButtons={[{"viewName": "cards", "setViewType": setViewType, button:<RecentActorsIcon/>}, {"viewName": "list", "setViewType": setViewType, button:<ListIcon/>}]}/>
+        viewButtons={[{"viewName": "cards", "setViewType": setViewType, button:<RecentActorsIcon/>}, {"viewName": "list", "setViewType": setViewType, button:<ListIcon/>}]} 
+        setSearch={setSearch}/>
         } 
        </>
     );
