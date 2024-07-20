@@ -52,7 +52,10 @@ export default function SubscriptionFormView() {
     const [endDate, setEndDate] = useState("");
     const [subscriptionUnitPrice, setSubscriptionUnitPrice] = useState(0);
     const [subscriptionQty, setSubscriptionQty] = useState(1);
+    const [totalAmount, setTotalAmount] = useState(0);
     const [discountAmount, setDiscountAmount] = useState(0);
+    const [taxAmount, setTaxAmount] = useState(0);
+    const [netAmount, setNetAmount] = useState(0);
     const [status, setStatus] = useState("");
     const [changeStatus, setChangeStatus] = useState(false);
     const navigate = useNavigate();
@@ -84,6 +87,11 @@ export default function SubscriptionFormView() {
 
     useEffect(() => {
         setViewMode(subscription? true: false);
+        if(subscription){
+            setTotalAmount((product&&product.price || subscription&& subscription.unitPrice || 0) * subscriptionQty || 0);
+            setTaxAmount((product&&product.tax && product.tax.rate || subscription.product.tax && subscription.product.tax.rate || 0) / 100 * (product&&product.price || subscription&& subscription.unitPrice || 0) * subscriptionQty || 0);
+            setNetAmount(totalAmount + taxAmount - discountAmount);
+        }
         try{
             fetchMembers();
             fetchProducts();
@@ -95,6 +103,7 @@ export default function SubscriptionFormView() {
             addSubscription({
                 "member": {"id": member.id},
                 "product": {"id": product.id},
+                "tax": {"id": product.tax&&product.tax.id},
                 "startDate": startDate,
                 "endDate": endDate,
                 "subscriptionUnitPrice": product.price,
@@ -109,6 +118,7 @@ export default function SubscriptionFormView() {
                 "id": subscription.id,
                 "member": {"id": member&&member.id},
                 "product": {"id": product&&product.id},
+                "tax": {"id": product&&product.tax&&product.tax.id},
                 "startDate": startDate,
                 "endDate": endDate,
                 "subscriptionUnitPrice": product&&product.price,
@@ -189,9 +199,12 @@ export default function SubscriptionFormView() {
                     <DateFieldCustom label={t("End Date")} setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
                     {/* <NumberFieldCustom label={t("Price")} placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/> */}
                     <DisplayField label="Price" value={product&&product.price || subscription&& subscription.unitPrice || 0} postValue="SAR"/>
+                    <DisplayField label="Tax" value={product&&product.tax && product.tax.name || subscription.product.tax && subscription.product.tax.name || ""}/>
                     <NumberFieldCustom label={t("Quantity")} placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
+                    <DisplayField label={t("Total Amount")} value={totalAmount} postValue="SAR"/>
                     <NumberFieldCustom label={t("Discount")} placeholder="0.0" setValue={setDiscountAmount} viewValue={subscription&&!editMode?subscription.discount:null} id="discountAmount" required={true} disabled={viewMode&&!editMode}/>
-                    <DisplayField label="Net Amount" value={(product&&product.price || subscription&& subscription.unitPrice || 0) * subscriptionQty - (subscription&&!editMode?subscription.discount:0|| discountAmount) || 0} postValue="SAR"/>
+                    <DisplayField label={t("Tax Amount")} value={taxAmount} postValue="SAR"/>
+                    <DisplayField label="Net Amount" value={netAmount} postValue="SAR"/>
                     <br/>
                     {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
                 </FormControl>

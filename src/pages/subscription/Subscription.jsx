@@ -99,6 +99,7 @@ export default function Subscription({defaultSearch = ""}) {
             qty: subscription.subscriptionQty,
             totalAmount: subscription.totalAmount,
             discount: subscription.discountAmount,
+            taxAmount: subscription.taxAmount,
             netAmount: subscription.netAmount,
             status: t(subscription.status),
         });
