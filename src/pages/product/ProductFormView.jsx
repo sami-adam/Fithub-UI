@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useCategoryStore from "../../state/productCategoryState";
 import useProductStore from "../../state/productState";
+import useTaxStore from "../../state/taxState";
 import MainLayout from "../../layout/MainLayout";
 import BackButton, { EditButton, SaveButton } from "../../components/Buttons";
 import FormView, { CardFooter } from "../../components/FormView";
@@ -19,6 +20,7 @@ export default function ProductFormView() {
     const [viewMode, setViewMode] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [category, setCategory] = useState(null);
+    const [tax , setTax] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
     const theme = useTheme();
@@ -31,6 +33,7 @@ export default function ProductFormView() {
     const addProduct = useProductStore((state)=> state.addProduct);
     const updateProduct = useProductStore((state)=> state.updateProduct);
     const [categories, fetchCategories] = useCategoryStore((state)=> [state.productCategories, state.fetchProductCategories]);
+    const [taxes, fetchTaxes] = useTaxStore((state)=> [state.taxes, state.fetchTaxes]);
 
     const handleCreate = () => {
         setCreate(true);
@@ -47,6 +50,7 @@ export default function ProductFormView() {
         setViewMode(product? true: false);
         try{
             fetchCategories();
+            fetchTaxes();
         } catch (error) {
             console.error("Error:", error);
         }
@@ -57,6 +61,7 @@ export default function ProductFormView() {
                 "description": description,
                 "price": price,
                 "category": {"id": category},
+                "tax": {"id": tax},
                 "image": image
             });
             setViewMode(true);
@@ -68,6 +73,7 @@ export default function ProductFormView() {
                 "description": description,
                 "price": price,
                 "category": {"id": category},
+                "tax": {"id": tax},
                 "image": image
             });
             setEditMode(false);
@@ -75,6 +81,9 @@ export default function ProductFormView() {
             setSave(false);
             if(category){
                 product.category = category;
+            }
+            if(tax){
+                product.tax = tax;
             }
             if(image){
                 product.image = image;
@@ -89,7 +98,7 @@ export default function ProductFormView() {
                 product.price = price;
             }
         }
-    }, [create, save, product, name, description, price, category, image, addProduct, updateProduct, fetchCategories]);
+    }, [create, save, product, name, description, price, category, image, addProduct, updateProduct, fetchCategories, fetchTaxes, tax]);
     return (
         <>
         <MainLayout>
@@ -101,6 +110,9 @@ export default function ProductFormView() {
                     <SelectFieldCustom label={t("Category")} setValue={setCategory} styles={{width:"300px",marginLeft:"25px"}}
                     viewValue={(product&&!editMode?product.category&&product.category.id:null) || (category || null) || (product&&editMode?product.category.id:null)} 
                     items={categories} id="category" required={true} disabled={viewMode&&!editMode} itemFields={["name"]} />
+                    <SelectFieldCustom label={t("Tax")} setValue={setTax} styles={{width:"300px",marginLeft:"25px"}} 
+                    viewValue={(product&&!editMode?product.tax&&product.tax.id:null) || (tax || null) || (product&&editMode?product.tax&&product.tax.id:null)}
+                    items={taxes} id="tax" required={true} disabled={viewMode&&!editMode} itemFields={["name"]} />
                     <TextFieldCustom label={t("Description")} placeholder="Enter Description" setValue={setDescription} viewValue={product&&!editMode?product.description:null} id="description" required={true} disabled={viewMode&&!editMode} />
                     <NumberFieldCustom label={t("Price")} placeholder="Enter Price" styles={{width:"300px",marginLeft:"25px"}} setValue={setPrice} viewValue={product&&!editMode?product.price:null} id="price" required={true} disabled={viewMode&&!editMode} />
                     <TextFieldCustom label={t("Image")} placeholder="Enter Image URL" setValue={setImage} viewValue={product&&!editMode?product.image:null} id="image" required={true} disabled={viewMode&&!editMode} />

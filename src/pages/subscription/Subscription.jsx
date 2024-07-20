@@ -36,7 +36,6 @@ export default function Subscription({defaultSearch = ""}) {
             fetchSubscriptions();
         }
         if (search !== "") {
-            console.log(search);
             searchSubscriptions(search);
         }
         if (deleted) {
