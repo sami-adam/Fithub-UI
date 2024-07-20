@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../../components/LanguageSelector';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -40,6 +40,9 @@ export default function SignIn() {
   const [signIn, setSignIn] = React.useState(false);
   const {t} = useTranslation();
   const baseURL = process.env.REACT_APP_BASE_URL;
+  const theme = useTheme();
+  const primaryMainColor = theme.palette.primary.main;
+  const primaryLightColor = theme.palette.primary.light;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -129,7 +132,7 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2 , backgroundColor: primaryMainColor, ":hover": {backgroundColor:"#13a3bc"}}}
             >
               {t("Sign In")}
             </Button>
