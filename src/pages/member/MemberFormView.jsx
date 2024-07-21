@@ -49,6 +49,22 @@ export default function MemberFormView() {
         setSave(true);
     }
 
+    const getStatusColor = (status) => {
+        switch (status) {
+            case t("ACTIVE"):
+                return primaryMainColor;
+            case t("NEW"):
+                return "gray";
+            case t("EXPIRING"):
+                return "orange";
+            case t("Expired"):
+                return "red";
+            default:
+                return "gray";
+        }
+    
+    }
+
     useEffect(() => {
         setViewMode(member? true: false);
         if(create){
@@ -108,8 +124,8 @@ export default function MemberFormView() {
                     </>
                     } 
                 title={
-                    <Typography variant="h8" component="div" style={{fontWeight:"bold"}}>
-                        {t("Member Details")}
+                    <Typography variant="h8" component="div" style={{fontWeight:"bold"}} color={getStatusColor(t(member&&member.status))}>
+                        {t(member&&member.status)}
                     </Typography>
                 }
                     style={{borderBottom:"1px solid #c2ccd4", backgroundColor:primaryLightColor,opacity:0.8}}/>

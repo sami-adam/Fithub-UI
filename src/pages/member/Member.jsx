@@ -34,6 +34,7 @@ export default function Member() {
         { field: 'identificationNumber', headerName: t('Identification Number'), width: 200 },
         { field: 'email', headerName: t('Email'), width: 180 },
         { field: 'phone', headerName: t('Phone'), width: 150 },
+        { field: 'status', headerName: t('Status'), width: 150 }
     ];
     const rows = [];
     members.forEach((member) => {
@@ -46,6 +47,7 @@ export default function Member() {
             subscriptions: member.subscriptions,
             email: member.email,
             phone: member.phone,
+            status: member.status
         });
     });
     return (
