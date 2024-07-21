@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import LogoutIcon from '@mui/icons-material/Logout';
 import TranslateIcon from '@mui/icons-material/Translate';
 import TuneIcon from '@mui/icons-material/Tune';
+import Gear from '../assets/images/Gear';
 
 const style = {
     position: 'absolute',
@@ -173,7 +174,7 @@ function MainLayout({children}) {
                     <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleClick}>
                         <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
                         '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
-                            <IconButton size="small" style={{color: 'white'}}><TuneIcon/></IconButton>
+                            <IconButton size="small" style={{color: 'white'}}><Gear color={primaryLightColor} width={24} height={24}/></IconButton>
                         </div>
                     </Button>
                 </Tooltip>
