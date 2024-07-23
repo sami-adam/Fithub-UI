@@ -27,6 +27,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import TranslateIcon from '@mui/icons-material/Translate';
 import TuneIcon from '@mui/icons-material/Tune';
 import Gear from '../assets/images/Gear';
+import RecentActorsIcon from '@mui/icons-material/RecentActors';
 
 const style = {
     position: 'absolute',
@@ -170,6 +171,7 @@ function MainLayout({children}) {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} toolTipe="Subscriptions"/>
                 <NavButton url={'/members'} icon={<PeopleIcon />} toolTipe="Members"/>
+                <NavButton url={'/employees'} icon={<RecentActorsIcon />} toolTipe="Employees"/>
                 <Tooltip title={t("Products")} TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1],}}}>
                     <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleClick}>
                         <div style={{width: '128px', backgroundColor:primaryMainColor, color: 

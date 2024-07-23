@@ -25,7 +25,7 @@ export default function ProductCategoryCard({ category }) {
             <div style={{display: 'inline-table', paddingTop:"8px"}}><Avatar style={{width:'80px',height:'80px',backgroundColor:primaryMainColor}}>{category.name[0]+category.name[1]}</Avatar></div>
             <h3 className="card-title" style={{fontSize:'medium', color:'#5f5f69'}}>{category.name}</h3>
             <p className="card-text" style={{fontSize:'small', color:'#6b6969'}}>{"000" + category.id}</p>
-            <p className="card-text" style={{fontSize:'small',color:'#072287'}}>{category.description} SR</p>
+            <p className="card-text" style={{fontSize:'small',color:'#072287'}}>{category.description}</p>
             <Button onClick={()=> window.confirm("Are you sure?") ? setCategoryId(category.id): setCategoryId(0)}> <DeleteOutlinedIcon style={{color: "darkgoldenrod"}}/> </Button>
         </div>
         </div>

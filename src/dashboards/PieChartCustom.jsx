@@ -24,6 +24,9 @@ export default function PieChartCustom({items=[]}) {
           }}
           width={250}
           height={120}
+          slotProps={{
+            legend: { hidden: true },
+          }}
           
           />
         </div>

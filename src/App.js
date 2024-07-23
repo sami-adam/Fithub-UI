@@ -14,6 +14,8 @@ import Product from './pages/product/Product';
 import ProductFormView from './pages/product/ProductFormView';
 import ProductCategory from './pages/product/ProductCategory';
 import ProductCategoryFormView from './pages/product/ProductCategoryFormView';
+import Employee from './pages/employee/Employee';
+import EmployeeFormView from './pages/employee/EmployeeFormView';
 
 const theme = createTheme({
   palette: {
@@ -48,6 +50,8 @@ function App() {
         <Route path="/product-form-view" element={<ProductFormView />} />
         <Route path="/product-categories" element={<ProductCategory />} />
         <Route path="/product-category-form-view" element={<ProductCategoryFormView />} />
+        <Route path="/employees" element={<Employee />} />
+        <Route path="/employee-form-view" element={<EmployeeFormView />} />
       </Routes>
     </BrowserRouter>
     </ThemeProvider>

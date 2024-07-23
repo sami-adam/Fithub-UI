@@ -5,18 +5,21 @@ import DashboardCard from './DashboardCard';
 import GroupSVG from './svg/groupSVG';
 import CalendarSVG from './svg/CalendarSVG';
 import useMemberStore from "../state/memberState";
+import useEmployeeStore from "../state/employeeState";
 import useSubscriptionStore from "../state/subscriptionState";
 import useProductStore from "../state/productState";
 import useProductCategoryStore from "../state/productCategoryState";
 import PieChartCustom from './PieChartCustom';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import RecentActorsIcon from '@mui/icons-material/RecentActors';
 
 function Dashboard() {
     const theme = useTheme();
     const navigate = useNavigate();
     const primaryMainColor = theme.palette.primary.main;
     const [members, fetchMembers] = useMemberStore((state) => [state.members, state.fetchMembers]);
+    const [employees, fetchEmployees] = useEmployeeStore((state) => [state.employees, state.fetchEmployees]);
     const [subscriptions, fetchSubscriptions] = useSubscriptionStore((state) => [state.subscriptions, state.fetchSubscriptions]);
     const [products, fetchProducts] = useProductStore((state) => [state.products, state.fetchProducts]);
     const [productCategories, fetchProductCategories] = useProductCategoryStore((state) => [state.productCategories, state.fetchProductCategories]);
@@ -33,11 +36,12 @@ function Dashboard() {
 
     useEffect(() => {
         fetchMembers();
+        fetchEmployees();
         fetchSubscriptions();
         fetchProducts();
         fetchProductCategories();
         theme.direction = i18n.language === 'ar' ? 'rtl' : 'ltr';
-    }, [fetchMembers, fetchSubscriptions, fetchProducts, fetchProductCategories, i18n.language]);
+    }, [fetchMembers, fetchEmployees, fetchSubscriptions, fetchProducts, fetchProductCategories, i18n.language]);
     const pieChartData =[]
     var pieId = 0;
     const pieChartColors = ["whitesmoke", "#CFB53B", primaryMainColor];
@@ -70,6 +74,9 @@ function Dashboard() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
             <DashboardCard svg={<GroupSVG color={primaryMainColor}/>} text="Active Members" number={members.length}/>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+            <DashboardCard svg={<RecentActorsIcon sx={{color:primaryMainColor, fontSize:"50px"}}/>} text="Employees" number={employees.length}/>
         </Grid>
         <Grid item xs={12}>
             <PieChartCustom items={pieChartData}/>
