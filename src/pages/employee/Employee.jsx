@@ -10,18 +10,24 @@ import SearchBar from "../../components/SearchBar";
 import { useTranslation } from 'react-i18next';
 import { randomNumberBetween } from "@mui/x-data-grid/internals";
 import EmployeeCard from "../../components/EmployeeCard";
+import { useLocation } from "react-router-dom";
 
-export default function Employee() {
+export default function Employee(defaultSearch = "") {
     const {employees, fetchEmployees} = useEmployeeStore();
     const searchEmployees = useEmployeeStore((state) => state.searchEmployees);
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
     const [viewType, setViewType] = useState("cards");
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState(defaultSearch);
     const { t } = useTranslation();
+    const location = useLocation();
+
+    if (location.state) {
+        defaultSearch = location.state.search
+    }
 
     useEffect(()=>{
-        if(search === ""){
+        if(search === "" && defaultSearch === ""){
             fetchEmployees();
         }
         if(search !== ""){

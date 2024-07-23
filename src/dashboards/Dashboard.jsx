@@ -73,10 +73,10 @@ function Dashboard() {
             <DashboardCard svg={<CalendarSVG color="#F44336"/>} text="Expired Subscriptions" number={expiredSubscriptions} onDoubleClick={()=>viewDetails("EXPIRED")}/>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-            <DashboardCard svg={<GroupSVG color={primaryMainColor}/>} text="Active Members" number={members.length}/>
+            <DashboardCard svg={<GroupSVG color={primaryMainColor}/>} text="Active Members" number={members.length} onDoubleClick={()=> navigate("/members")}/>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-            <DashboardCard svg={<RecentActorsIcon sx={{color:primaryMainColor, fontSize:"50px"}}/>} text="Employees" number={employees.length}/>
+            <DashboardCard svg={<RecentActorsIcon sx={{color:"rgb(0, 102, 204)", fontSize:"50px"}}/>} text="Employees" number={employees.length} onDoubleClick={()=> navigate("/employees")}/>
         </Grid>
         <Grid item xs={12}>
             <PieChartCustom items={pieChartData}/>
