@@ -29,6 +29,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import Gear from '../assets/images/Gear';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import FitbitIcon from '@mui/icons-material/Fitbit';
+import DarkMode from '../components/DarkMode';
 
 const style = {
     position: 'absolute',
@@ -231,6 +232,13 @@ function MainLayout({children}) {
                             </div>
                         </Typography>
                     </MenuItem>
+                    {/* <MenuItem key="darkMode">
+                        <Typography textAlign="center" style={{color:primaryMainColor, fontSize:"14px"}}>
+                            <div style={{display:"flex", alignItems:"center"}}>
+                            <DarkMode/>
+                            </div>
+                        </Typography>
+                    </MenuItem> */}
                     <MenuItem key="logOut" onClick={handleLogout}>
                         <Typography textAlign="center" style={{color:"red", fontSize:"14px"}}>
                             <div style={{display:"flex", alignItems:"center",paddingInlineStart:"10px"}}> {t("Logout")}</div>
