@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@mui/material";
+import { Button, CardActions, Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 export default function DashboardCard({text, number, svg, onDoubleClick}) {
@@ -15,6 +15,10 @@ export default function DashboardCard({text, number, svg, onDoubleClick}) {
             <Typography variant="h8" fontSize={"0.975rem"} color={"rgb(145, 158, 171)"}>{t(text)}</Typography>
             </div>
         </div>
+        <CardActions>
+            <Button size="small">Share</Button>
+            <Button size="small" onClick={onDoubleClick}>See Details</Button>
+        </CardActions>
         </Paper>
     );
   };
