@@ -204,7 +204,7 @@ export default function SubscriptionFormView() {
                     <DisplayField label={t("Total Amount")} value={totalAmount} postValue="SAR"/>
                     <NumberFieldCustom label={t("Discount")} placeholder="0.0" setValue={setDiscountAmount} viewValue={subscription&&!editMode?subscription.discount:null} id="discountAmount" required={true} disabled={viewMode&&!editMode}/>
                     <DisplayField label={t("Tax Amount")} value={taxAmount} postValue="SAR"/>
-                    <DisplayField label="Net Amount" value={netAmount} postValue="SAR"/>
+                    <DisplayField label={t("Net Amount")} value={netAmount} postValue="SAR"/>
                     <br/>
                     {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
                 </FormControl>

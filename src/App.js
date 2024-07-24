@@ -17,6 +17,8 @@ import ProductCategoryFormView from './pages/product/ProductCategoryFormView';
 import Employee from './pages/employee/Employee';
 import EmployeeFormView from './pages/employee/EmployeeFormView';
 import CardView from './components/CardView';
+import FitnessClass from './pages/fitnessClass/FitnessClass';
+import FitnessClassFormView from './pages/fitnessClass/FitnessClassFormView';
 
 const theme = createTheme({
   palette: {
@@ -54,6 +56,8 @@ function App() {
         <Route path="/employees" element={<Employee />} />
         <Route path="/employee-form-view" element={<EmployeeFormView />} />
         <Route path="/card-view" element={<CardView />} />
+        <Route path="/fitness-classes" element={<FitnessClass />} />
+        <Route path="/fitness-class-form-view" element={<FitnessClassFormView />} />
       </Routes>
     </BrowserRouter>
     </ThemeProvider>

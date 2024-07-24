@@ -28,6 +28,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import TuneIcon from '@mui/icons-material/Tune';
 import Gear from '../assets/images/Gear';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
+import FitbitIcon from '@mui/icons-material/Fitbit';
 
 const style = {
     position: 'absolute',
@@ -90,7 +91,7 @@ function MainLayout({children}) {
 
   return (
     <>
-        <AppBar position="static" style={{position: 'fixed', top: 0, zIndex:999,backgroundColor: primaryMainColor}}>
+        <AppBar position="static" style={{position: 'fixed', top: 0, zIndex:999,backgroundColor: primaryMainColor, maxHeight:"8%"}}>
         <Container maxWidth="xl">
             <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -169,14 +170,15 @@ function MainLayout({children}) {
                 LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon />} toolTipe="Subscriptions"/>
-                <NavButton url={'/members'} icon={<PeopleIcon />} toolTipe="Members"/>
-                <NavButton url={'/employees'} icon={<RecentActorsIcon />} toolTipe="Employees"/>
+                <NavButton url={'/subscriptions'} icon={<InsertInvitationIcon sx={{fontSize:"35px"}}/>} toolTipe="Subscriptions"/>
+                <NavButton url={'/members'} icon={<PeopleIcon sx={{fontSize:"35px"}}/>} toolTipe="Members"/>
+                <NavButton url={'/employees'} icon={<RecentActorsIcon sx={{fontSize:"35px"}}/>} toolTipe="Employees"/>
+                <NavButton url={'/fitness-classes'} icon={<FitbitIcon sx={{fontSize:"35px"}}/>} toolTipe="Classes"/>
                 <Tooltip title={t("Products")} TransitionProps={{style: {backgroundColor: primaryLightColor, color: primaryMainColor, fontWeight: 'bold',boxShadow: theme.shadows[1],}}}>
                     <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleClick}>
                         <div style={{width: '128px', backgroundColor:primaryMainColor, color: 
                         '#f9f7f7', fontWeight: 'bold', border:"1px solid "+primaryMainColor}} className="nav-button">
-                            <IconButton size="small" style={{color: 'white'}}><Gear color={primaryLightColor} width={24} height={24}/></IconButton>
+                            <IconButton size="small" style={{color: 'white'}}><Gear color={primaryLightColor} width={35} height={35}/></IconButton>
                         </div>
                     </Button>
                 </Tooltip>
