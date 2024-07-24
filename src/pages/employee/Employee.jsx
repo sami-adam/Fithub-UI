@@ -12,9 +12,10 @@ import { randomNumberBetween } from "@mui/x-data-grid/internals";
 import EmployeeCard from "../../components/EmployeeCard";
 import { useLocation } from "react-router-dom";
 
-export default function Employee(defaultSearch = "") {
+export default function Employee({defaultSearch = ""}) {
     const {employees, fetchEmployees} = useEmployeeStore();
     const searchEmployees = useEmployeeStore((state) => state.searchEmployees);
+    const deleteEmployee = useEmployeeStore((state) => state.deleteEmployee);
     const [selected, setSelected] = useState([]);
     const [deleted, setDeleted] = useState(false);
     const [viewType, setViewType] = useState("cards");
@@ -33,7 +34,15 @@ export default function Employee(defaultSearch = "") {
         if(search !== ""){
             searchEmployees(search);
         }
-    }, [fetchEmployees, search, searchEmployees]);
+        if (deleted) {
+            selected.forEach((id) => {
+                deleteEmployee(id);
+            });
+            setDeleted(false);
+            setSelected([]);
+            fetchEmployees();
+        }
+    }, [fetchEmployees, search, searchEmployees, selected, deleted]);
 
     const columns = [
         { field: 'id', headerName: t('ID'), width: 70 },
@@ -46,7 +55,7 @@ export default function Employee(defaultSearch = "") {
     const rows = [];
     employees.forEach((employee) => {
         rows.push({
-            id: employee.id !=null? employee.id: randomNumberBetween(1, 1000),
+            id: employee.id !=null? employee.id: randomNumberBetween(1, 1000), 
             name: employee.name,
             identificationNumber: employee.identificationNumber,
             email: employee.email,

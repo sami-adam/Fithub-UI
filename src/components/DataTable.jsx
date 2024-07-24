@@ -50,9 +50,20 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
                         [`& .${gridClasses.columnHeader}`]: {
                           color: primaryMainColor,
                           fontSize: '1.1em',
+                          fontWeight: 'bold',
                         },
                         [`& .${gridClasses.cell}`]: {
                             textAlign: 'center',
+                        },
+                        [`& .${gridClasses.row}`]: {
+                            color: "gray",
+                            fontSize: '1em',
+
+                        },
+                        [`& .${gridClasses.rowHover}`]: {
+                            '&:hover': {
+                              backgroundColor: Colors.lightGray,
+                            },
                         },
                       }}
                     initialState={{
