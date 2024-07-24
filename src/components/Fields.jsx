@@ -103,9 +103,30 @@ export function NumberFieldCustom({label, placeholder, setValue, viewValue, id, 
 }
 
 export function HtmlFieldCustom({label, placeholder, setValue, viewValue, id, required, disabled}) {
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+        ['link', 'image', 'video', 'formula'],
+      
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+      
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+      
+        ['clean']                                         // remove formatting button
+      ];
+      
     return (
         <div style={{width: "600px",display:"inline-flex", alignItems:"center", paddingTop:"20px"}}>
-            <FormLabel htmlFor='firstName' style={{width:"140px"}}>{label}</FormLabel>
+            {/* <FormLabel htmlFor='firstName' style={{width:"140px"}}>{label}</FormLabel> */}
             <ReactQuill 
                 required={required}
                 //disabled={disabled}
@@ -116,6 +137,7 @@ export function HtmlFieldCustom({label, placeholder, setValue, viewValue, id, re
                 variant="standard" onChange={setValue}
                 value={viewValue} 
                 readOnly={disabled}
+                modules={{toolbar: toolbarOptions}}
             
             />
         </div>

@@ -45,7 +45,8 @@ export default function DataTable({ columns, rows, selected, setSelected, delete
                 </div>
                 <DataGrid
                     rows={rows}
-                    columns={columns}
+                    columns={columns} 
+                    rowHeight={60}
                     sx={{
                         [`& .${gridClasses.columnHeader}`]: {
                           color: primaryMainColor,
