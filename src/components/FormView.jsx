@@ -8,8 +8,10 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import TooltipCustom from "./TooltipCustom";
+import HorizontalWorkflow from "./Workflow";
 
-export default function FormView({children, create, setCreate, viewMode, setViewMode, editMode, setEditMode, handleCreate, handleEdit, handleSave, createUrl}) {
+export default function FormView({children, create, setCreate, viewMode, setViewMode, editMode, setEditMode, handleCreate, handleEdit, handleSave, createUrl,
+     steps, activeState, nextAction, backAction}) {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const theme = useTheme();
     const navigate = useNavigate();
@@ -32,9 +34,10 @@ export default function FormView({children, create, setCreate, viewMode, setView
         setViewMode(true);
     }
     return (
-        <Container sx={{  width: '70%', marginBottom: 2, borderWidth: 1, borderStyle: 'solid', overflowY: "scroll", maxHeight: "80vh",
+        <Container sx={{  width: '70%', marginBottom: 2, borderWidth: 1, borderStyle: 'solid', overflowY: "scroll", maxHeight: "80vh", overflowX: "hidden",
             borderColor: primaryLightColor, borderRadius:"20px", boxShadow:"0px 0px 2px 2px #d7d7d7"}} className="card-view">
-            <div>
+                <HorizontalWorkflow steps={steps} activeState={activeState} nextAction={nextAction} backAction={backAction}/>
+            <div style={{paddingTop:"24px"}}>
                 <TooltipCustom title={t("Add")}>
                     <IconButton variant="standard" onClick={()=> navigate(createUrl)} sx={{display: "none"}}><AddIcon/></IconButton>
                 </TooltipCustom>

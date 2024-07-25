@@ -6,16 +6,21 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
-import { StepContent, StepIcon } from '@mui/material';
+import { StepContent, StepIcon, useTheme } from '@mui/material';
 
-export default function HorizontalWorkflow({steps=["New", "In Progress", "Completed"], activeState=0}) {
+export default function HorizontalWorkflow({steps=["New"], activeState=0, nextAction, backAction}) {
   const [activeStep, setActiveStep] = React.useState(activeState);
 
+  const theme = useTheme();
+  const primaryLightColor = theme.palette.primary.light;
+
   const handleNext = () => {
+    nextAction();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
+    backAction();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -25,6 +30,29 @@ export default function HorizontalWorkflow({steps=["New", "In Progress", "Comple
 
   return (
     <Box sx={{ width: '100%' , paddingTop:"24px", paddingInlineEnd:"20px"}}>
+      <div style={{ display: "flex", flexDirection:"row", alignItems:"baseline"}}>
+      {activeStep === steps.length ? (
+        <React.Fragment>
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Button onClick={handleReset}>Reset</Button>
+          </Box>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <Box sx={{ display: 'flex', flexDirection: 'row', paddingTop:"5px"}}>
+            <div>
+                <Button onClick={handleNext} sx={{fontSize: 12, fontWeight:"bold", backgroundColor:primaryLightColor}}>
+                {activeStep === steps.length - 1 ? 'Finish' : steps[activeStep+1]}
+                </Button>
+
+                <Button
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 , fontSize: 12, color:"gray"}}>Back</Button>
+            </div>
+          </Box>
+        </React.Fragment>
+      )}
       <Stepper activeStep={activeStep} 
       style={{paddingInlineStart:"20px",
       }}>
@@ -38,28 +66,7 @@ export default function HorizontalWorkflow({steps=["New", "In Progress", "Comple
           );
         })}
       </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', paddingTop:"24px"}}>
-            <div>
-                <Button onClick={handleNext} sx={{fontSize: 12, fontWeight:"bold"}}>
-                {activeStep === steps.length - 1 ? 'Finish' : steps[activeStep+1]}
-                </Button>
-
-                <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 , fontSize: 12, color:"gray"}}>Back</Button>
-            </div>
-          </Box>
-        </React.Fragment>
-      )}
+      </div>
     </Box>
   );
 }

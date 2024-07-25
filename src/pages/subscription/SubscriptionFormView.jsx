@@ -76,6 +76,7 @@ export default function SubscriptionFormView() {
     const changeStatusSubscription = useSubscriptionStore((state)=> state.changeStatus);
     const [members, fetchMembers] = useMemberStore((state)=> [state.members, state.fetchMembers]);
     const [products, fetchProducts] = useProductStore((state)=> [state.products, state.fetchProducts]);
+    const [stageReturn, setStageReturn] = useState(false);
 
     const handleCreate = () => {
         setCreate(true);
@@ -154,12 +155,18 @@ export default function SubscriptionFormView() {
             }
         }
         if(changeStatus){
-            const statusInt = statuses[t(subscription.status, {lng:'en'})] + 1;
+            var statusInt = 0;
+            if(stageReturn){
+                statusInt = statuses[t(subscription.status, {lng:'en'})] - 1;
+            } else {
+                statusInt = statuses[t(subscription.status, {lng:'en'})] + 1;
+            }
             updateSubscription({
                 "id": subscription.id,
                 "status": statusInt
             });
             setChangeStatus(false);
+            setStageReturn(false);
             setStatus(reverseStatuses[statusInt]);
             subscription.status = reverseStatuses[statusInt];
             
@@ -167,13 +174,21 @@ export default function SubscriptionFormView() {
     }
     , [create, save, editMode, member, startDate, endDate, subscriptionUnitPrice, subscriptionQty, fetchMembers, subscription, fetchProducts, product, addSubscription, updateSubscription, changeStatus, status, discountAmount]);
 
+    const handleNextAction = () => {
+        setChangeStatus(true);
+    }
+    const handleBackAction = () => {
+        setChangeStatus(true);
+        setStageReturn(true);
+    }
     return (
         <>
         <MainLayout>
         <BackButton />
-        <FormView borderColor={primaryMainColor} create={create} setCreate={setCreate} editMode={editMode} setEditMode={setEditMode} viewMode={viewMode} setViewMode={setViewMode} handleCreate={handleCreate} handleEdit={handleEdit} handleSave={handleSave} createUrl={"/subscription-form-view"}>
+        <FormView borderColor={primaryMainColor} create={create} setCreate={setCreate} editMode={editMode} setEditMode={setEditMode} viewMode={viewMode} 
+        setViewMode={setViewMode} handleCreate={handleCreate} handleEdit={handleEdit} handleSave={handleSave} createUrl={"/subscription-form-view"} 
+        steps={states} activeState={states.indexOf(i18n.t(subscription&&subscription.status, {lng:'en'}) || states[0])} nextAction={handleNextAction} backAction={handleBackAction}>
             <div style={{overflowY: "hidden", overflowX:"hidden"}}>
-            <HorizontalWorkflow steps={states} activeState={states.indexOf(i18n.t(subscription&&subscription.status, {lng:'en'}) || states[0])}/>
             <div style={{display: "flex", justifyContent:"center",paddingBottom:"24px"}}>
                 <FormHeaderActions>
                     <MenuItem disableRipple sx={{maxHeight:"25px",overflow:"hidden"}}>
