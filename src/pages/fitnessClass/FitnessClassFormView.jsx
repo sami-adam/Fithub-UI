@@ -79,30 +79,18 @@ export default function FitnessClassFormView(){
         <MainLayout>
         <BackButton />
         <FormView borderColor={primaryMainColor}>
-        <CardHeader 
-                action={
-                    <>
-                    </>
-                    } 
-                title={
-                   <>  </>
-                }
-                    style={{borderBottom:"1px solid #c2ccd4", backgroundColor:primaryLightColor,opacity:0.8}}/>
-            <CardContent> 
-                <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                    <TextFieldCustom label={t("Name")} placeholder="Enter Name" setValue={setName} id="name" required={true} viewValue={fitnessClass&&!editMode?fitnessClass.name:null} disabled={viewMode&&!editMode} />
-                    <HtmlFieldCustom label={t("Description")} placeholder="Enter Description" setValue={setDescription} id="description" required={true} viewValue={(fitnessClass&&!editMode?fitnessClass.description:null) || (description||null) || (fitnessClass&&editMode?fitnessClass.description:null)} disabled={viewMode&&!editMode} />
-                    <TextFieldCustom label={t("IntensityLevel")} placeholder="Enter IntensityLevel" setValue={setIntensityLevel} id="intensityLevel" required={true} viewValue={fitnessClass&&!editMode?fitnessClass.intensityLevel:null} disabled={viewMode&&!editMode} />
-                    <br/>
-                    
-                </FormControl>
-            </CardContent>
-            <CardFooter>
-                <SaveButton onClick={handleCreate} lable={t("Create Class")} hide={create||viewMode||editMode} />
-                <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/fitness-classes')}>{t("View Classes")}</Button>
-                <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
-                <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
-            </CardFooter>
+            <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", overflowY:"scroll", maxHeight:"80vh"}}>
+                <TextFieldCustom label={t("Name")} placeholder="Enter Name" setValue={setName} id="name" required={true} viewValue={fitnessClass&&!editMode?fitnessClass.name:null} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("IntensityLevel")} placeholder="Enter IntensityLevel" setValue={setIntensityLevel} id="intensityLevel" required={true} viewValue={fitnessClass&&!editMode?fitnessClass.intensityLevel:null} disabled={viewMode&&!editMode} />
+                <HtmlFieldCustom label={t("Description")} placeholder="Enter Description" setValue={setDescription} id="description" required={true} viewValue={(fitnessClass&&!editMode?fitnessClass.description:null) || (description||null) || (fitnessClass&&editMode?fitnessClass.description:null)} disabled={viewMode&&!editMode} />
+                <br/>
+                <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignItems:"center", paddingBottom:"12px"}}>
+                    <SaveButton onClick={handleCreate} lable={t("Create Class")} hide={create||viewMode||editMode} />
+                    <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/fitness-classes')}>{t("View Classes")}</Button>
+                    <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
+                    <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
+                </div>
+            </div>
         </FormView>
         </MainLayout>
         </>

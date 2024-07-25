@@ -1,4 +1,4 @@
-import { Button, CardContent, CardHeader, FormControl, useTheme, Typography, IconButton, Menu, MenuItem } from "@mui/material";
+import { Button, CardContent, CardHeader, FormControl, useTheme, Typography, IconButton, Menu, MenuItem, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DateFieldCustom, DisplayField, NumberFieldCustom, SearchableSelect, SelectFieldCustom } from "../../components/Fields";
@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import PDFPrint from "../../components/ReportTools";
 import SubscriptionInvoice from "../../reports/SubscriptionInvoice";
 import FormHeaderActions from "../../components/FormHeaderActions";
+import HorizontalWorkflow from "../../components/Workflow";
 
 const statusColors = {
     "NEW": "gray",
@@ -39,6 +40,8 @@ const reverseStatuses = {
     3: "EXPIRED",
     4: "CANCELLED"
 }
+
+const states = ["NEW", "PAID", "ACTIVE", "EXPIRED", "CANCELLED"];
 
 export default function SubscriptionFormView() {
 
@@ -168,53 +171,38 @@ export default function SubscriptionFormView() {
         <>
         <MainLayout>
         <BackButton />
-        <FormView borderColor={primaryMainColor}>
-            <CardHeader 
-                action={
-                    <>
-                    <ActionButton text="PAID" icon={<PaidIcon/>} onClick={setChangeStatus} toolTip={t("Change status to PAID")} hide={subscription&&subscription.status == t("NEW")? false: true}/>
-                    <ActionButton text="ACTIVE" icon={<CheckCircleOutlineIcon/>} onClick={setChangeStatus} toolTip={t("Change status to ACTIVE")} hide={subscription&&subscription.status == t("PAID")? false: true} color="teal"/>
-                    </>
-                    } 
-                title={
-                    <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-                    <Typography variant="h8" component="div" style={{fontWeight:"bold", color:statusColors[i18n.t(subscription&&subscription.status,{lng:'en'})]}}>
-                        {subscription&&subscription.status}
-                    </Typography>
-                    <div style={{marginInlineEnd:"40%"}}>
-                        <FormHeaderActions>
-                            <MenuItem disableRipple sx={{maxHeight:"25px",overflow:"hidden"}}>
-                                <PDFPrint document={subscription&& <SubscriptionInvoice subscription={subscription}/>} fileName="subscription_invoice" title="Subscription Invoice"/>
-                            </MenuItem>
-                        </FormHeaderActions>
-                    </div>
-                    </div>
-                }
-                    style={{borderBottom:"0.1px solid rgb(241 241 241)"}}/>
-            <CardContent>
-                <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                    <SearchableSelect label={t("Member")} setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member:null) || (member || null) || (subscription&&editMode?subscription.member:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
-                    <SearchableSelect label={t("Product")} setValue={setProduct} viewValue={(subscription&&!editMode?subscription.product&&subscription.product:null) || (product || null) || (subscription&&editMode?subscription.product&&subscription.product:null)} id="product" required={true} disabled={viewMode&&!editMode} items={products} itemFields={["name","category.name"]}/>
-                    <DateFieldCustom label={t("Start Date")} setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
-                    <DateFieldCustom label={t("End Date")} setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
-                    {/* <NumberFieldCustom label={t("Price")} placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/> */}
-                    <DisplayField label="Price" value={product&&product.price || subscription&& subscription.unitPrice || 0} postValue="SAR"/>
-                    <DisplayField label="Tax" value={product&&product.tax && product.tax.name || subscription.product.tax && subscription.product.tax.name || ""}/>
-                    <NumberFieldCustom label={t("Quantity")} placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
-                    <DisplayField label={t("Total Amount")} value={totalAmount} postValue="SAR"/>
-                    <NumberFieldCustom label={t("Discount")} placeholder="0.0" setValue={setDiscountAmount} viewValue={subscription&&!editMode?subscription.discount:null} id="discountAmount" required={true} disabled={viewMode&&!editMode}/>
-                    <DisplayField label={t("Tax Amount")} value={taxAmount} postValue="SAR"/>
-                    <DisplayField label={t("Net Amount")} value={netAmount} postValue="SAR"/>
-                    <br/>
-                    {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
-                </FormControl>
-            </CardContent>
-            <CardFooter>
+        <FormView borderColor={primaryMainColor} create={create} setCreate={setCreate} editMode={editMode} setEditMode={setEditMode} viewMode={viewMode} setViewMode={setViewMode} handleCreate={handleCreate} handleEdit={handleEdit} handleSave={handleSave} createUrl={"/subscription-form-view"}>
+            <div style={{overflowY: "hidden", overflowX:"hidden"}}>
+            <HorizontalWorkflow steps={states} activeState={states.indexOf(i18n.t(subscription&&subscription.status, {lng:'en'}) || states[0])}/>
+            <div style={{display: "flex", justifyContent:"center",paddingBottom:"24px"}}>
+                <FormHeaderActions>
+                    <MenuItem disableRipple sx={{maxHeight:"25px",overflow:"hidden"}}>
+                        <PDFPrint document={subscription&& <SubscriptionInvoice subscription={subscription}/>} fileName="subscription_invoice" title="Subscription Invoice"/>
+                    </MenuItem>
+                </FormHeaderActions>
+            </div>
+                <SearchableSelect label={t("Member")} setValue={setMember} viewValue={(subscription&&!editMode?subscription.member&&subscription.member:null) || (member || null) || (subscription&&editMode?subscription.member:null)} id="member" required={true} disabled={viewMode&&!editMode} items={members} itemFields={["firstName", "lastName"]}/>
+                <SearchableSelect label={t("Product")} setValue={setProduct} viewValue={(subscription&&!editMode?subscription.product&&subscription.product:null) || (product || null) || (subscription&&editMode?subscription.product&&subscription.product:null)} id="product" required={true} disabled={viewMode&&!editMode} items={products} itemFields={["name","category.name"]}/>
+                <DateFieldCustom label={t("Start Date")} setValue={setStartDate} viewValue={subscription&&!editMode?dayjs(subscription.startDate,"YYYY-MM-DD"):null} id="startDate" required={true} disabled={viewMode&&!editMode}/>
+                <DateFieldCustom label={t("End Date")} setValue={setEndDate} viewValue={subscription&&!editMode?dayjs(subscription.endDate,"YYYY-MM-DD"):null} id="endDate" required={true} disabled={viewMode&&!editMode}/>
+                {/* <NumberFieldCustom label={t("Price")} placeholder="0" setValue={setSubscriptionUnitPrice} viewValue={subscription&&!editMode?subscription.unitPrice:null} id="subscriptionUnitPrice" required={true} disabled={viewMode&&!editMode}/> */}
+                <Divider style={{paddingTop: 24}}/>
+                <DisplayField label="Price" value={product&&product.price || subscription&& subscription.unitPrice || 0} postValue="SAR"/>
+                <DisplayField label="Tax" value={product&&product.tax && product.tax.name || subscription&&subscription.product.tax && subscription.product.tax.name || ""}/>
+                <NumberFieldCustom label={t("Quantity")} placeholder="0.0" setValue={setSubscriptionQty} viewValue={subscription&&!editMode?subscription.qty:null} id="subscriptionQty" required={true} disabled={viewMode&&!editMode}/>
+                <DisplayField label={t("Total Amount")} value={totalAmount} postValue="SAR"/>
+                <NumberFieldCustom label={t("Discount")} placeholder="0.0" setValue={setDiscountAmount} viewValue={subscription&&!editMode?subscription.discount:null} id="discountAmount" required={true} disabled={viewMode&&!editMode}/>
+                <DisplayField label={t("Tax Amount")} value={taxAmount} postValue="SAR"/>
+                <DisplayField label={t("Net Amount")} value={netAmount} postValue="SAR"/>
+                <br/>
+                {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
+            <div style={{display: "flex", flexDirection:"column", justifyContent:"center", alignItems:"center", paddingBottom:"12px"}}>
                 <SaveButton onClick={handleCreate} lable={t("Create")} hide={create||viewMode||editMode} />
                 <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/subscriptions')}>View Subscriptions</Button>
                 <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
                 <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
-            </CardFooter>
+            </div>
+            </div>
         </FormView>
         </MainLayout>
         </>

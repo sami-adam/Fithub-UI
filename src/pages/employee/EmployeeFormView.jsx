@@ -91,34 +91,21 @@ export default function EmployeeFormView() {
         <>
         <MainLayout>
         <BackButton />
-        <FormView borderColor={primaryMainColor}>
-        <CardHeader 
-                action={
-                    <>
-                    </>
-                    } 
-                title={
-                    <Typography variant="h8">{t("Empoyee Details")}</Typography>
-                }
-                    style={{borderBottom:"1px solid #c2ccd4", backgroundColor:primaryLightColor,opacity:0.8}}/>
-            <CardContent>
-                <FormControl variant="outlined" style={{ marginBottom: '20px' , display:"grid", justifyContent:"center"}}> 
-                    <TextFieldCustom label={t("Name")} placeholder="Enter Name" setValue={setName} viewValue={employee&&!editMode?employee.name:null} id="name" required={true} disabled={viewMode&&!editMode} />
-                    <TextFieldCustom label={t("Identification Number")} placeholder="Enter Identification Number" setValue={setIdentificationNumber} id="identificationNumber" required={true} viewValue={employee&&!editMode?employee.identificationNumber:null} disabled={viewMode&&!editMode} />
-                    <TextFieldCustom label={t("Email")} placeholder="Enter Email" setValue={setEmail} id="email" required={true} viewValue={employee&&!editMode?employee.email:null} disabled={viewMode&&!editMode} />
-                    <TextFieldCustom label={t("Phone")} placeholder="Enter Phone" setValue={setPhone} id="phone" required={true} viewValue={employee&&!editMode?employee.phone:null} disabled={viewMode&&!editMode} />
-                    <TextFieldCustom label={t("Address")} placeholder="Enter Address" setValue={setAddress} id="address" required={true} viewValue={employee&&!editMode?employee.address:null} disabled={viewMode&&!editMode} />
-                    <br/>
-                    
-                </FormControl>
-            </CardContent>
-            <CardFooter>
-                {/* <p style={{color: primaryMainColor, display:create? '': 'none'}}>Successfully create</p> */}
-                <SaveButton onClick={handleCreate} lable={t("Create Employee")} hide={create||viewMode||editMode} />
-                <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/employees')}>{t("View Employees")}</Button>
-                <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
-                <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
-            </CardFooter>
+        <FormView borderColor={primaryMainColor} create={create} setCreate={setCreate} editMode={editMode} setEditMode={setEditMode} viewMode={viewMode} setViewMode={setViewMode} handleCreate={handleCreate} handleEdit={handleEdit} handleSave={handleSave} createUrl={"/employee-form-view"}>
+            <div>
+                <TextFieldCustom label={t("Name")} placeholder="Enter Name" setValue={setName} viewValue={employee&&!editMode?employee.name:null} id="name" required={true} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Identification Number")} placeholder="Enter Identification Number" setValue={setIdentificationNumber} id="identificationNumber" required={true} viewValue={employee&&!editMode?employee.identificationNumber:null} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Email")} placeholder="Enter Email" setValue={setEmail} id="email" required={true} viewValue={employee&&!editMode?employee.email:null} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Phone")} placeholder="Enter Phone" setValue={setPhone} id="phone" required={true} viewValue={employee&&!editMode?employee.phone:null} disabled={viewMode&&!editMode} />
+                <TextFieldCustom label={t("Address")} placeholder="Enter Address" setValue={setAddress} id="address" required={true} viewValue={employee&&!editMode?employee.address:null} disabled={viewMode&&!editMode} />
+                <br/>
+                <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+                    <SaveButton onClick={handleCreate} lable={t("Create Employee")} hide={create||viewMode||editMode} />
+                    <Button variant="outlined" style={{ marginBottom: '20px' , display:create? '': 'none'}} onClick={()=> navigate('/employees')}>{t("View Employees")}</Button>
+                    <EditButton onClick={handleEdit} hide={editMode||!viewMode}/>
+                    <SaveButton onClick={handleSave} lable={t("Save")} hide={!editMode}/>
+                </div>  
+            </div>     
         </FormView>
         </MainLayout>
         </>
